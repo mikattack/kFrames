@@ -38,6 +38,7 @@ ns.position = {
   boss          = "TOPLEFT UIParent TOPLEFT 10 34",
   maintank      = "TOPLEFT boss5 TOPLEFT 0 10",
   castbars      = "BOTTOM UIParent BOTTOM 0 200",
+  classbars     = "BOTTOM UIParent BOTTOM 0 6"
 }
 
 -----------------------------------------------------------------------------
@@ -49,4 +50,5 @@ ns.config = {
   height = 12,  -- Actually height of healthbar, other bars are fixed
 
   maxNameLength = 25,
+  classbarWidth = 234
 }
