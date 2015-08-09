@@ -1,5 +1,5 @@
 # Editors
-.sublime*
+*.sublime*
 
 # Windows image file caches
 Thumbs.db
