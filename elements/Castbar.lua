@@ -14,9 +14,6 @@ local READOUT_FONT = media.smallFont or STANDARD_TEXT_FONT
 local CASTBAR      = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 
 
--- 
--- Creates a castbar.
--- 
 function ns.elements.Castbar(frame, position)
   local p1, parent, p2, x, y = parsePosition(position)
 
