@@ -11,6 +11,7 @@ local _, playerClass = UnitClass("player")
 local format = string.format
 
 ns.util = {}
+ns.util.playerClass = playerClass
 
 
 -----------------------------------------------------------------------------
