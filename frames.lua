@@ -7,10 +7,11 @@
 
 
 local _, ns = ...
-local _, playerClass = UnitClass("player")
 
+local playerClass = ns.util.playerClass
 local config    = ns.config
 local media     = ns.media
+local position  = ns.position
 local decor     = ns.decorators
 local elements  = ns.elements
 
@@ -181,9 +182,6 @@ function ns.factory.PlayerFrame(frame, width, height)
   name:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -5)
   frame:Tag(name, "[kln:name]")
 
-  -- Castbar
-  elements.Castbar(frame, "BOTTOM UIParent BOTTOM 10 200")
-
   -- Icons
   decor.RaidMarkIcon(frame,   {"RIGHT xxx LEFT -5 0", name})
   decor.RaidLeaderIcon(frame, {"RIGHT xxx LEFT -10 0", frame.PowerReadout})
@@ -202,6 +200,12 @@ function ns.factory.PlayerFrame(frame, width, height)
   decor.HealPredict(frame)
   decor.DebuffHighlight(frame)
   decor.Highlight(frame)
+
+  -- Castbar
+  elements.Castbar(frame, "BOTTOM UIParent BOTTOM 10 200")
+
+  -- Classbars
+  elements.ComboPoints(frame, position.classbars)
 end
 
 

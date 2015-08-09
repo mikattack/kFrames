@@ -12,8 +12,11 @@ util.lua
 tags.lua
 decorators.lua
 
+lib\oUF_ComboPoints.lua
+lib\oUF_DebuffHighlight.lua
+
 elements\Castbar.lua
-elements\oUF_DebuffHighlight.lua
+elements\ComboPoints.lua
 
 frames.lua
 initialize.lua
