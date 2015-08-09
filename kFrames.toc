@@ -1,0 +1,19 @@
+## Interface: 60200
+## Title: |cFF7F2A90k|r|Frames
+## Notes: Unit frames optimized for the player Kellen.
+## Author: Kellen
+## X-Copyright: Copyright (c) 2015 Kellen.  All rights reserved.
+## X-Website: https://github.com/mikattack/oUF_Kellen
+
+## Dependencies: oUF
+
+config.lua
+util.lua
+tags.lua
+decorators.lua
+
+elements\Castbar.lua
+elements\oUF_DebuffHighlight.lua
+
+frames.lua
+initialize.lua
