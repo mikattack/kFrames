@@ -206,6 +206,7 @@ function ns.factory.PlayerFrame(frame, width, height)
 
   -- Classbars
   elements.ComboPoints(frame, position.classbars)
+  elements.Eclipse(frame, position.classbars)
 end
 
 
@@ -235,6 +236,9 @@ function ns.factory.TargetFrame(frame, width, height)
   name = CreateString(frame.Health, LARGE_FONT, 22)
   name:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -5)
   frame:Tag(name, "|cFFFFF200[level]|r [kln:name]")
+
+  -- Auras
+  elements.AuraFrames(frame, "")
 
   -- Castbar
   elements.Castbar(frame, "TOP oUF_kFrameCastbar_player BOTTOM 0 -5")

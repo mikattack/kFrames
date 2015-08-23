@@ -70,6 +70,7 @@ local function UnitStyle(self, unit, isSingle)
 
   self.menu = ns.RightClickMenu
   self:RegisterForClicks("AnyUp")
+  self.RegisterForRoleChange = ns.util.RegisterForRoleChange
 
   self.unit = unit
   ns.frames[unit] = supportedFrames[unit](self, width, height)
@@ -90,6 +91,7 @@ end
 -- 
 local function BossStyle(self, unit, isSingle)
   baseunit = gsub(unit, "%d", "")
+  self.RegisterForRoleChange = ns.util.RegisterForRoleChange
   self.unit = unit
   ns.frames[unit] = supportedFrames[baseunit](self, width, height)
 end
@@ -100,6 +102,7 @@ end
 -- 
 local function TankStyle(self, unit, isSingle)
   baseunit = gsub(unit, "%d", "")
+  self.RegisterForRoleChange = ns.util.RegisterForRoleChange
   self.unit = unit
   ns.frames[unit] = supportedFrames[baseunit](self, width, height)
 end

@@ -12,11 +12,14 @@ util.lua
 tags.lua
 decorators.lua
 
+lib\oUF_Auras.lua
 lib\oUF_ComboPoints.lua
 lib\oUF_DebuffHighlight.lua
 
+elements\Auras.lua
 elements\Castbar.lua
 elements\ComboPoints.lua
+elements\Eclipse.lua
 
 frames.lua
 initialize.lua

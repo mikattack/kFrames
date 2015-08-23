@@ -34,7 +34,7 @@ if playerClass == "HUNTER" or playerClass== "MAGE" or playerClass == "ROGUE" or 
 else
   function ns.GetPlayerRole()
     local spec = GetSpecialization() or 0
-    local _, _, _, _, _, role = GetSpecializaitonInfo(spec)
+    local _, _, _, _, _, role = GetSpecializationInfo(spec)
     return role or "DAMAGER"
   end
 end
@@ -102,4 +102,21 @@ function ns.util.rightClickMenu(self)
   elseif _G[cunit.."FrameDropDown"] then
     ToggleDropDownMenu(1, nil, _G[cunit.."FrameDropDown"], "cursor", 0, 0)
   end
+end
+
+
+-----------------------------------------------------------------------------
+
+
+function ns.util.RegisterForRoleChange(self, func)
+  if not self.updateOnRoleChange then
+    self.updateOnRoleChange = {}
+  else
+    for i = 1, #self.updateOnRoleChange do
+      if self.updateOnRoleChange[i] == func then
+        return
+      end
+    end
+  end
+  tinsert(self.updateOnRoleChange, func)
 end
