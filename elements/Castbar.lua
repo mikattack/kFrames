@@ -20,8 +20,8 @@ function ns.elements.Castbar(frame, position)
   local castbar = CreateFrame("StatusBar", "oUF_kFrameCastbar_"..frame.unit, frame)
   castbar:SetStatusBarTexture(CASTBAR)
   castbar:SetStatusBarColor(0.5, 0.5, 1, 1)
-  castbar:SetSize(200, 26)
-  castbar:SetPoint(p1, parent, p2, x, y)
+  castbar:SetSize(ns.config.width - 29, 26)
+  castbar:SetPoint(p1, parent, p2, x + 29, y)
 
   -- Color
   castbar.CastingColor    = { 0.5,  0.5,  1 }
@@ -29,12 +29,12 @@ function ns.elements.Castbar(frame, position)
   castbar.FailColor       = { 1.0,  0.5,  0 }
   castbar.ChannelingColor = { 0.5,  0.5,  1 }
 
-  -- Frame Background
+  -- Black Frame Background
   castbar.background = castbar:CreateTexture(nil, "BACKGROUND")
   castbar.background:SetPoint("TOPRIGHT", castbar, "TOPRIGHT", 1, 1)
   castbar.background:SetPoint("BOTTOMRIGHT", castbar, "BOTTOMRIGHT", 0, -1)
-  castbar.background:SetWidth(229)
-  castbar.background:SetTexture(0, 0, 0, 1)
+  castbar.background:SetWidth(ns.config.width)
+  castbar.background:SetColorTexture(0, 0, 0, 1)
 
   -- Statusbar Background
   local cbg = castbar:CreateTexture(nil, "BACKGROUND")

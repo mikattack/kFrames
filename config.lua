@@ -17,7 +17,7 @@ ns.media = {
   largeFont   = [[Interface\Addons\kFrames\media\font\BigNoodleTitling.ttf]],
   smallFont   = [[Interface\Addons\kFrames\media\font\Roboto-BoldCondensed.ttf]],
   pixelFont   = [[Interface\Addons\kFrames\media\font\Samson.ttf]],
-  primeBar    = [[Interface\Addons\kFrames\media\statusbar\Diagonal.tga]],
+  primeBar    = [[Interface\Addons\kFrames\media\statusbar\Resource.tga]],
   statusBar   = [[Interface\Addons\kFrames\media\statusbar\Resource.tga]],
   flatBar     = [[Interface\Addons\kFrames\media\statusbar\Flat.tga]],
   glowBar     = [[Interface\Addons\kFrames\media\statusbar\InsetGlow.tga]],
@@ -48,7 +48,7 @@ ns.position = {
 
 ns.config = {
   width = 275,  -- Overall width of primary bars
-  height = 12,  -- Actually height of healthbar, other bars are fixed
+  height = 24,  -- Actually height of healthbar, other bars are fixed
 
   maxNameLength = 25,
   classbarWidth = 234

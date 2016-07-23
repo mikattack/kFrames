@@ -97,7 +97,7 @@ local function CreateBackground(frame)
   local bg = frame:CreateTexture(nil, "BACKGROUND")
   bg:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
   bg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 0)
-  bg:SetTexture(0, 0, 0, 1)
+  bg:SetColorTexture(0, 0, 0, 1)
   return bg
 end
 
@@ -132,14 +132,15 @@ local function UnitFrame(frame, width, height)
   -- Text readouts
   local percent, power
 
-  percent = CreateString(frame.Health, LARGE_FONT, 30)
-  percent:SetPoint("RIGHT", frame, "RIGHT", -4, -2)
+  percent = CreateString(frame.Health, LARGE_FONT, 44)
+  percent:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -4, 0)
   percent.frequentUpdates = true
 
   power = CreateString(frame.Health, PIXEL_FONT, 10, "NONE")
-  power:SetPoint("BOTTOMRIGHT", percent, "BOTTOMLEFT", 0, 3)
+  power:SetPoint("BOTTOMRIGHT", percent, "BOTTOMLEFT", 0, 4)
+  power.frequentUpdates = true
 
-  frame:Tag(percent, "[perhp]%")
+  frame:Tag(percent, "[perhp]")
   frame:Tag(power, "|cFF40E2F1[kln:power]|r")
 
   frame.HealthReadout = percent -- For decorator attachment
@@ -164,7 +165,7 @@ end
 function ns.factory.PlayerFrame(frame, width, height)
   UnitFrame(frame, width, height)
 
-  frame:SetHeight(height + 28)
+  frame:SetHeight(height + 24)
 
   -- Swap health texture
   frame.Health:SetStatusBarTexture(PRIME_BAR)
@@ -190,10 +191,10 @@ function ns.factory.PlayerFrame(frame, width, height)
   decor.LFDRoleIcon(frame,    {"RIGHT xxx LEFT -44 0", frame.PowerReadout})
   decor.ReadyCheckIcon(frame, {"RIGHT xxx LEFT -61 0", frame.PowerReadout})
 
-  decor.TextIcon(frame, "Combat",    {"BOTTOMLEFT xxx BOTTOMLEFT 8 -6", frame}, 18)
-  decor.TextIcon(frame, "Status",    {"BOTTOMLEFT xxx BOTTOMLEFT 8 -6", frame}, 18)
-  decor.TextIcon(frame, "PvP",       {"BOTTOMLEFT xxx BOTTOMLEFT 60 -6", frame}, 18)
-  decor.TextIcon(frame, "AFKDND",    {"BOTTOMLEFT xxx BOTTOMLEFT 90 -6", frame}, 18)
+  decor.TextIcon(frame, "Combat",    {"BOTTOMLEFT xxx BOTTOMLEFT 8 0", frame}, 18)
+  decor.TextIcon(frame, "Status",    {"BOTTOMLEFT xxx BOTTOMLEFT 8 0", frame}, 18)
+  decor.TextIcon(frame, "PvP",       {"BOTTOMLEFT xxx BOTTOMLEFT 60 0", frame}, 18)
+  decor.TextIcon(frame, "AFKDND",    {"BOTTOMLEFT xxx BOTTOMLEFT 90 0", frame}, 18)
   --decor.TextIcon(frame, "PhaseIcon", {"LEFT xxx TOPLEFT 4 -2", frame.Power}, 18)  
 
   -- Niceties
@@ -202,11 +203,11 @@ function ns.factory.PlayerFrame(frame, width, height)
   decor.Highlight(frame)
 
   -- Castbar
-  elements.Castbar(frame, "BOTTOM UIParent BOTTOM 10 200")
+  elements.Castbar(frame, "BOTTOMLEFT oUF_klnUnitPlayer TOPLEFT 0 5")
 
   -- Classbars
   elements.ComboPoints(frame, position.classbars)
-  elements.Eclipse(frame, position.classbars)
+  --elements.Eclipse(frame, position.classbars)
 end
 
 
@@ -229,8 +230,8 @@ function ns.factory.TargetFrame(frame, width, height)
   -- Reposition health and power readouts
   frame.HealthReadout:ClearAllPoints()
   frame.PowerReadout:ClearAllPoints()
-  frame.HealthReadout:SetPoint("LEFT", frame, "LEFT", 4, -2)
-  frame.PowerReadout:SetPoint("BOTTOMLEFT", frame.HealthReadout, "BOTTOMRIGHT", 0, 3)
+  frame.HealthReadout:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 4, 0)
+  frame.PowerReadout:SetPoint("BOTTOMLEFT", frame.HealthReadout, "BOTTOMRIGHT", 0, 4)
 
   -- Name
   name = CreateString(frame.Health, LARGE_FONT, 22)
@@ -241,7 +242,7 @@ function ns.factory.TargetFrame(frame, width, height)
   elements.AuraFrames(frame, "")
 
   -- Castbar
-  elements.Castbar(frame, "TOP oUF_kFrameCastbar_player BOTTOM 0 -5")
+  elements.Castbar(frame, "BOTTOMLEFT oUF_klnUnitTarget TOPLEFT 0 45")
 
   -- Icons
   decor.RaidMarkIcon(frame,   {"LEFT xxx RIGHT 5 0", name})
@@ -251,10 +252,10 @@ function ns.factory.TargetFrame(frame, width, height)
   decor.LFDRoleIcon(frame,    {"LEFT xxx RIGHT -44 0", frame.PowerReadout})
   decor.ReadyCheckIcon(frame, {"LEFT xxx RIGHT -61 0", frame.PowerReadout})
 
-  decor.TextIcon(frame, "Combat",    {"BOTTOMRIGHT xxx BOTTOMRIGHT -8 -6", frame}, 18)
-  decor.TextIcon(frame, "Status",    {"BOTTOMRIGHT xxx BOTTOMRIGHT -8 -6", frame}, 18)
-  decor.TextIcon(frame, "PvP",       {"BOTTOMRIGHT xxx BOTTOMRIGHT -60 -6", frame}, 18)
-  decor.TextIcon(frame, "AFKDND",    {"BOTTOMRIGHT xxx BOTTOMRIGHT -90 -6", frame}, 18)
+  decor.TextIcon(frame, "Combat",    {"BOTTOMRIGHT xxx BOTTOMRIGHT -8 0", frame}, 18)
+  decor.TextIcon(frame, "Status",    {"BOTTOMRIGHT xxx BOTTOMRIGHT -8 0", frame}, 18)
+  decor.TextIcon(frame, "PvP",       {"BOTTOMRIGHT xxx BOTTOMRIGHT -60 0", frame}, 18)
+  decor.TextIcon(frame, "AFKDND",    {"BOTTOMRIGHT xxx BOTTOMRIGHT -90 0", frame}, 18)
   --decor.TextIcon(frame, "PhaseIcon", {"RIGHT xxx TOPRIGHT -4 -2", frame.Power}, 18)
   decor.TextIcon(frame, "QuestIcon", {"RIGHT xxx TOPRIGHT -12 -2", frame.Power}, 18)
 
@@ -278,14 +279,14 @@ function ns.factory.TargetTargetFrame(frame, width, height)
   frame.Health.bg.multiplier = 0
 
   -- Name
-  name = CreateString(frame.Health, LARGE_FONT, 14)
-  name:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 5, -4)
+  name = CreateString(frame.Health, LARGE_FONT, 18)
+  name:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 2, -2)
   frame:Tag(name, "[kln:shortname]")
 
   -- Shrink health readout and hide power
   frame.HealthReadout:SetFont(LARGE_FONT, 24, "OUTLINE")
   frame.HealthReadout:ClearAllPoints()
-  frame.HealthReadout:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, -8)
+  frame.HealthReadout:SetPoint("RIGHT", frame, "RIGHT", -2, -2)
   frame.PowerReadout:Hide()
 end
 
@@ -330,6 +331,49 @@ end
 
 function ns.factory.MainTankFrame(frame, width, height)
   --RaidFrame(frame, unit, width, height)
+end
+
+
+-----------------------------------------------------------------------------
+
+
+-- 
+-- Create a false Target frame.
+-- 
+-- This is a personal preference.  If I HAVE to use two frames on either
+-- side of the avatar, I don't like the Target frame just disappearing
+-- when nothing is targeted.  I'll put a false frame underneath it so that
+-- with no target, there's still something on screen.
+-- 
+function ns.factory.FalseTargetFrame(width, height)
+  local falseframe = CreateFrame("Frame", "kFramesFalseFrame", UIParent)
+  falseframe:SetFrameStrata("BACKGROUND")
+  falseframe:SetFrameLevel(0)
+  falseframe:SetHeight(height + 28)
+  falseframe:SetWidth(width)
+
+  local bg = falseframe:CreateTexture(nil, "BACKGROUND")
+  bg:SetAllPoints()
+  bg:SetColorTexture(0, 0, 0, 1)
+
+  local health = falseframe:CreateTexture(nil, "BACKGROUND")
+  health:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -6)
+  health:SetPoint("TOPRIGHT", bg, "TOPRIGHT", -1, -6)
+  health:SetHeight(height)
+  health:SetTexture(PRIME_BAR)
+  health:SetVertexColor(0.2, 0.2, 0.2, 1)
+
+  falseframe.bg = bg
+  falseframe.health = health
+
+  local p1, parent, p2, x, y = ns.util.parsePosition(position["target"])
+  if parent ~= "UIParent" and ns.frames[parent] then
+    parent = ns.frames[parent]
+  elseif parent ~= "UIParent" then
+    ns.util.print("Cannot attatch false frame to unknown frame \[%s\]", parent)
+    parent = "UIParent"
+  end
+  falseframe:SetPoint(p1, parent, p2, x, y)
 end
 
 
