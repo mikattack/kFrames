@@ -56,8 +56,8 @@ end
 
 local function UpdateVisibility(self, event, unit)
   local element = self.klnComboPoints
-  local form = GetShapeshiftForm()
-  local hidden = UnitHasVehicleUI("player") or GetSpecialization() ~= 2 or form ~= 2
+  local form = GetShapeshiftFormID()
+  local hidden = UnitHasVehicleUI("player") or form ~= 1
   
   if element.hidden == hidden then return end
   element.hidden = hidden
@@ -76,7 +76,7 @@ local function Enable(self)
     cpoints.__owner = self
     cpoints.ForceUpdate = ForceUpdate
 
-    self:RegisterEvent('UNIT_COMBO_POINTS', Path, true)
+    self:RegisterEvent('UNIT_POWER_FREQUENT', Path, true)
     self:RegisterEvent('PLAYER_TARGET_CHANGED', Path, true)
 
     if select(2, UnitClass("player")) == "DRUID" then
@@ -106,7 +106,7 @@ local function Disable(self)
     for index = 1, MAX_COMBO_POINTS do
       cpoints[index]:Hide()
     end
-    self:UnregisterEvent('UNIT_COMBO_POINTS', Path)
+    self:UnregisterEvent('UNIT_POWER_FREQUENT', Path)
     self:UnregisterEvent('PLAYER_TARGET_CHANGED', Path)
 
     if select(2, UnitClass("player")) == "DRUID" then

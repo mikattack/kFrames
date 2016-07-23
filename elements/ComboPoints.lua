@@ -27,7 +27,7 @@ function ns.elements.ComboPoints(frame, position)
 
   cp.background = cp:CreateTexture(nil, "BACKGROUND")
   cp.background:SetAllPoints(cp)
-  cp.background:SetTexture(0, 0, 0, 0.5)
+  cp.background:SetColorTexture(0, 0, 0, 0.5)
 
   for i = 1, MAX_COMBO_POINTS do
     local multiplier = 0.3
