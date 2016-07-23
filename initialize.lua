@@ -64,7 +64,7 @@ oUF.colors.power.MANA = {0, 0.8, 1}
 -- 
 local function UnitStyle(self, unit, isSingle)
   if supportedFrames[unit] == nil then
-    sprint("Cannot create unsupported frame \[\]", unit)
+    sprint("Cannot create unsupported frame \[%s\]", unit)
     return
   end
 
@@ -164,4 +164,23 @@ oUF:Factory(function(self)
 end)
 
 
+-- Disable Blizzard frames
 oUF:DisableBlizzard('party')
+
+
+-- When addon loads
+local function OnLoad(self, event, ...)
+  -- Create a false Target frame to show when no target is selected
+  --factory.FalseTargetFrame(config.width, config.height)
+
+  -- Disable Blizzard raid controls
+  CompactRaidFrameManager:UnregisterAllEvents()
+  CompactRaidFrameManager:Hide()
+  CompactRaidFrameContainer:UnregisterAllEvents()
+  CompactRaidFrameContainer:Hide() 
+end
+
+local addon = CreateFrame("Frame", nil, UIParent)
+addon:SetScript("OnEvent", OnLoad)
+addon:RegisterEvent("PLAYER_ENTERING_WORLD")
+  
