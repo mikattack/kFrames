@@ -73,10 +73,8 @@ local function UpdateVisibility(self, event, unit)
   element.hidden = hidden
 
   if hidden then
-    ns.util.print("HIDE")
     element:Hide()
   else
-    ns.util.print("SHOW")
     element:Show()
   end
 end

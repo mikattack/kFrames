@@ -9,10 +9,11 @@
 
 
 local _, ns = ...
+ns.layouts["DRUID"] = {}
+layout = ns.layouts["DRUID"]
 
 
-function ns.layouts.druid(frames)
-
+function layout.onCreate(frame)
   -- ComboPoint interface
-  ns.elements.ComboPoints(frames["player"], ns.position.classbars)
+  ns.elements.ComboPoints(frame, ns.position.classbars)
 end
