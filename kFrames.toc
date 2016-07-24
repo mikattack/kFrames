@@ -1,9 +1,9 @@
 ## Interface: 60200
 ## Title: |cFF7F2A90k|r|Frames
-## Notes: Unit frames optimized for the player Kellen.
+## Notes: Unit frames optimized by and for Kellen.
 ## Author: Kellen
-## X-Copyright: Copyright (c) 2015 Kellen.  All rights reserved.
-## X-Website: https://github.com/mikattack/oUF_Kellen
+## X-Copyright: Copyright (c) 2015-2016 Kellen.  All rights reserved.
+## X-Website: https://github.com/mikattack/kFrames
 
 ## Dependencies: oUF
 
@@ -15,11 +15,15 @@ decorators.lua
 lib\oUF_Auras.lua
 lib\oUF_ComboPoints.lua
 lib\oUF_DebuffHighlight.lua
+lib\oUF_SoulShards.lua
 
 elements\Auras.lua
 elements\Castbar.lua
 elements\ComboPoints.lua
-elements\Eclipse.lua
+elements\SoulShards.lua
+
+layouts\druid.lua
+layouts\warlock.lua
 
 frames.lua
 initialize.lua

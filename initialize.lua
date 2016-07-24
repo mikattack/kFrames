@@ -1,14 +1,17 @@
---[[-------------------------------------------------------------------------
+--[[--------------------------------------------------------------------
   oUF_Kellen
   Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015 Kellen <addons@mikitik.net>. All rights reserved.
-  https://github.com/mikattack/oUF_Kellen
----------------------------------------------------------------------------]]
+  Copyright (c) 2015-2016
+    Kellen <addons@mikitik.com>
+    All rights reserved.
+  https://github.com/mikattack/kFrames
+----------------------------------------------------------------------]]
 
 
 local _, ns = ...
 
 local config = ns.config
+local layouts = ns.layouts
 local position = ns.position
 local width  = config.width
 local height = config.height
@@ -68,9 +71,9 @@ local function UnitStyle(self, unit, isSingle)
     return
   end
 
-  self.menu = ns.RightClickMenu
+  self.menu = ns.util.rightClickMenu
   self:RegisterForClicks("AnyUp")
-  self.RegisterForRoleChange = ns.util.RegisterForRoleChange
+  self.RegisterForRoleChange = ns.util.registerForRoleChange
 
   self.unit = unit
   ns.frames[unit] = supportedFrames[unit](self, width, height)
@@ -111,9 +114,9 @@ end
 -----------------------------------------------------------------------------
 
 
-oUF:RegisterStyle("klnUnit", UnitStyle)
-oUF:RegisterStyle("klnBoss", BossStyle)
---oUF:RegisterStyle("klnTank", TankStyle)
+oUF:RegisterStyle("kUnit", UnitStyle)
+oUF:RegisterStyle("kBoss", BossStyle)
+--oUF:RegisterStyle("kTank", TankStyle)
 
 
 -- 
@@ -134,14 +137,19 @@ oUF:Factory(function(self)
   end
 
   -- Units
-  self:SetActiveStyle("klnUnit")
+  self:SetActiveStyle("kUnit")
   local units = {"player", "target", "targettarget", "pet"}
   for i = 1, #units do
     ns.frames[units[i]] = oUF:Spawn(units[i])
   end
 
+  -- Customize frame main frames based on class
+  if layouts[ns.util.playerClass] and layouts[ns.util.playerClass].postCreate then
+    layouts[ns.util.playerClass].postCreate(ns.frames)
+  end
+
   -- Boss
-  self:SetActiveStyle("klnBoss")
+  self:SetActiveStyle("kBoss")
   local boss = {}
   for i = 1, 5 do
     local b = oUF:Spawn("boss"..i, "oUF_Boss"..i)

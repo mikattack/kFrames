@@ -1162,7 +1162,7 @@ function filterFuncs.target(self, unit, iconFrame, name, rank, icon, count, debu
     --return show
   else
     -- Friendly target or hostile player. Show auras cast by the player's vehicle.
-     print("hostile player / friendly unit")
+    -- print("hostile player / friendly unit")
     local show = not caster or (UnitIsUnit(caster, "vehicle") and not UnitIsPlayer("vehicle"))
     -- if show then debug("CustomAuraFilter", spellID, name, (not caster) and "UNKNOWN" or "VEHICLE") end
     return show

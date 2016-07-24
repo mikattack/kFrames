@@ -1,9 +1,11 @@
---[[-------------------------------------------------------------------------
+--[[--------------------------------------------------------------------
   oUF_Kellen
   Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015 Kellen <addons@mikitik.net>. All rights reserved.
-  https://github.com/mikattack/oUF_Kellen
----------------------------------------------------------------------------]]
+  Copyright (c) 2015-2016
+    Kellen <addons@mikitik.com>
+    All rights reserved.
+  https://github.com/mikattack/kFrames
+----------------------------------------------------------------------]]
 
 
 local _, ns = ...
@@ -12,17 +14,29 @@ ns.decorators = {}
 local media = ns.media
 local parsePosition = ns.util.parsePosition
 
-local INDICATOR_FONT = media.largeFont or STANDARD_TEXT_FONT
+local INDICATOR_FONT = media.smallFont or STANDARD_TEXT_FONT
 local HIGHLIGHT      = media.glowBar or "Interface\\TargetingFrame\\UI-StatusBar"
 local CASTBAR        = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 
 
---[[-------------------------------------------------------------------------
+--[[--------------------------------------------------------------------
   Frame/Unit Decorators
 
-  Add common elements to a given frame.  Behavior of these elements may
-  differ depending on the unit type of the frame.
----------------------------------------------------------------------------]]
+  There are a number of capabilities that are so common across frame
+  types that it's easier to encode them as function calls.  Each
+  decorator operates off a given frame, adding itself as a named child
+  element.  Many of these generators will accept position arguments,
+  but post-creation positioning should also be possible
+  (when appropriate).
+----------------------------------------------------------------------]]
+
+
+------------------------------------------------------------------------
+--  Icons
+--  
+--  Icons come in graphical and textual flavors.  They're very simple
+--  and are just appended to a frame.
+------------------------------------------------------------------------
 
 
 -- Text used in text-style icons
@@ -31,19 +45,14 @@ local texticons = {
   Assistant         = "Assist",
   MasterLooter      = "LootMaster",
   ResurrectionIcon  = "Res",
-  ReadyCheck        = "[kln:readycheck]",
-  Combat            = "[kln:combat]",
+  ReadyCheck        = "[kFrames:readycheck]",
+  Combat            = "[kFrames:combat]",
   PvP               = "[pvp]",
   Status            = "[status]",
-  PhaseIcon         = "[kln:phase]",
-  QuestIcon         = "[kln:quest]",
-  AFKDND            = "[kln:afkdnd]"
+  PhaseIcon         = "[kFrames:phase]",
+  QuestIcon         = "[kFrames:quest]",
+  AFKDND            = "[kFrames:afkdnd]"
 }
-
-
------------------------------------------------------------------------------
---  Icons
------------------------------------------------------------------------------
 
 
 -- Most icons are just named "texture" frames that oUF will stick an icon
@@ -60,14 +69,14 @@ end
 
 -- Sometimes, text is easier to mentally parse than icons.  This function
 -- allows arbitrary text to be used instead of icons.  You just have to
--- know the magic oUF name for the icon.
+-- know the magic oUF name for the icon (usually a tag name).
 -- 
 -- Supported "icons":
 --  Leader, Assistant, MasterLooter, ResurrectionIcon, ReadyCheck,
 --  Combat, PvP, Status, PhaseIcon, QuestIcon, AFKDND
-function ns.decorators.TextIcon(frame, text, position, ...)
-  if texticons[text] == nil then
-    ns.util.print("Failed to create text icon [%s]", text)
+function ns.decorators.TextIcon(frame, name, position, ...)
+  if texticons[name] == nil then
+    ns.util.print("Failed to create text icon [%s]", name)
     return
   end
 
@@ -79,14 +88,17 @@ function ns.decorators.TextIcon(frame, text, position, ...)
   icon:SetPoint(p1, parent, p2, x, y)
   icon:SetParent(parent)
 
-  -- Use either a raw string or a tag
-  if texticons[text]:find("\]") ~= nil then
-    frame:Tag(icon, texticons[text])
+  -- Use either a raw string or an oUF tag
+  if texticons[name]:find("\]") ~= nil then
+    frame:Tag(icon, texticons[name])
   else
-    icon:SetFormattedText("%s", texticons[text])
+    icon:SetFormattedText("%s", texticons[name])
     frame[name] = icon
   end
 end
+
+
+-- Common icons --------------------------------------------------------
 
 
 function ns.decorators.RaidMarkIcon(frame, position)
@@ -156,7 +168,7 @@ function ns.decorators.QuestIcon(frame, position)
 end
 
 
------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 
 -- 

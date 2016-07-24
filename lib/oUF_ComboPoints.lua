@@ -1,7 +1,17 @@
---[[-------------------------------------------------------------------------
+--[[--------------------------------------------------------------------
+  oUF_Kellen
+  Kellen's PVE-oriented layout for oUF.
+  Copyright (c) 2015-2016
+    Kellen <addons@mikitik.com>
+    All rights reserved.
+  https://github.com/mikattack/kFrames
+----------------------------------------------------------------------]]
+
+
+--[[--------------------------------------------------------------------
   This is actually just a custom version of oUF's combopoint library that
   adds visibility options for Druids (to hide combo points of cat form).
----------------------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 
 local _, ns = ...
@@ -63,8 +73,10 @@ local function UpdateVisibility(self, event, unit)
   element.hidden = hidden
 
   if hidden then
+    ns.util.print("HIDE")
     element:Hide()
   else
+    ns.util.print("SHOW")
     element:Show()
   end
 end

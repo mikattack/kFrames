@@ -1,8 +1,10 @@
 --[[--------------------------------------------------------------------
   oUF_Kellen
   Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015 Kellen <addons@mikitik.net>. All rights reserved.
-  https://github.com/mikattack/oUF_Kellen
+  Copyright (c) 2015-2016
+    Kellen <addons@mikitik.com>
+    All rights reserved.
+  https://github.com/mikattack/kFrames
 ----------------------------------------------------------------------]]
 
 
@@ -14,33 +16,29 @@ ns.util = {}
 ns.util.playerClass = playerClass
 
 
------------------------------------------------------------------------------
-
-
+-- 
+-- Solid debugger.
+-- 
 function ns.util.print(pattern, ...)
   print(format(pattern, ...))
 end
 
 
------------------------------------------------------------------------------
-
 -- 
 -- Internal player role identification.
 -- 
 if playerClass == "HUNTER" or playerClass== "MAGE" or playerClass == "ROGUE" or playerClass == "WARLOCK" then
-  function ns.GetPlayerRole()
+  function ns.util.getPlayerRole()
     return "DAMAGER"
   end
 else
-  function ns.GetPlayerRole()
+  function ns.util.getPlayerRole()
     local spec = GetSpecialization() or 0
     local _, _, _, _, _, role = GetSpecializationInfo(spec)
     return role or "DAMAGER"
   end
 end
 
-
------------------------------------------------------------------------------
 
 -- 
 -- Integer shortening (for easy-to-read number readouts).
@@ -73,9 +71,10 @@ function ns.util.si(value, raw)
   end
 end
 
------------------------------------------------------------------------------
 
-
+-- 
+-- Convert textual position into individual values.
+-- 
 function ns.util.parsePosition(p)
   local p1, parent, p2, x, y
   if type(p) == "table" then
@@ -88,9 +87,9 @@ function ns.util.parsePosition(p)
 end
 
 
------------------------------------------------------------------------------
-
-
+-- 
+-- Configure right-click menu of a frame.
+-- 
 function ns.util.rightClickMenu(self)
   local unit = self.unit:sub(1, -2)
   local cunit = self.unit:gsub("^%l", string.upper)
@@ -105,10 +104,11 @@ function ns.util.rightClickMenu(self)
 end
 
 
------------------------------------------------------------------------------
-
-
-function ns.util.RegisterForRoleChange(self, func)
+-- 
+-- Register a function to execute upon a role change.  For example, when
+-- moving from DAMAGER to HEALER.
+-- 
+function ns.util.registerForRoleChange(self, func)
   if not self.updateOnRoleChange then
     self.updateOnRoleChange = {}
   else

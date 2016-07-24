@@ -1,19 +1,22 @@
---[[-------------------------------------------------------------------------
+--[[--------------------------------------------------------------------
   oUF_Kellen
   Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015 Kellen <addons@mikitik.net>. All rights reserved.
-  https://github.com/mikattack/oUF_Kellen
----------------------------------------------------------------------------]]
+  Copyright (c) 2015-2016
+    Kellen <addons@mikitik.com>
+    All rights reserved.
+  https://github.com/mikattack/kFrames
+----------------------------------------------------------------------]]
 
 
 local _, ns = ...
 
 local playerClass = ns.util.playerClass
 local config    = ns.config
-local media     = ns.media
-local position  = ns.position
 local decor     = ns.decorators
 local elements  = ns.elements
+local layouts   = ns.layouts
+local media     = ns.media
+local position  = ns.position
 
 ns.factory = {}
 
@@ -26,7 +29,7 @@ local PRIME_BAR  = media.primeBar  or [[Interface\TargetingFrame\UI-StatusBar]]
 local FLAT_BAR   = media.flatBar   or [[Interface\TargetingFrame\UI-StatusBar]]
 
 
------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 
 -- 
@@ -102,7 +105,7 @@ local function CreateBackground(frame)
 end
 
 
------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 --
 -- Base Unit Frame
@@ -141,7 +144,7 @@ local function UnitFrame(frame, width, height)
   power.frequentUpdates = true
 
   frame:Tag(percent, "[perhp]")
-  frame:Tag(power, "|cFF40E2F1[kln:power]|r")
+  frame:Tag(power, "|cFF40E2F1[kFrames:power]|r")
 
   frame.HealthReadout = percent -- For decorator attachment
   frame.PowerReadout = power    -- For decorator attachment
@@ -181,7 +184,7 @@ function ns.factory.PlayerFrame(frame, width, height)
   -- Name
   name = CreateString(frame.Health, LARGE_FONT, 22)
   name:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -5)
-  frame:Tag(name, "[kln:name]")
+  frame:Tag(name, "[kFrames:name]")
 
   -- Icons
   decor.RaidMarkIcon(frame,   {"RIGHT xxx LEFT -5 0", name})
@@ -202,12 +205,13 @@ function ns.factory.PlayerFrame(frame, width, height)
   decor.DebuffHighlight(frame)
   decor.Highlight(frame)
 
-  -- Castbar
-  elements.Castbar(frame, "BOTTOMLEFT oUF_klnUnitPlayer TOPLEFT 0 5")
+  -- Castbar above health/power
+  elements.Castbar(frame, "BOTTOMLEFT oUF_kUnitPlayer TOPLEFT 0 5")
 
-  -- Classbars
-  elements.ComboPoints(frame, position.classbars)
-  --elements.Eclipse(frame, position.classbars)
+  -- Class-specific additions
+  if layouts[playerClass] and layouts[playerClass].onCreate then
+    layouts[playerClass].onCreate(frame)
+  end
 end
 
 
@@ -236,13 +240,13 @@ function ns.factory.TargetFrame(frame, width, height)
   -- Name
   name = CreateString(frame.Health, LARGE_FONT, 22)
   name:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -5)
-  frame:Tag(name, "|cFFFFF200[level]|r [kln:name]")
+  frame:Tag(name, "|cFFFFF200[level]|r [kFrames:name]")
 
   -- Auras
   elements.AuraFrames(frame, "")
 
   -- Castbar
-  elements.Castbar(frame, "BOTTOMLEFT oUF_klnUnitTarget TOPLEFT 0 45")
+  elements.Castbar(frame, "BOTTOMLEFT oUF_kUnitTarget TOPLEFT 0 45")
 
   -- Icons
   decor.RaidMarkIcon(frame,   {"LEFT xxx RIGHT 5 0", name})
@@ -256,7 +260,7 @@ function ns.factory.TargetFrame(frame, width, height)
   decor.TextIcon(frame, "Status",    {"BOTTOMRIGHT xxx BOTTOMRIGHT -8 0", frame}, 18)
   decor.TextIcon(frame, "PvP",       {"BOTTOMRIGHT xxx BOTTOMRIGHT -60 0", frame}, 18)
   decor.TextIcon(frame, "AFKDND",    {"BOTTOMRIGHT xxx BOTTOMRIGHT -90 0", frame}, 18)
-  --decor.TextIcon(frame, "PhaseIcon", {"RIGHT xxx TOPRIGHT -4 -2", frame.Power}, 18)
+  decor.TextIcon(frame, "PhaseIcon", {"RIGHT xxx TOPRIGHT -4 -2", frame.Power}, 18)
   decor.TextIcon(frame, "QuestIcon", {"RIGHT xxx TOPRIGHT -12 -2", frame.Power}, 18)
 
   -- Niceties
@@ -281,7 +285,7 @@ function ns.factory.TargetTargetFrame(frame, width, height)
   -- Name
   name = CreateString(frame.Health, LARGE_FONT, 18)
   name:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 2, -2)
-  frame:Tag(name, "[kln:shortname]")
+  frame:Tag(name, "[kFrames:shortname]")
 
   -- Shrink health readout and hide power
   frame.HealthReadout:SetFont(LARGE_FONT, 24, "OUTLINE")
@@ -292,12 +296,11 @@ end
 
 
 function ns.factory.PetFrame(frame, width, height)
-  UnitFrame(frame, width, height)
+  UnitFrame(frame, width, height / 2)
 
   -- Alter existing elements
   frame.HealthReadout:Hide()
   frame.PowerReadout:Hide()
-  frame:SetHeight(height + 12)
 end
 
 
@@ -315,7 +318,7 @@ function ns.factory.BossFrame(frame, width, height)
   -- Name
   name = CreateString(frame.Health, LARGE_FONT, fontsize)
   name:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 5, 15)
-  frame:Tag(name, "[kln:name]")
+  frame:Tag(name, "[kFrames:name]")
 
   -- Hide power, and shorten frame height, color health by reaction,
   -- add raid marks

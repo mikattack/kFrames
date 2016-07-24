@@ -1,9 +1,11 @@
---[[-------------------------------------------------------------------------
+--[[--------------------------------------------------------------------
   oUF_Kellen
   Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015 Kellen <addons@mikitik.net>. All rights reserved.
-  https://github.com/mikattack/oUF_Kellen
----------------------------------------------------------------------------]]
+  Copyright (c) 2015-2016
+    Kellen <addons@mikitik.com>
+    All rights reserved.
+  https://github.com/mikattack/kFrames
+----------------------------------------------------------------------]]
 
 local _, ns = ...
 
@@ -12,6 +14,7 @@ local parsePosition = ns.util.parsePosition
 
 local READOUT_FONT = media.smallFont or STANDARD_TEXT_FONT
 local CASTBAR      = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local ICONSIZE     = 29
 
 
 function ns.elements.Castbar(frame, position)
@@ -20,8 +23,8 @@ function ns.elements.Castbar(frame, position)
   local castbar = CreateFrame("StatusBar", "oUF_kFrameCastbar_"..frame.unit, frame)
   castbar:SetStatusBarTexture(CASTBAR)
   castbar:SetStatusBarColor(0.5, 0.5, 1, 1)
-  castbar:SetSize(ns.config.width - 29, 26)
-  castbar:SetPoint(p1, parent, p2, x + 29, y)
+  castbar:SetSize(ns.config.width - ICONSIZE, 26)
+  castbar:SetPoint(p1, parent, p2, x + ICONSIZE, y)
 
   -- Color
   castbar.CastingColor    = { 0.5,  0.5,  1 }
@@ -94,6 +97,12 @@ function ns.elements.Castbar(frame, position)
   castbar.PostChannelStop     = PostChannelStop
   castbar.PostCastFailed      = PostCastFailed
   castbar.PostCastInterrupted = PostCastFailed
+end
+
+
+function ns.elements.repositionCastbar(frame, position)
+  local p1, parent, p2, x, y = parsePosition(position)
+  frame:SetPoint(p1, parent, p2, x + ICONSIZE, y)
 end
 
 

@@ -1,9 +1,11 @@
---[[-------------------------------------------------------------------------
+--[[--------------------------------------------------------------------
   oUF_Kellen
   Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015 Kellen <addons@mikitik.net>. All rights reserved.
-  https://github.com/mikattack/oUF_Kellen
----------------------------------------------------------------------------]]
+  Copyright (c) 2015-2016
+    Kellen <addons@mikitik.com>
+    All rights reserved.
+  https://github.com/mikattack/kFrames
+----------------------------------------------------------------------]]
 
 local _, ns = ...
 
@@ -107,6 +109,6 @@ function ns.elements.AuraFrames(frame, position)
     end
 
     frame:RegisterForRoleChange(UpdateAurasForRole)
-    UpdateAurasForRole(frame, ns.GetPlayerRole(), true) -- default is DAMAGER
+    UpdateAurasForRole(frame, ns.util.getPlayerRole(), true) -- default is DAMAGER
   end
 end
