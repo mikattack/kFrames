@@ -1,8 +1,10 @@
 --[[-------------------------------------------------------------------------
   oUF_Kellen
   Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015 Kellen <addons@mikitik.net>. All rights reserved.
-  https://github.com/mikattack/oUF_Kellen
+  Copyright (c) 2015-2016
+    Kellen <addons@mikitik.com>
+    All rights reserved.
+  https://github.com/mikattack/kFrames
 ---------------------------------------------------------------------------]]
 
 
@@ -21,8 +23,8 @@ local si = ns.util.si
 
 
 -- Auto-shortened Unit Name
-tags.Events["kln:name"] = "UNIT_NAME_UPDATE"
-tags.Methods["kln:name"] = function(u, r)
+tags.Events["kFrames:name"] = "UNIT_NAME_UPDATE"
+tags.Methods["kFrames:name"] = function(u, r)
   local n = UnitName(r or u)
   local l = config.maxNameLength or 25
   if len(n) >= l then
@@ -33,8 +35,8 @@ end
 
 
 -- Very short unit name
-tags.Events["kln:shortname"] = "UNIT_NAME_UPDATE"
-tags.Methods["kln:shortname"] = function(u, r)
+tags.Events["kFrames:shortname"] = "UNIT_NAME_UPDATE"
+tags.Methods["kFrames:shortname"] = function(u, r)
   local n = UnitName(r or u)
   local l = 14
   if len(n) >= l then
@@ -45,15 +47,15 @@ end
 
 
 -- AFK/DnD
-tags.Events["kln:afkdnd"] = 'PLAYER_FLAGS_CHANGED'
-tags.Methods["kln:afkdnd"] = function(unit) 
+tags.Events["kFrames:afkdnd"] = 'PLAYER_FLAGS_CHANGED'
+tags.Methods["kFrames:afkdnd"] = function(unit) 
   return UnitIsAFK(unit) and "|cffCFCFCFafk|r" or UnitIsDND(unit) and "|cffCFCFCFdnd|r" or ""
 end
 
 
 -- Power as a percent (when it's more than [max == 100])
-tags.Events["kln:power"] = 'UNIT_MAXPOWER UNIT_POWER'
-tags.Methods["kln:power"] = function(u) 
+tags.Events["kFrames:power"] = 'UNIT_MAXPOWER UNIT_POWER'
+tags.Methods["kFrames:power"] = function(u) 
   local min, max = UnitPower(u), UnitPowerMax(u)
   if max == 100 then
     return min
@@ -66,8 +68,8 @@ end
 
 
 -- Combat
-tags.Events["kln:combat"] = "PLAYER_REGEN_DISABLED PLAYER_REGEN_ENABLED"
-tags.Methods["kln:combat"] = function (unit)
+tags.Events["kFrames:combat"] = "PLAYER_REGEN_DISABLED PLAYER_REGEN_ENABLED"
+tags.Methods["kFrames:combat"] = function (unit)
   if UnitAffectingCombat(unit) then
     return "Combat"
   else
@@ -77,8 +79,8 @@ end
 
 
 -- Phased
-tags.Events["kln:phase"] = "UNIT_PHASE"
-tags.Methods["kln:phase"] = function (unit)
+tags.Events["kFrames:phase"] = "UNIT_PHASE"
+tags.Methods["kFrames:phase"] = function (unit)
   if UnitInPhase(unit) then
     return "P"
   else
@@ -88,8 +90,8 @@ end
 
 
 -- Quest objective
-tags.Events["kln:quest"] = "UNIT_CLASSIFICATION_CHANGED"
-tags.Methods["kln:quest"] = function (unit)
+tags.Events["kFrames:quest"] = "UNIT_CLASSIFICATION_CHANGED"
+tags.Methods["kFrames:quest"] = function (unit)
   if UnitIsQuestBoss(unit) then
     return "Q"
   else
@@ -99,8 +101,8 @@ end
 
 
 -- Ready check
-tags.Events["kln:readycheck"] = "READY_CHECK READY_CHECK_CONFIRM READY_CHECK_FINISHED"
-tags.Methods["kln:readycheck"] = function (unit)
+tags.Events["kFrames:readycheck"] = "READY_CHECK READY_CHECK_CONFIRM READY_CHECK_FINISHED"
+tags.Methods["kFrames:readycheck"] = function (unit)
   local status = GetReadyCheckStatus(unit)
   if UnitExists(unit) and status then
     if status == 'ready' then
