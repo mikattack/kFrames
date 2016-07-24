@@ -13,14 +13,6 @@ local playerClass = ns.util.playerClass
 local STATUSBAR = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 local MAX_SHARDS = UnitPowerMax("player", SPELL_POWER_SOUL_SHARDS)
 
-local colors = {
-  [1] = {109/255, 51/255, 188/255, 1},
-  [2] = {139/255, 51/255, 188/255, 1},
-  [3] = {179/255, 51/255, 188/255, 1},
-  [4] = {209/255, 51/255, 188/255, 1},
-  [5] = {209/255, 51/255, 188/255, 1},
-}
-
 
 function ns.elements.SoulShards(frame, position)
   local frameWidth  = ns.config.classbarWidth
