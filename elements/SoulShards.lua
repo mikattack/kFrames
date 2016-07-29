@@ -11,10 +11,11 @@ local _, ns = ...
 
 local playerClass = ns.util.playerClass
 local STATUSBAR = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local MAX_SHARDS = UnitPowerMax("player", SPELL_POWER_SOUL_SHARDS)
 
 
 function ns.elements.SoulShards(frame, position)
+  local MAX_SHARDS = UnitPowerMax("player", SPELL_POWER_SOUL_SHARDS)
+
   local frameWidth  = ns.config.classbarWidth
   local pointWidth  = (frameWidth - 6 * 4) / MAX_SHARDS
   local pointHeight = 18
