@@ -11,7 +11,7 @@
 local _, ns = ...
 local oUF = ns.oUF or oUF
 if not oUF then
-  print("oUF_ComboPoints: oUF required but not found")
+  print("oUF_SoulShards: oUF required but not found")
   return
 end
 
@@ -24,7 +24,9 @@ function Update(self, event, unit, powerType)
   if (self.unit ~= unit or (powerType and powerType ~= "SOUL_SHARDS")) then return end
 
   local ss = self.SoulShards
-  if ss.PreUpdate then ss:PreUpdate(unit) end
+  if ss.PreUpdate then
+    ss:PreUpdate(unit)
+  end
 
   local numShards = UnitPower("player", SPELL_POWER_SOUL_SHARDS)
   local maxShards = UnitPowerMax("player", SPELL_POWER_SOUL_SHARDS)
@@ -53,27 +55,24 @@ function ForceUpdate(element)
 end
 
 
-function Visibility(self, event)
+function UpdateVisibility(self, event)
   local ss = self.SoulShards
+  local hidden = UnitHasVehicleUI("player")
 
-  if UnitHasVehicleUI("player") then
-    self:UnregisterEvent("UNIT_POWER", Path)
-    self:UnregisterEvent("UNIT_DISPLAYPOWER", Path)
+  if ss.hidden == hidden then return end
+  ss.hidden = hidden
 
-    for i = 1, #ss do
-      ss[i]:Hide()
-    end
-    if ss.Hide then
-      ss:Hide()
-    end
-
-    return
+  if hidden then
+    ss:Hide()
+  else
+    ss:Show()
   end
 
-  self:RegisterEvent("UNIT_POWER", Path)
-  self:RegisterEvent("UNIT_DISPLAYPOWER", Path)
-
-  Update(self, "Visibility", "player")
+  for i = 1, #ss do
+    if ss[i] then
+      print("UpdateVisibility: ", i)
+    end
+  end
 end
 
 
@@ -83,8 +82,11 @@ function Enable(self)
     ss.__owner = self
     ss.ForceUpdate = ForceUpdate
 
-    self:RegisterEvent("UNIT_ENTERING_VEHICLE", Visibility)
-    self:RegisterEvent("UNIT_EXITED_VEHICLE", Visibility)
+    self:RegisterEvent("UNIT_POWER_FREQUENT", Path, true)
+    self:RegisterEvent("UNIT_DISPLAYPOWER", Path, true)
+
+    self:RegisterEvent("UNIT_ENTERING_VEHICLE", UpdateVisibility)
+    self:RegisterEvent("UNIT_EXITED_VEHICLE", UpdateVisibility)
 
     for index = 1, #ss do
       local element = ss[index]
@@ -94,7 +96,7 @@ function Enable(self)
       end
     end
 
-    Visibility(self, "Enable")
+    UpdateVisibility(self, nil, nil)
     return true
   end
 end
@@ -103,11 +105,11 @@ end
 function Disable(self)
   local ss = self.SoulShards
   if ss then
-    self:UnregisterEvent("UNIT_POWER", Path)
+    self:UnregisterEvent("UNIT_POWER_FREQUENT", Path)
     self:UnregisterEvent("UNIT_DISPLAYPOWER", Path)
 
-    self:UnregisterEvent("UNIT_ENTERING_VEHICLE", Visibility)
-    self:UnregisterEvent("UNIT_EXITED_VEHICLE", Visibility)
+    self:UnregisterEvent("UNIT_ENTERING_VEHICLE", UpdateVisibility)
+    self:UnregisterEvent("UNIT_EXITED_VEHICLE", UpdateVisibility)
 
     for i = 1, #ss do
       ss[i].Hide()
@@ -115,6 +117,8 @@ function Disable(self)
     if ss.Hide then
       ss.Hide()
     end
+
+    UpdateVisibility(self, nil, nil)
   end
 end
 
