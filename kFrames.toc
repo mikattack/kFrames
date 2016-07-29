@@ -23,6 +23,7 @@ elements\ComboPoints.lua
 elements\SoulShards.lua
 
 layouts\druid.lua
+layouts\priest.lua
 layouts\warlock.lua
 
 frames.lua
