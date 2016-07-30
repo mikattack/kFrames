@@ -20,8 +20,10 @@ lib\oUF_SoulShards.lua
 elements\Auras.lua
 elements\Castbar.lua
 elements\ComboPoints.lua
+elements\RuneBar.lua
 elements\SoulShards.lua
 
+layouts\deathknight.lua
 layouts\druid.lua
 layouts\priest.lua
 layouts\rogue.lua
