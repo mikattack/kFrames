@@ -24,6 +24,7 @@ elements\SoulShards.lua
 
 layouts\druid.lua
 layouts\priest.lua
+layouts\rogue.lua
 layouts\warlock.lua
 
 frames.lua
