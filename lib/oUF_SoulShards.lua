@@ -67,12 +67,6 @@ function UpdateVisibility(self, event)
   else
     ss:Show()
   end
-
-  for i = 1, #ss do
-    if ss[i] then
-      print("UpdateVisibility: ", i)
-    end
-  end
 end
 
 
