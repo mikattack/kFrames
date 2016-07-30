@@ -16,5 +16,4 @@ layout = ns.layouts["ROGUE"]
 function layout.onCreate(frame)
   -- Combo Point interface
   ns.elements.ComboPoints(frame, ns.position.classbars)
-  print("COMBO POINTS INITIALIZED")
 end
