@@ -21,6 +21,7 @@ if not oUF then
   return
 end
 
+local playerClass = ns.util.playerClass
 local GetComboPoints = GetComboPoints
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
@@ -67,7 +68,11 @@ end
 local function UpdateVisibility(self, event, unit)
   local element = self.klnComboPoints
   local form = GetShapeshiftFormID()
-  local hidden = UnitHasVehicleUI("player") or form ~= 1
+  local hidden = UnitHasVehicleUI("player")
+
+  if playerClass == "DRUID" and form ~= 1 then
+    hidden = hidden and true
+  end
   
   if element.hidden == hidden then return end
   element.hidden = hidden
@@ -89,7 +94,7 @@ local function Enable(self)
     self:RegisterEvent('UNIT_POWER_FREQUENT', Path, true)
     self:RegisterEvent('PLAYER_TARGET_CHANGED', Path, true)
 
-    if select(2, UnitClass("player")) == "DRUID" then
+    if playerClass == "DRUID" then
       self:RegisterEvent("PLAYER_TALENT_UPDATE", UpdateVisibility, true)
       self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", UpdateVisibility, true)
       self:RegisterEvent("UNIT_ENTERING_VEHICLE", UpdateVisibility)
@@ -119,7 +124,7 @@ local function Disable(self)
     self:UnregisterEvent('UNIT_POWER_FREQUENT', Path)
     self:UnregisterEvent('PLAYER_TARGET_CHANGED', Path)
 
-    if select(2, UnitClass("player")) == "DRUID" then
+    if playerClass == "DRUID" then
       self:UnregisterEvent("PLAYER_TALENT_UPDATE", UpdateVisibility)
       self:UnregisterEvent("UPDATE_SHAPESHIFT_FORM", UpdateVisibility)
       self:UnregisterEvent("UNIT_ENTERING_VEHICLE", UpdateVisibility)
