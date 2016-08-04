@@ -33,5 +33,4 @@ function layout.onCreate(frame)
   frame.DruidMana.bg = b
   frame.DruidMana:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 1, -1)
   frame.DruidMana:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -1, -1)
-  print("CREATE PRIEST ALT POWER")
 end
