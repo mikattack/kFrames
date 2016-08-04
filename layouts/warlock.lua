@@ -24,5 +24,8 @@ function layout.postCreate(frames)
   frames["pet"]:SetPoint("BOTTOMLEFT", "oUF_kUnitPlayer", "TOPLEFT", 0, 5)
 
   -- Attach castbar above pet frame
-  ns.elements.repositionCastbar(frames["player"].Castbar, "BOTTOMLEFT oUF_kUnitPet TOPLEFT -2 5")
+  ns.elements.repositionCastbar(
+    frames["player"].Castbar,
+    frames["pet"],
+    "BOTTOMLEFT _ TOPLEFT -2 5")
 end
