@@ -27,6 +27,7 @@ layouts\deathknight.lua
 layouts\druid.lua
 layouts\priest.lua
 layouts\rogue.lua
+layouts\shaman.lua
 layouts\warlock.lua
 
 frames.lua
