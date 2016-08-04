@@ -72,7 +72,8 @@ local function CreateBar(frame, width, height, fg, bg)
   s:SetWidth(width)
   s:SetStatusBarTexture(fg)
   s:GetStatusBarTexture():SetHorizTile(true)
-  s:SetFrameStrata("MEDIUM")
+  s:SetFrameLevel(20)
+  --s:SetFrameStrata("MEDIUM")
 
   local b = s:CreateTexture(nil, "BACKGROUND")
   b:SetAllPoints(s)
@@ -172,8 +173,8 @@ function ns.factory.PlayerFrame(frame, width, height)
 
   -- Swap health texture
   frame.Health:SetStatusBarTexture(PRIME_BAR)
-  frame.Health.bg:SetTexture(0, 0, 0, 1)
-  frame.Health.bg.multiplier = 0
+  --frame.Health.bg:SetTexture(0, 0, 0, 1)
+  --frame.Health.bg.multiplier = 0
 
   -- Resize health bar
   frame.Health:ClearAllPoints()
@@ -222,8 +223,8 @@ function ns.factory.TargetFrame(frame, width, height)
 
   -- Swap health texture
   frame.Health:SetStatusBarTexture(PRIME_BAR)
-  frame.Health.bg:SetTexture(0, 0, 0, 1)
-  frame.Health.bg.multiplier = 0
+  --frame.Health.bg:SetTexture(0, 0, 0, 1)
+  --frame.Health.bg.multiplier = 0
 
   -- Resize health bar
   frame.Health:ClearAllPoints()
@@ -260,7 +261,7 @@ function ns.factory.TargetFrame(frame, width, height)
   decor.TextIcon(frame, "Status",    {"BOTTOMRIGHT xxx BOTTOMRIGHT -8 0", frame}, 18)
   decor.TextIcon(frame, "PvP",       {"BOTTOMRIGHT xxx BOTTOMRIGHT -60 0", frame}, 18)
   decor.TextIcon(frame, "AFKDND",    {"BOTTOMRIGHT xxx BOTTOMRIGHT -90 0", frame}, 18)
-  decor.TextIcon(frame, "PhaseIcon", {"RIGHT xxx TOPRIGHT -4 -2", frame.Power}, 18)
+  --decor.TextIcon(frame, "PhaseIcon", {"RIGHT xxx TOPRIGHT -4 -2", frame.Power}, 18)
   decor.TextIcon(frame, "QuestIcon", {"RIGHT xxx TOPRIGHT -12 -2", frame.Power}, 18)
 
   -- Niceties
