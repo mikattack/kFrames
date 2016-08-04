@@ -11,14 +11,17 @@ local _, ns = ...
 
 local playerClass = ns.util.playerClass
 local STATUSBAR = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local MAX_RUNES = 6
+local PADDING = 2
+local HEIGHT = 18
 
 
 function ns.elements.ComboPoints(frame, position)
   if playerClass ~= "ROGUE" and playerClass ~= "DRUID" then return end
 
   local frameWidth  = ns.config.classbarWidth
-  local pointWidth  = (frameWidth - 6 * 4) / 5
-  local pointHeight = 18
+  local pointWidth  = (frameWidth - PADDING * (MAX_COMBO_POINTS + 1)) / MAX_COMBO_POINTS
+  local pointHeight = HEIGHT
   local p1, parent, p2, x, y = ns.util.parsePosition(position)
 
   local cp = CreateFrame("Frame", nil, frame)
@@ -42,7 +45,7 @@ function ns.elements.ComboPoints(frame, position)
 
     local point = cp:CreateTexture(nil, "BORDER")
     point:SetWidth(pointWidth)
-    point:SetHeight(pointHeight - 8) -- 2 * 4px borders
+    point:SetHeight(pointHeight - 2 * PADDING)
     point:SetTexture(STATUSBAR)
     point:SetVertexColor(r, g, b)
 
@@ -52,9 +55,9 @@ function ns.elements.ComboPoints(frame, position)
     point.bg:SetVertexColor(r * multiplier, g * multiplier, b * multiplier)
 
     if (i == 1) then
-      point:SetPoint('LEFT', cp, 'LEFT', 4, 0)
+      point:SetPoint('LEFT', cp, 'LEFT', PADDING, 0)
     else
-      point:SetPoint('TOPLEFT', cp[i-1], 'TOPRIGHT', 4, 0)
+      point:SetPoint('TOPLEFT', cp[i-1], 'TOPRIGHT', PADDING, 0)
     end
 
     cp[i] = point

@@ -11,6 +11,9 @@ local _, ns = ...
 
 local playerClass = ns.util.playerClass
 local STATUSBAR = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local MAX_RUNES = 6
+local PADDING = 2
+local HEIGHT = 18
 local r, g, b = 106/255, 184/255, 247/255
 
 
@@ -18,8 +21,8 @@ function ns.elements.RuneBar(frame, position)
   if playerClass ~= "DEATHKNIGHT" then return end
 
   local frameWidth  = ns.config.classbarWidth
-  local runeWidth  = (frameWidth - 2 * 7) / 6
-  local runeHeight = 18
+  local runeWidth  = (frameWidth - PADDING * (MAX_RUNES + 1)) / MAX_RUNES
+  local runeHeight = HEIGHT
   local p1, parent, p2, x, y = ns.util.parsePosition(position)
 
   local runes = CreateFrame("Frame", nil, frame)
@@ -35,7 +38,7 @@ function ns.elements.RuneBar(frame, position)
   for i = 1, 6 do
     local rune = CreateFrame("StatusBar", nil, frame)
     rune:SetWidth(runeWidth)
-    rune:SetHeight(runeHeight - 4) -- 2 * 2px borders
+    rune:SetHeight(runeHeight - PADDING * 2)
     rune:SetStatusBarTexture(STATUSBAR)
     rune:SetStatusBarColor(r, g, b, 1)
 
@@ -44,9 +47,9 @@ function ns.elements.RuneBar(frame, position)
     rune.bg:SetTexture(STATUSBAR)
 
     if (i == 1) then
-      rune:SetPoint('LEFT', runes, 'LEFT', 2, 0)
+      rune:SetPoint('LEFT', runes, 'LEFT', PADDING, 0)
     else
-      rune:SetPoint('TOPLEFT', runes[i-1], 'TOPRIGHT', 2, 0)
+      rune:SetPoint('TOPLEFT', runes[i-1], 'TOPRIGHT', PADDING, 0)
     end
 
     runes[i] = rune

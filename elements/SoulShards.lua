@@ -11,14 +11,16 @@ local _, ns = ...
 
 local playerClass = ns.util.playerClass
 local STATUSBAR = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local PADDING = 2
+local HEIGHT = 18
 
 
 function ns.elements.SoulShards(frame, position)
   local MAX_SHARDS = UnitPowerMax("player", SPELL_POWER_SOUL_SHARDS)
 
   local frameWidth  = ns.config.classbarWidth
-  local pointWidth  = (frameWidth - 6 * 4) / MAX_SHARDS
-  local pointHeight = 18
+  local pointWidth  = (frameWidth - 2 * (MAX_SHARDS + 1)) / MAX_SHARDS
+  local pointHeight = HEIGHT
   local p1, parent, p2, x, y = ns.util.parsePosition(position)
 
   local ss = CreateFrame("Frame", "shards", frame)
@@ -36,7 +38,7 @@ function ns.elements.SoulShards(frame, position)
   for i = 1, MAX_SHARDS do
     local shard = ss:CreateTexture(nil, "BORDER")
     shard:SetWidth(pointWidth)
-    shard:SetHeight(pointHeight - 8) -- 2 * 4px borders
+    shard:SetHeight(pointHeight - 2 * PADDING)
     shard:SetTexture(STATUSBAR)
     shard:SetVertexColor(r, g, b)
 
@@ -46,9 +48,9 @@ function ns.elements.SoulShards(frame, position)
     shard.bg:SetVertexColor(r * multiplier, g * multiplier, b * multiplier)
 
     if (i == 1) then
-      shard:SetPoint('LEFT', ss, 'LEFT', 4, 0)
+      shard:SetPoint('LEFT', ss, 'LEFT', PADDING, 0)
     else
-      shard:SetPoint('TOPLEFT', ss[i-1], 'TOPRIGHT', 4, 0)
+      shard:SetPoint('TOPLEFT', ss[i-1], 'TOPRIGHT', PADDING, 0)
     end
 
     ss[i] = shard
