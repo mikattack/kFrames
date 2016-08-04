@@ -100,9 +100,9 @@ function ns.elements.Castbar(frame, position)
 end
 
 
-function ns.elements.repositionCastbar(frame, position)
-  local p1, parent, p2, x, y = parsePosition(position)
-  frame:SetPoint(p1, parent, p2, x + ICONSIZE, y)
+function ns.elements.repositionCastbar(frame, attachment, position)
+  local p1, _, p2, x, y = parsePosition(position)
+  frame:SetPoint(p1, attachment, p2, x + ICONSIZE, y)
 end
 
 
