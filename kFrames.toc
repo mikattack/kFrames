@@ -33,6 +33,8 @@ frames\Factory.lua
 frames\Mirror.lua
 frames\Player.lua
 frames\Target.lua
+frames\TargetOfTarget.lua
+frames\Pet.lua
 
 layouts\deathknight.lua
 layouts\druid.lua

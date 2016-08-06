@@ -23,6 +23,6 @@ config.size.primaryCluster = {
 }
 config.size.secondaryCluster = {
   width   = 275,
-  height  = 22,
+  height  = 20,
 }
 

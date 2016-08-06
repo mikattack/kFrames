@@ -128,6 +128,7 @@ function frames.MajorFrame(frame)
 
   health = CreateString(frame.Health, LARGE_FONT, 44)
   health:SetPoint("TOPRIGHT", frame.Health, "TOPRIGHT", -2, 0)
+  health:SetDrawLayer("OVERLAY")
   health.frequentUpdates = true
 
   power = CreateString(frame.Health, SMALL_FONT, 12)
@@ -183,13 +184,12 @@ function frames.MinorFrame(frame)
   local width  = config.size.secondaryCluster.width
 
   -- Size the frame
-  frame:SetHeight(height + (PADDING * 2))
+  frame:SetHeight(height + POWER_HEIGHT + (PADDING * 3))
   frame:SetWidth(width + (PADDING * 2))
 
   -- Create background
   frame.Background = frame:CreateTexture(nil, "BACKGROUND")
-  frame.Background:SetHeight(height + POWER_HEIGHT + (PADDING * 3))
-  frame.Background:SetWidth(width + (POWER_HEIGHT * 2))
+  frame.Background:SetAllPoints()
   frame.Background:SetColorTexture(0, 0, 0, 1)
 
   -- Health bar 
@@ -207,12 +207,12 @@ function frames.MinorFrame(frame)
   -- Text readouts
   local health, name
 
-  health = CreateString(frame.Health, LARGE_FONT, 44)
-  health:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -4, 0)
+  health = CreateString(frame.Health, LARGE_FONT, 32)
+  health:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -2, -2)
   health.frequentUpdates = true
 
-  name = CreateString(frame.Health, SMALL_FONT, 24)
-  name:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 5, 15)
+  name = CreateString(frame.Health, SMALL_FONT, 16)
+  name:SetPoint("LEFT", frame, "BOTTOMLEFT", 5, 3)
 
   frame:Tag(name, "[kFrames:name]")
   frame:Tag(health, "[perhp]")
