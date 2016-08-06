@@ -20,7 +20,7 @@ local r, g, b = 106/255, 184/255, 247/255
 function ns.elements.RuneBar(frame, position)
   if playerClass ~= "DEATHKNIGHT" then return end
 
-  local frameWidth  = ns.config.classbarWidth
+  local frameWidth  = ns.config.size.classBarWidth
   local runeWidth  = (frameWidth - PADDING * (MAX_RUNES + 1)) / MAX_RUNES
   local runeHeight = HEIGHT
   local p1, parent, p2, x, y = ns.util.parsePosition(position)

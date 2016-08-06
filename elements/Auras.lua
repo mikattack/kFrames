@@ -14,10 +14,10 @@ local elements = ns.elements
 
 local FONT = media.smallFont or STANDARD_TEXT_FONT
 local ICON_HEIGHT = 40
-local FRAME_WIDTH = ns.config.width
+local FRAME_WIDTH = ns.config.size.primaryCluster.width
 
 
-function ns.elements.AuraFrames(frame, position)
+function elements.AuraFrames(frame, position)
   if frame.unit == "player" then
     local GAP = 0
 

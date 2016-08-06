@@ -12,14 +12,14 @@ local _, ns = ...
 local _, playerClass = UnitClass("player")
 local format = string.format
 
-ns.util = {}
-ns.util.playerClass = playerClass
+local util = ns.util
+util.playerClass = playerClass
 
 
 -- 
 -- Solid debugger.
 -- 
-function ns.util.print(pattern, ...)
+function util.print(pattern, ...)
   print(format(pattern, ...))
 end
 
@@ -28,11 +28,11 @@ end
 -- Internal player role identification.
 -- 
 if playerClass == "HUNTER" or playerClass== "MAGE" or playerClass == "ROGUE" or playerClass == "WARLOCK" then
-  function ns.util.getPlayerRole()
+  function util.getPlayerRole()
     return "DAMAGER"
   end
 else
-  function ns.util.getPlayerRole()
+  function util.getPlayerRole()
     local spec = GetSpecialization() or 0
     local _, _, _, _, _, role = GetSpecializationInfo(spec)
     return role or "DAMAGER"
@@ -43,7 +43,7 @@ end
 -- 
 -- Integer shortening (for easy-to-read number readouts).
 -- 
-function ns.util.si(value, raw)
+function util.si(value, raw)
   if not value then return "" end
   local absvalue = abs(value)
   local str, val
@@ -75,7 +75,7 @@ end
 -- 
 -- Convert textual position into individual values.
 -- 
-function ns.util.parsePosition(p)
+function util.parsePosition(p)
   local p1, parent, p2, x, y
   if type(p) == "table" then
     parent = p[2]
@@ -90,7 +90,7 @@ end
 -- 
 -- Configure right-click menu of a frame.
 -- 
-function ns.util.rightClickMenu(self)
+function util.rightClickMenu(self)
   local unit = self.unit:sub(1, -2)
   local cunit = self.unit:gsub("^%l", string.upper)
   if(cunit == 'Vehicle') then
@@ -108,7 +108,7 @@ end
 -- Register a function to execute upon a role change.  For example, when
 -- moving from DAMAGER to HEALER.
 -- 
-function ns.util.registerForRoleChange(self, func)
+function util.registerForRoleChange(self, func)
   if not self.updateOnRoleChange then
     self.updateOnRoleChange = {}
   else

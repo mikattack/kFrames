@@ -15,5 +15,5 @@ layout = ns.layouts["DEATHKNIGHT"]
 
 function layout.onCreate(frame)
   -- Combo Point interface
-  ns.elements.RuneBar(frame, ns.position.classbars)
+  ns.elements.RuneBar(frame, ns.config.position.classbar)
 end

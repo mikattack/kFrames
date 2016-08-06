@@ -12,11 +12,14 @@ local _, ns = ...
 local tags = oUF.Tags
 local config = ns.config
 local GetTime = GetTime
+local si = ns.util.si
 
 local format = string.format
 local len = string.len
 local sub = string.sub
 local si = ns.util.si
+
+-- REMINDER: String color is |cAARRGGBBtext|r
 
 
 -----------------------------------------------------------------------------
@@ -53,47 +56,31 @@ tags.Methods["kFrames:afkdnd"] = function(unit)
 end
 
 
--- Power as a percent (when it's more than [max == 100])
+-- Shortened Health
+tags.Events["kFrames:health"] = 'UNIT_MAXHEALTH UNIT_HEALTH'
+tags.Methods["kFrames:health"] = function(u) 
+  return si(UnitHealth(u))
+end
+
+
+-- Shortened Power
 tags.Events["kFrames:power"] = 'UNIT_MAXPOWER UNIT_POWER'
 tags.Methods["kFrames:power"] = function(u) 
   local min, max = UnitPower(u), UnitPowerMax(u)
   if max == 100 then
     return min
-  elseif min == 0 then
+  elseif min <= 0 then
     return 0
   else
-    return math.floor(min / max * 100 + 0.5)
+    return si(min)
   end
 end
-
 
 -- Combat
 tags.Events["kFrames:combat"] = "PLAYER_REGEN_DISABLED PLAYER_REGEN_ENABLED"
 tags.Methods["kFrames:combat"] = function (unit)
   if UnitAffectingCombat(unit) then
     return "Combat"
-  else
-    return ""
-  end
-end
-
-
--- Phased
-tags.Events["kFrames:phase"] = "UNIT_PHASE"
-tags.Methods["kFrames:phase"] = function (unit)
-  if UnitInPhase(unit) then
-    return "P"
-  else
-    return ""
-  end
-end
-
-
--- Quest objective
-tags.Events["kFrames:quest"] = "UNIT_CLASSIFICATION_CHANGED"
-tags.Methods["kFrames:quest"] = function (unit)
-  if UnitIsQuestBoss(unit) then
-    return "Q"
   else
     return ""
   end

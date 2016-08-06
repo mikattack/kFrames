@@ -19,7 +19,7 @@ local HEIGHT = 18
 function ns.elements.ComboPoints(frame, position)
   if playerClass ~= "ROGUE" and playerClass ~= "DRUID" then return end
 
-  local frameWidth  = ns.config.classbarWidth
+  local frameWidth  = ns.config.size.classBarWidth
   local pointWidth  = (frameWidth - PADDING * (MAX_COMBO_POINTS + 1)) / MAX_COMBO_POINTS
   local pointHeight = HEIGHT
   local p1, parent, p2, x, y = ns.util.parsePosition(position)

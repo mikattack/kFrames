@@ -11,17 +11,15 @@
 local _, ns = ...
 
 local config = ns.config
+local elements = ns.elements
+local frames = ns.frames
 local layouts = ns.layouts
-local position = ns.position
-local width  = config.width
-local height = config.height
-
-local factory = ns.factory
+local position = config.position
 
 local sprint = ns.util.print
 local parsePosition = ns.util.parsePosition
 
-ns.frames = {}
+ns.generated = {}
 
 
 -----------------------------------------------------------------------------
@@ -32,13 +30,13 @@ ns.frames = {}
 -- decorate them.
 -- 
 local supportedFrames = {
-  player        = factory.PlayerFrame,
-  target        = factory.TargetFrame,
-  targettarget  = factory.TargetTargetFrame,
-  pet           = factory.PetFrame,
-  -- raid          = factory.RaiderFrame,  -- Someday maybe
-  boss          = factory.BossFrame,
-  maintank      = factory.MainTankFrame,
+  player        = frames.PlayerFrame,
+  target        = frames.TargetFrame,
+  --targettarget  = frames.TargetTargetFrame,
+  --pet           = frames.PetFrame,
+  --raid          = frames.RaiderFrame,  -- Someday maybe
+  --boss          = frames.BossFrame,
+  --maintank      = frames.MainTankFrame,
 }
 
 
@@ -76,8 +74,9 @@ local function UnitStyle(self, unit, isSingle)
   self.RegisterForRoleChange = ns.util.registerForRoleChange
 
   self.unit = unit
-  ns.frames[unit] = supportedFrames[unit](self, width, height)
+  ns.generated[unit] = supportedFrames[unit](self)
 
+--[[
   local p1, parent, p2, x, y = parsePosition(position[unit])
   if parent ~= "UIParent" and ns.frames[parent] then
     parent = ns.frames[parent]
@@ -86,6 +85,7 @@ local function UnitStyle(self, unit, isSingle)
     parent = "UIParent"   -- Your position was The Wrong
   end
   self:SetPoint(p1, parent, p2, x, y)
+--]]
 end
 
 
@@ -96,7 +96,7 @@ local function BossStyle(self, unit, isSingle)
   baseunit = gsub(unit, "%d", "")
   self.RegisterForRoleChange = ns.util.RegisterForRoleChange
   self.unit = unit
-  ns.frames[unit] = supportedFrames[baseunit](self, width, height)
+  ns.generated[unit] = supportedFrames[baseunit](self)
 end
 
 
@@ -107,7 +107,7 @@ local function TankStyle(self, unit, isSingle)
   baseunit = gsub(unit, "%d", "")
   self.RegisterForRoleChange = ns.util.RegisterForRoleChange
   self.unit = unit
-  ns.frames[unit] = supportedFrames[baseunit](self, width, height)
+  ns.generated[unit] = supportedFrames[baseunit](self)
 end
 
 
@@ -120,7 +120,7 @@ oUF:RegisterStyle("kBoss", BossStyle)
 
 
 -- 
--- The oUF factory spawns the frames you specify just once. Any other
+-- The oUF frames spawns the frames you specify just once. Any other
 -- general frame-related setup should also go here (for example, the
 -- prexisting MirrorTimers are modified here).
 -- 
@@ -140,7 +140,7 @@ oUF:Factory(function(self)
   self:SetActiveStyle("kUnit")
   local units = {"player", "target", "targettarget", "pet"}
   for i = 1, #units do
-    ns.frames[units[i]] = oUF:Spawn(units[i])
+    ns.generated[units[i]] = oUF:Spawn(units[i])
   end
 
   -- Customize frame main frames based on class
@@ -148,6 +148,7 @@ oUF:Factory(function(self)
     layouts[ns.util.playerClass].postCreate(ns.frames)
   end
 
+--[[
   -- Boss
   self:SetActiveStyle("kBoss")
   local boss = {}
@@ -160,14 +161,15 @@ oUF:Factory(function(self)
       b:SetPoint("TOP", boss[i-1], "BOTTOM", 0, 5)
     end
     boss[i] = b
-    ns.frames["boss"..i] = b
+    ns.generated["boss"..i] = b
   end
+--]]
 
   -- Decorate MirrorTimers
   for i = 1, 3 do
     local barname = "MirrorTimer" .. i
     local bar = _G[barname]
-    ns.factory.DecorateMirrorFrame(bar)
+    elements.DecorateMirrorFrame(bar)
   end
 end)
 
@@ -179,7 +181,7 @@ oUF:DisableBlizzard('party')
 -- When addon loads
 local function OnLoad(self, event, ...)
   -- Create a false Target frame to show when no target is selected
-  --factory.FalseTargetFrame(config.width, config.height)
+  --frames.FalseTargetFrame(config.width, config.height)
 
   -- Disable Blizzard raid controls
   CompactRaidFrameManager:UnregisterAllEvents()

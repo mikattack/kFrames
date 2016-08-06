@@ -18,7 +18,7 @@ local HEIGHT = 18
 function ns.elements.SoulShards(frame, position)
   local MAX_SHARDS = UnitPowerMax("player", SPELL_POWER_SOUL_SHARDS)
 
-  local frameWidth  = ns.config.classbarWidth
+  local frameWidth  = ns.config.size.classBarWidth
   local pointWidth  = (frameWidth - 2 * (MAX_SHARDS + 1)) / MAX_SHARDS
   local pointHeight = HEIGHT
   local p1, parent, p2, x, y = ns.util.parsePosition(position)

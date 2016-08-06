@@ -7,10 +7,14 @@
 
 ## Dependencies: oUF
 
-config.lua
+environment.lua
+
+config\core.lua
+config\media.lua
+config\position.lua
+
 util.lua
 tags.lua
-decorators.lua
 
 lib\oUF_Auras.lua
 lib\oUF_ComboPoints.lua
@@ -18,17 +22,21 @@ lib\oUF_DebuffHighlight.lua
 lib\oUF_SoulShards.lua
 
 elements\Auras.lua
+elements\Bars.lua
 elements\Castbar.lua
 elements\ComboPoints.lua
+elements\Icons.lua
 elements\RuneBar.lua
 elements\SoulShards.lua
 
+frames\Factory.lua
+frames\Mirror.lua
+frames\Player.lua
+frames\Target.lua
+
 layouts\deathknight.lua
 layouts\druid.lua
-layouts\priest.lua
 layouts\rogue.lua
-layouts\shaman.lua
 layouts\warlock.lua
 
-frames.lua
 initialize.lua
