@@ -64,9 +64,6 @@ function frames.TargetFrame(frame)
   frame.PowerReadout:ClearAllPoints()
   frame.PowerReadout:SetPoint("RIGHT", frame.HealthNumber, "LEFT", -4, 0)
 
-  -- Auras
-  elements.AuraFrames(frame, "")
-
   -- Niceties
   elements.HealPrediction(frame)
   elements.DebuffHighlight(frame)
