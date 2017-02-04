@@ -26,3 +26,8 @@ config.size.secondaryCluster = {
   height  = 20,
 }
 
+-- For Auras
+ns.fontstrings = {}
+
+-- Re-colors
+oUF.colors.power["INSANITY"] = {1, 0.2, 1}

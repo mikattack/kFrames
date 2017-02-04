@@ -208,11 +208,11 @@ function frames.MinorFrame(frame)
   local health, name
 
   health = CreateString(frame.Health, LARGE_FONT, 32)
-  health:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -2, -2)
+  health:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -3, 5)
   health.frequentUpdates = true
 
-  name = CreateString(frame.Health, SMALL_FONT, 16)
-  name:SetPoint("LEFT", frame, "BOTTOMLEFT", 5, 3)
+  name = CreateString(frame.Health, SMALL_FONT, 18)
+  name:SetPoint("LEFT", frame, "BOTTOMLEFT", 5, 4)
 
   frame:Tag(name, "[kFrames:name]")
   frame:Tag(health, "[perhp]")

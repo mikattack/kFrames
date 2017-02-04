@@ -31,10 +31,10 @@ function frames.TargetOfTargetFrame(frame)
 
   -- Reposition the health and name
   frame.HealthReadout:ClearAllPoints()
-  frame.HealthReadout:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -3, 4)
+  frame.HealthReadout:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -3, 1)
 
   frame.Name:ClearAllPoints()
-  frame.Name:SetPoint("LEFT", frame, "TOPLEFT", 4, -2)
+  frame.Name:SetPoint("LEFT", frame, "LEFT", 3, 6)
 
   -- Niceties
   elements.HealPrediction(frame)
@@ -42,5 +42,5 @@ function frames.TargetOfTargetFrame(frame)
   elements.Highlight(frame)
 
   -- Position
-  frame:SetPoint("BOTTOM", ns.generated.target, "TOP", 0, 45)
+  frame:SetPoint("BOTTOM", ns.generated.target, "TOP", 0, 5)
 end
