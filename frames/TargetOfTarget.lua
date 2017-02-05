@@ -18,10 +18,14 @@ local PADDING = defaults.padding
 
 
 function frames.TargetOfTargetFrame(frame)
-  local height = defaults.size.height
+  local height = defaults.altsize.height
   local width  = defaults.size.width * 0.75
 
-  elements.InitializeUnitFrame(frame, { width=width })
+  elements.InitializeUnitFrame(frame, {
+    fontsize  = 30,
+    height    = height,
+    width     = width,
+  })
 
   -- Hide the power bar
   frame.Power:Hide()
@@ -32,8 +36,8 @@ function frames.TargetOfTargetFrame(frame)
   frame.HealthText:SetPoint("TOPLEFT", frame.Health, "TOPLEFT", 2, 0)
 
   -- Name
-  local name = elements.NewString(frame.Health, { size=22 })
-  name:SetPoint("RIGHT", frame.Health, "RIGHT", -5, 0)
+  local name = elements.NewString(frame.Health, { size=18 })
+  name:SetPoint("RIGHT", frame.Health, "RIGHT", -3, 0)
   frame:Tag(name, "[kFrames:name]")
 
   -- Niceties

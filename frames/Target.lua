@@ -24,14 +24,23 @@ local POWER_HEIGHT = 4
 
 
 function frames.TargetFrame(frame)
+  local height = defaults.altsize.height
   local width = defaults.size.width * 0.75
 
-  elements.InitializeUnitFrame(frame, { width=width })
+  elements.InitializeUnitFrame(frame, {
+    fontsize  = 30,
+    height    = height,
+    width     = width,
+  })
 
   -- Name
   local name = elements.NewString(frame, { font=LARGE_FONT, size=22 })
   name:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 4)
   frame:Tag(name, "|cFFFFF200[level]|r [kFrames:name]")
+
+  -- Reposition the health readout
+  frame.HealthText:ClearAllPoints()
+  frame.HealthText:SetPoint("TOPRIGHT", frame.Health, "TOPRIGHT", -2, 0)
   
   -- Icons
   elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT xxx BOTTOMLEFT 5 -6", frame.Health}, 18, frame.Health)
@@ -56,8 +65,8 @@ function frames.TargetFrame(frame)
   elements.AddHighlight(frame)
 
   -- Castbar
-  elements.NewCastbar(frame, { width=width })
-  elements.repositionCastbar(frame, {"TOPRIGHT xxx BOTTOMRIGHT 0 -5", frame})
+  elements.NewCastbar(frame, { width=width, height=height })
+  elements.repositionCastbar(frame, {"TOPRIGHT xxx BOTTOMRIGHT 0 -8", frame})
 
   -- Position frame(s)
   frame:SetPoint("RIGHT", UIParent, "BOTTOM", -155, 175)
