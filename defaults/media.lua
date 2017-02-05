@@ -8,10 +8,10 @@
 ---------------------------------------------------------------------------]]
 
 local _, ns = ...
+
 ns.media = {
   largeFont   = [[Interface\Addons\kFrames\media\font\BigNoodleTitling.ttf]],
   smallFont   = [[Interface\Addons\kFrames\media\font\Roboto-BoldCondensed.ttf]],
-  pixelFont   = [[Interface\Addons\kFrames\media\font\Samson.ttf]],
 
   statusBar   = [[Interface\Addons\kFrames\media\statusbar\Resource.tga]],
   flatBar     = [[Interface\Addons\kFrames\media\statusbar\Flat.tga]],

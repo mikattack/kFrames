@@ -2,12 +2,12 @@ if not oUF then return end
 
 local playerClass = select(2,UnitClass("player"))
 local CanDispel = {
-  PRIEST = { Magic = false, Disease = false, },
-  SHAMAN = { Magic = false, Curse = false, },   
+  PRIEST  = { Magic = false, Disease = false, },
+  SHAMAN  = { Magic = false, Curse = false, },   
   PALADIN = { Magic = false, Poison = false, Disease = false, },
-  MAGE = { Curse = false, },
-  DRUID = { Magic = false, Curse = false, Poison = false, }, 
-  MONK = { Magic = false, Poison = false, Disease = false, }
+  MAGE    = { Curse = false, },
+  DRUID   = { Magic = false, Curse = false, Poison = false, }, 
+  MONK    = { Magic = false, Poison = false, Disease = false, }
 }
 
 local dispellist = CanDispel[playerClass] or {}

@@ -10,37 +10,38 @@
 
 local _, ns = ...
 
-local config    = ns.config
+local defaults  = ns.defaults
 local elements  = ns.elements
 local frames    = ns.frames
 
+local PADDING = defaults.padding
+
 
 function frames.TargetOfTargetFrame(frame)
-  frames.MinorFrame(frame)
+  local height = defaults.size.height
+  local width  = defaults.size.width * 0.75
+
+  elements.InitializeUnitFrame(frame, { width=width })
 
   -- Hide the power bar
   frame.Power:Hide()
+  frame:SetHeight(math.floor(height + (PADDING * 2)))
 
-  -- Resize the frame
-  frame:SetHeight(math.floor(config.size.primaryCluster.height * 0.65) + 2)
-  frame:SetWidth(config.size.primaryCluster.width + 2)
+  -- Reposition the health readout
+  frame.HealthText:ClearAllPoints()
+  frame.HealthText:SetPoint("TOPLEFT", frame.Health, "TOPLEFT", 2, 0)
 
-  frame.Health:ClearAllPoints()
-  frame.Health:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -1)
-  frame.Health:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -1, 1)
-
-  -- Reposition the health and name
-  frame.HealthReadout:ClearAllPoints()
-  frame.HealthReadout:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -3, 1)
-
-  frame.Name:ClearAllPoints()
-  frame.Name:SetPoint("LEFT", frame, "LEFT", 3, 6)
+  -- Name
+  local name = elements.NewString(frame.Health, { size=22 })
+  name:SetPoint("RIGHT", frame.Health, "RIGHT", -5, 0)
+  frame:Tag(name, "[kFrames:name]")
 
   -- Niceties
-  elements.HealPrediction(frame)
-  elements.DebuffHighlight(frame)
-  elements.Highlight(frame)
+  elements.AddHealPrediction(frame)
+  elements.AddDebuffHighlight(frame)
+  elements.AddHighlight(frame)
 
   -- Position
-  frame:SetPoint("BOTTOM", ns.generated.target, "TOP", 0, 5)
+  frame:SetPoint("LEFT", UIParent, "BOTTOM", 155, 175)
+  -- ns.generated.target
 end

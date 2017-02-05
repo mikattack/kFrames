@@ -19,6 +19,8 @@ local len = string.len
 local sub = string.sub
 local si = ns.util.si
 
+local DEFAULT_MAX_NAME_LENGTH = 30
+
 -- REMINDER: String color is |cAARRGGBBtext|r
 
 
@@ -29,21 +31,8 @@ local si = ns.util.si
 tags.Events["kFrames:name"] = "UNIT_NAME_UPDATE"
 tags.Methods["kFrames:name"] = function(u, r)
   local n = UnitName(r or u)
-  local l = config.maxNameLength or 25
-  if len(n) >= l then
-    n = format('%s...', sub(n, 1, l))
-  end
-  return n
-end
-
-
--- Very short unit name
-tags.Events["kFrames:shortname"] = "UNIT_NAME_UPDATE"
-tags.Methods["kFrames:shortname"] = function(u, r)
-  local n = UnitName(r or u)
-  local l = 14
-  if len(n) >= l then
-    n = format('%s...', sub(n, 1, l))
+  if len(n) >= DEFAULT_MAX_NAME_LENGTH then
+    n = format('%s...', sub(n, 1, DEFAULT_MAX_NAME_LENGTH))
   end
   return n
 end
@@ -56,30 +45,12 @@ tags.Methods["kFrames:afkdnd"] = function(unit)
 end
 
 
--- Shortened Health
-tags.Events["kFrames:health"] = 'UNIT_MAXHEALTH UNIT_HEALTH'
-tags.Methods["kFrames:health"] = function(u) 
-  return si(UnitHealth(u))
-end
-
-
--- Shortened Power
-tags.Events["kFrames:power"] = 'UNIT_MAXPOWER UNIT_POWER'
-tags.Methods["kFrames:power"] = function(u) 
-  local min, max = UnitPower(u), UnitPowerMax(u)
-  if max == 100 then
-    return min
-  elseif min <= 0 then
-    return 0
-  else
-    return si(min)
-  end
-end
-
 -- Combat
 tags.Events["kFrames:combat"] = "PLAYER_REGEN_DISABLED PLAYER_REGEN_ENABLED"
+oUF.Tags.SharedEvents["PLAYER_REGEN_DISABLED"] = true
+oUF.Tags.SharedEvents["PLAYER_REGEN_ENABLED"] = true
 tags.Methods["kFrames:combat"] = function (unit)
-  if UnitAffectingCombat(unit) then
+  if unit == "player" and UnitAffectingCombat("player") then
     return "Combat"
   else
     return ""

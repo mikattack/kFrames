@@ -11,15 +11,15 @@ local _, ns = ...
 
 local playerClass = ns.util.playerClass
 local STATUSBAR = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local PADDING = 2
+local PADDING = 1
 local HEIGHT = 18
 
 
 function ns.elements.SoulShards(frame, position)
   local MAX_SHARDS = UnitPowerMax("player", SPELL_POWER_SOUL_SHARDS)
 
-  local frameWidth  = ns.config.size.classBarWidth
-  local pointWidth  = (frameWidth - 2 * (MAX_SHARDS + 1)) / MAX_SHARDS
+  local frameWidth  = ns.defaults.size.width + (PADDING * 2)
+  local pointWidth  = (frameWidth - PADDING * (MAX_SHARDS + 1)) / MAX_SHARDS
   local pointHeight = HEIGHT
   local p1, parent, p2, x, y = ns.util.parsePosition(position)
 
@@ -31,7 +31,7 @@ function ns.elements.SoulShards(frame, position)
 
   ss.background = ss:CreateTexture(nil, "BACKGROUND")
   ss.background:SetAllPoints(ss)
-  ss.background:SetColorTexture(0, 0, 0, 0.5)
+  ss.background:SetColorTexture(0, 0, 0, 1)
 
   local multiplier = 0.3
   local r, g, b = 209/255, 51/255, 188/255

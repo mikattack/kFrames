@@ -9,10 +9,9 @@
 
 local _, ns = ...
 
-ns.config   = {}
+ns.defaults   = {}
 ns.elements = {}
 ns.frames   = {}
-ns.layouts  = {}
 ns.media    = {}
 ns.tags     = {}
 ns.util     = {}

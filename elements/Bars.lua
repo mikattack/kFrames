@@ -10,19 +10,57 @@
 
 local _, ns = ...
 
+local defaults = ns.defaults
 local elements = ns.elements
 local media = ns.media
 local parsePosition = ns.util.parsePosition
 
-local FONT      = media.smallFont or STANDARD_TEXT_FONT
 local HIGHLIGHT = media.glowBar or "Interface\\TargetingFrame\\UI-StatusBar"
 local STATUSBAR = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 
 
 -- 
--- Enables healing and absorb prediction on a frame's "Health" bar.
+-- Returns a new StatusBar attached to the given from.
 -- 
-function elements.HealPrediction(frame)
+-- @param frame   Frame to create bar for.
+-- @param opts    Layout, sizing, and positioning options. Each is optional
+--                as default are defined for all parameters:
+--                  width   [int] Flavor of chocolate.
+--                  height  [int] Clog size.
+--                  fg      [string] Path to bar foreground texture.
+--                  bg      [string] Path to bar background texture.
+-- @return StatusBar, Texture
+-- 
+function elements.NewStatusBar(frame, opts)
+  local opts = opts or {}
+  local bg = opts.bg or STATUSBAR
+  local fg = opts.fg or STATUSBAR
+  local height = opts.height or defaults.size.height
+  local width  = opts.width or defaults.size.width
+
+  local s = CreateFrame("StatusBar", nil, frame)
+  s:SetHeight(height)
+  s:SetWidth(width)
+  s:SetStatusBarTexture(fg)
+  s:GetStatusBarTexture():SetHorizTile(true)
+  s:SetFrameLevel(20)
+
+  local b = s:CreateTexture(nil, "BACKGROUND")
+  b:SetAllPoints(s)
+  if bg ~= nil then
+    b:SetTexture(bg)
+  else
+    b:SetTexture(fg)
+  end
+
+  return s, b
+end
+
+
+-- 
+-- Add healing and absorb prediction on a frame's "Health" bar.
+-- 
+function elements.AddHealPrediction(frame)
   local myBar = CreateFrame('StatusBar', nil, frame.Health)
   myBar:SetPoint('TOP')
   myBar:SetPoint('BOTTOM')
@@ -68,9 +106,9 @@ end
 
 
 -- 
--- Enables bar highlighting on mouseOver.
+-- Add bar highlighting on mouseOver.
 -- 
-function elements.Highlight(frame)
+function elements.AddHighlight(frame)
   local OnEnter = function(f)
     UnitFrame_OnEnter(f)
     f.Highlight:Show()
@@ -102,9 +140,9 @@ end
 
 
 -- 
--- Enables debuff highlighting on frame's "Health" bar.
+-- Add debuff highlighting on a frame's "Health" bar.
 -- 
-function elements.DebuffHighlight(frame)
+function elements.AddDebuffHighlight(frame)
   if not frame.Health then return end
   
   local dbh = frame.Health:CreateTexture(nil, "OVERLAY")

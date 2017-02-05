@@ -10,7 +10,7 @@
 
 local _, ns = ...
 
-local config   = ns.config
+local defaults   = ns.defaults
 local elements = ns.elements
 local media    = ns.media
 
@@ -32,8 +32,8 @@ function elements.DecorateMirrorFrame(frame)
   end
 
   frame:SetParent(UIParent)
-  frame:SetWidth(config.size.primaryCluster.width)
-  frame:SetHeight(config.size.primaryCluster.height)
+  frame:SetWidth(defaults.altsize.width)
+  frame:SetHeight(defaults.altsize.height)
 
   frame.bar = frame:GetChildren()
   frame.bg, frame.text, frame.border = frame:GetRegions()

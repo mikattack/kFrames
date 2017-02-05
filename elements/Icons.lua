@@ -37,7 +37,8 @@ local texticons = {
   Combat            = "[kFrames:combat]",
   PvP               = "[pvp]",
   Status            = "[status]",
-  AFKDND            = "[kFrames:afkdnd]"
+  AFKDND            = "[kFrames:afkdnd]",
+  Role              = "[kFrames:role]",
 }
 
 
@@ -66,12 +67,13 @@ function elements.TextIcon(frame, name, position, ...)
     return
   end
 
-  local p1, parent, p2, x, y = parsePosition(position)
+  local p1, attach, p2, x, y = parsePosition(position)
   local size = select(1, ...) or 12
+  local parent = select(2, ...) or frame
 
-  icon = frame:CreateFontString(nil, "OVERLAY")
-  icon:SetFont(FONT, size, "OUTLINE")
-  icon:SetPoint(p1, parent, p2, x, y)
+  icon = elements.NewString(parent, { font=FONT, size=size })
+  icon:SetDrawLayer("OVERLAY")
+  icon:SetPoint(p1, attach, p2, x, y)
   --icon:SetParent(parent)
 
   -- Use either a raw string or an oUF tag
