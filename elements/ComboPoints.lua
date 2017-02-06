@@ -33,8 +33,8 @@ function ns.elements.ComboPoints(frame, position)
   cp.background:SetAllPoints(cp)
   cp.background:SetColorTexture(0, 0, 0, 0.5)
 
+  local multiplier = 0.3
   for i = 1, MAX_COMBO_POINTS do
-    local multiplier = 0.3
     local r, g, b = 0.3, 0.9, 0.3
     if i == 4 then
       r, g, b = 0.9, 0.9, 0
