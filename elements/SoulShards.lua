@@ -31,7 +31,7 @@ function ns.elements.SoulShards(frame, position)
 
   ss.background = ss:CreateTexture(nil, "BACKGROUND")
   ss.background:SetAllPoints(ss)
-  ss.background:SetColorTexture(0, 0, 0, 1)
+  ss.background:SetColorTexture(0, 0, 0, 0.5)
 
   local multiplier = 0.3
   local r, g, b = 209/255, 51/255, 188/255
