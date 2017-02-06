@@ -35,7 +35,7 @@ function frames.TargetFrame(frame)
 
   -- Name
   local name = elements.NewString(frame, { font=LARGE_FONT, size=22 })
-  name:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 4)
+  name:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 2)
   frame:Tag(name, "|cFFFFF200[level]|r [kFrames:name]")
 
   -- Reposition the health readout
