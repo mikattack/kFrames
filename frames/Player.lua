@@ -28,34 +28,6 @@ local POWER_HEIGHT = 5
 function frames.PlayerFrame(frame)
   elements.InitializeUnitFrame(frame)
 
-  -- Create a "nameplate" in the upper left corner of the screen
-  frame.InfoGradient = elements.NewBackground(frame, {
-    height  = defaults.size.height * 1.5,
-    width   = defaults.size.width * 0.85,
-  })
-  frame.InfoGradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 1)
-  frame.InfoGradient:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, 0)
-
-  -- Name
-  local name = elements.NewString(frame, { font=LARGE_FONT, size=36 })
-  name:SetPoint("TOPLEFT", frame.InfoGradient, "TOPLEFT", 5, -8)
-  frame:Tag(name, "[kFrames:name]")
-
-  -- Icons
-  elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT xxx BOTTOMLEFT 5 -6", frame.Health}, 18, frame.Health)
-
-  elements.TextIcon(frame, "Status",  {"TOPRIGHT xxx TOPRIGHT -4 -8", frame.InfoGradient}, 18)
-  elements.TextIcon(frame, "AFKDND",  {"RIGHT xxx LEFT -4 0", frame.kStatus}, 18)
-  elements.TextIcon(frame, "PvP",     {"RIGHT xxx LEFT -4 0", frame.kAFKDND}, 18)
-
-  elements.RaidMarkIcon(frame,        {"LEFT xxx RIGHT 5 0", name})
-  --elements.LFDRoleIcon(frame,         {"RIGHT xxx LEFT -5 0", frame.RaidIcon}, {20,20})
-  --elements.ReadyCheckIcon(frame,      {"LEFT xxx RIGHT 5 0", frame.LFDRole}, {20,20})
-
-  elements.RaidLeaderIcon(frame,      {"BOTTOMLEFT xxx TOPLEFT 0 1", name})
-  elements.RaidAssistIcon(frame,      {"LEFT xxx RIGHT 3 0", frame.kLeader})
-  elements.RaidLootMasterIcon(frame,  {"LEFT xxx RIGHT 3 0", frame.kAssistant})
-
   -- Additional Power (Druid mana)
   local altfg, altbg = elements.NewStatusBar(frame, {
     height  = POWER_HEIGHT,
@@ -100,6 +72,21 @@ function frames.PlayerFrame(frame)
     attach = frame.SoulShards
   end
   elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", attach})
+
+  -- Icons
+  elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT xxx BOTTOMLEFT 5 -6", frame.Health}, 18, frame.Health)
+
+  elements.TextIcon(frame, "Status",  {"BOTTOMLEFT xxx TOPLEFT 2 4", attach}, 18)
+  elements.TextIcon(frame, "AFKDND",  {"LEFT xxx RIGHT 4 0", frame.kStatus}, 18)
+  elements.TextIcon(frame, "PvP",     {"LEFT xxx RIGHT 4 0", frame.kAFKDND}, 18)
+
+  --elements.RaidMarkIcon(frame,        {"LEFT xxx RIGHT 5 0", name})
+  --elements.LFDRoleIcon(frame,         {"RIGHT xxx LEFT -5 0", frame.RaidIcon}, {20,20})
+  --elements.ReadyCheckIcon(frame,      {"LEFT xxx RIGHT 5 0", frame.LFDRole}, {20,20})
+
+  elements.RaidLeaderIcon(frame,      {"BOTTOMRIGHT xxx TOPRIGHT -2 4", attach})
+  elements.RaidAssistIcon(frame,      {"RIGHT xxx LEFT -3 0", frame.kLeader})
+  elements.RaidLootMasterIcon(frame,  {"RIGHT xxx LEFT -3 0", frame.kAssistant})
 
   -- Position frame(s)
   frame:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 10)
