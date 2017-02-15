@@ -29,7 +29,6 @@ elements\SoulShards.lua
 elements\String.lua
 elements\UnitFrame.lua
 
-# frames\Factory.lua
 frames\Mirror.lua
 frames\Player.lua
 frames\Target.lua
