@@ -37,6 +37,7 @@ function frames.PlayerFrame(frame)
   })
   altfg:SetFrameLevel(50)
   altfg.colorPower = true
+  altbg.multiplier = 0.5
 
   altfg.background = elements.NewBackground(altfg)
   altfg.background:SetPoint("TOPLEFT", altfg, "TOPLEFT", -1, 1)
@@ -77,8 +78,8 @@ function frames.PlayerFrame(frame)
   elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT xxx BOTTOMLEFT 5 -6", frame.Health}, 18, frame.Health)
 
   elements.TextIcon(frame, "Status",  {"BOTTOMLEFT xxx TOPLEFT 2 4", attach}, 18)
-  elements.TextIcon(frame, "AFKDND",  {"LEFT xxx RIGHT 4 0", frame.kStatus}, 18)
-  elements.TextIcon(frame, "PvP",     {"LEFT xxx RIGHT 4 0", frame.kAFKDND}, 18)
+  elements.TextIcon(frame, "AFKDND",  {"BOTTOMLEFT xxx BOTTOMRIGHT 4 0", frame.kStatus}, 18)
+  elements.TextIcon(frame, "PvP",     {"BOTTOMLEFT xxx BOTTOMRIGHT 4 0", frame.kAFKDND}, 18)
 
   --elements.RaidMarkIcon(frame,        {"LEFT xxx RIGHT 5 0", name})
   --elements.LFDRoleIcon(frame,         {"RIGHT xxx LEFT -5 0", frame.RaidIcon}, {20,20})
