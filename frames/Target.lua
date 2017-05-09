@@ -52,7 +52,7 @@ function frames.TargetFrame(frame)
 
   -- Niceties
   elements.AddHealPrediction(frame)
-  elements.AddDebuffHighlight(frame)
+  elements.AddDispelHighlight(frame)
   elements.AddHighlight(frame)
 
   -- Castbar

@@ -33,7 +33,7 @@ function frames.TargetOfTargetFrame(frame)
 
   -- Niceties
   elements.AddHealPrediction(frame)
-  elements.AddDebuffHighlight(frame)
+  elements.AddDispelHighlight(frame)
   elements.AddHighlight(frame)
 
   -- Position

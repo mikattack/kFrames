@@ -131,15 +131,15 @@ end
 
 
 -- 
--- Add debuff highlighting on a frame's "Health" bar.
+-- Add dispel highlighting on a frame's "Health" bar.
 -- 
-function elements.AddDebuffHighlight(frame)
+function elements.AddDispelHighlight(frame)
   if not frame.Health then return end
   
-  local dbh = frame.Health:CreateTexture(nil, "OVERLAY")
+  local dh = frame.Health:CreateTexture(nil, "OVERLAY")
   dbh:SetAllPoints(frame.Health)
   dbh:SetTexture(STATUSBAR)
   dbh:SetBlendMode("ADD")
   dbh:SetVertexColor(0, 0, 0, 0)
-  frame.DebuffHighlight = dbh
+  frame.DispelHighlight = dh
 end

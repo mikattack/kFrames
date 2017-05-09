@@ -29,7 +29,7 @@ function frames.PetFrame(frame)
   frame.HealthText:SetPoint("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", -2, -10)
 
   -- Niceties
-  elements.AddDebuffHighlight(frame)
+  elements.AddDispelHighlight(frame)
   elements.AddHighlight(frame)
 
   -- Position
