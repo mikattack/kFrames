@@ -1,12 +1,3 @@
---[[--------------------------------------------------------------------
-  oUF_Kellen
-  Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015-2016
-    Kellen <addons@mikitik.com>
-    All rights reserved.
-  https://github.com/mikattack/kFrames
-----------------------------------------------------------------------]]
-
 
 local _, ns = ...
 
@@ -140,15 +131,15 @@ end
 
 
 -- 
--- Add debuff highlighting on a frame's "Health" bar.
+-- Add dispel highlighting on a frame's "Health" bar.
 -- 
-function elements.AddDebuffHighlight(frame)
+function elements.AddDispelHighlight(frame)
   if not frame.Health then return end
   
-  local dbh = frame.Health:CreateTexture(nil, "OVERLAY")
+  local dh = frame.Health:CreateTexture(nil, "OVERLAY")
   dbh:SetAllPoints(frame.Health)
   dbh:SetTexture(STATUSBAR)
   dbh:SetBlendMode("ADD")
   dbh:SetVertexColor(0, 0, 0, 0)
-  frame.DebuffHighlight = dbh
+  frame.DispelHighlight = dh
 end

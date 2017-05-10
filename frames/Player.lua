@@ -1,12 +1,3 @@
---[[--------------------------------------------------------------------
-  oUF_Kellen
-  Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015-2016
-    Kellen <addons@mikitik.com>
-    All rights reserved.
-  https://github.com/mikattack/kFrames
-----------------------------------------------------------------------]]
-
 
 local _, ns = ...
 
@@ -28,7 +19,7 @@ local POWER_HEIGHT = 5
 function frames.PlayerFrame(frame)
   elements.InitializeUnitFrame(frame)
 
-  -- Additional Power (Druid mana)
+  -- Additional Power (eg. Druid mana while shapeshifted)
   local altfg, altbg = elements.NewStatusBar(frame, {
     height  = POWER_HEIGHT,
     width   = math.floor(defaults.size.width * 0.5),
@@ -50,7 +41,7 @@ function frames.PlayerFrame(frame)
 
   -- Niceties
   elements.AddHealPrediction(frame)
-  elements.AddDebuffHighlight(frame)
+  elements.AddDispelHighlight(frame)
   elements.AddHighlight(frame)
 
   -- Castbar
@@ -62,15 +53,12 @@ function frames.PlayerFrame(frame)
   if playerClass == "DEATHKNIGHT" then
     elements.RuneBar(frame, cbpos)
     attach = frame.Runes
-  elseif playerClass == "DRUID" then
+  elseif playerClass == "SHAMAN" then
     elements.ComboPoints(frame, cbpos)
     attach = frame.klnComboPoints
-  elseif playerClass == "ROGUE" then
-    elements.ComboPoints(frame, cbpos)
-    attach = frame.klnComboPoints
-  elseif playerClass == "WARLOCK" then
-    elements.SoulShards(frame, cbpos)
-    attach = frame.SoulShards
+  else
+    elements.ClassPower(frame, cbpos)
+    attach = frame.ClassPower
   end
   elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", attach})
 

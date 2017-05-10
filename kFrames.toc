@@ -15,9 +15,7 @@ defaults\media.lua
 util.lua
 tags.lua
 
-lib\oUF_ComboPoints.lua
-lib\oUF_DebuffHighlight.lua
-lib\oUF_SoulShards.lua
+lib\DebuffHighlight.lua
 
 elements\Background.lua
 elements\Bars.lua
