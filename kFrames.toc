@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: |cFF7F2A90k|r|Frames
 ## Notes: Unit frames optimized by and for Kellen.
 ## Author: Kellen
