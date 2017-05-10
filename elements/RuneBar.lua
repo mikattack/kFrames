@@ -21,7 +21,6 @@ function ns.elements.RuneBar(frame, position)
   runes:SetPoint(p1, parent, p2, x, y)
   runes:SetHeight(runeHeight)
   runes:SetWidth(frameWidth)
-  runes.multiplier = 0.3
 
   runes.background = runes:CreateTexture(nil, "BACKGROUND")
   runes.background:SetAllPoints(runes)
@@ -32,7 +31,6 @@ function ns.elements.RuneBar(frame, position)
     rune:SetWidth(runeWidth)
     rune:SetHeight(runeHeight - PADDING * 2)
     rune:SetStatusBarTexture(STATUSBAR)
-    rune:SetStatusBarColor(r, g, b, 1)
 
     rune.bg = rune:CreateTexture(nil, "BACKGROUND")
     rune.bg:SetAllPoints(rune)
@@ -47,5 +45,7 @@ function ns.elements.RuneBar(frame, position)
     runes[i] = rune
   end
   
+  runes.colorSpec = true
+  runes.multiplier = 0.3
   frame.Runes = runes
 end
