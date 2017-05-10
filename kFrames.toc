@@ -21,11 +21,11 @@ elements\Background.lua
 elements\Bars.lua
 elements\Castbar.lua
 elements\ClassPower.lua
-elements\ComboPoints.lua
 elements\Icons.lua
 elements\RuneBar.lua
-elements\SoulShards.lua
+elements\StaggerBar.lua
 elements\String.lua
+elements\TotemBar.lua
 elements\UnitFrame.lua
 
 frames\Mirror.lua

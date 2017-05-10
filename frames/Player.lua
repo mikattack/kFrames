@@ -53,9 +53,12 @@ function frames.PlayerFrame(frame)
   if playerClass == "DEATHKNIGHT" then
     elements.RuneBar(frame, cbpos)
     attach = frame.Runes
+  if playerClass == "MONK" then
+    elements.StaggerBar(frame, cbpos)
+    attach = frame.StaggerFrame
   elseif playerClass == "SHAMAN" then
-    elements.ComboPoints(frame, cbpos)
-    attach = frame.klnComboPoints
+    elements.TotemBar(frame, cbpos)
+    attach = frame.TotemFrame
   else
     elements.ClassPower(frame, cbpos)
     attach = frame.ClassPowerFrame
