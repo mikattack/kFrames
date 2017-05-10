@@ -10,6 +10,25 @@ local HEIGHT      = 18
 local MAX_POWER   = 6
 
 
+-- Repositions and hides the ClassPower backdrop if the bar doesn't exist
+-- for the current spec. This ensures there isn't a transparent black box
+-- isn't just floating there and the Castbar is correctly positioned.
+local function PreUpdateClassPower(event)
+  local p1, parent, p2, x, y = ns.util.parsePosition(event.position)
+  if event.isEnabled then
+    event.backdrop:SetHeight(event.height + (event.padding * 2))
+    event.backdrop:SetPoint(p1, parent, p2, x, y)
+    event.backdrop:SetAlpha(1)
+  else
+    event.backdrop:SetHeight(1)
+    event.backdrop:SetPoint(p1, parent, p2, x, 0)
+    event.backdrop:SetAlpha(0)
+  end
+  event.backdrop.background:SetAllPoints(event.backdrop)
+end
+
+
+-- Sizes and positions the ClassPower pips dynamically.
 local function PostUpdateClassPower(element, power, maxPower, maxPowerChanged)
   if (not maxPowerChanged) then return end
 
@@ -66,9 +85,14 @@ function elements.ClassPower(frame, position)
   pips.height = HEIGHT
   pips.width = frameWidth
   pips.padding = PADDING
+  pips.backdrop = cpower
+  pips.position = position
 
+  pips.PreUpdate  = PreUpdateClassPower
   pips.PostUpdate = PostUpdateClassPower
 
   frame.ClassPower = pips
   frame.ClassPowerFrame = cpower
+
+  -- TODO: Resize ClassPowerFrame when ClassPower is hidden
 end
