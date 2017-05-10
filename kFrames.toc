@@ -20,6 +20,7 @@ lib\DebuffHighlight.lua
 elements\Background.lua
 elements\Bars.lua
 elements\Castbar.lua
+elements\ClassPower.lua
 elements\ComboPoints.lua
 elements\Icons.lua
 elements\RuneBar.lua

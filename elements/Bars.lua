@@ -84,14 +84,28 @@ function elements.AddHealPrediction(frame)
   healAbsorbBar:SetWidth(200)
   healAbsorbBar:SetStatusBarTexture(STATUSBAR)
   healAbsorbBar:SetStatusBarColor(0.5, 0.5, 1, 0.5)
+
+  local overAbsorb = frame.Health:CreateTexture(nil, "OVERLAY")
+  overAbsorb:SetPoint('TOP')
+  overAbsorb:SetPoint('BOTTOM')
+  overAbsorb:SetPoint('LEFT', frame.Health, 'RIGHT')
+  overAbsorb:SetWidth(10)
+
+  local overHealAbsorb = frame.Health:CreateTexture(nil, "OVERLAY")
+  overHealAbsorb:SetPoint('TOP')
+  overHealAbsorb:SetPoint('BOTTOM')
+  overHealAbsorb:SetPoint('RIGHT', frame.Health, 'LEFT')
+  overHealAbsorb:SetWidth(10)
   
   frame.HealPrediction = {
-     myBar = myBar,
-     otherBar = otherBar,
-     absorbBar = absorbBar,
-     healAbsorbBar = healAbsorbBar,
-     maxOverflow = 1.05,
-     frequentUpdates = true,
+    myBar = myBar,
+    otherBar = otherBar,
+    absorbBar = absorbBar,
+    healAbsorbBar = healAbsorbBar,
+    overAbsorb = overAbsorb,
+    overHealAbsorb = overHealAbsorb,
+    maxOverflow = 1.05,
+    frequentUpdates = true,
   }
 end
 
@@ -137,9 +151,9 @@ function elements.AddDispelHighlight(frame)
   if not frame.Health then return end
   
   local dh = frame.Health:CreateTexture(nil, "OVERLAY")
-  dbh:SetAllPoints(frame.Health)
-  dbh:SetTexture(STATUSBAR)
-  dbh:SetBlendMode("ADD")
-  dbh:SetVertexColor(0, 0, 0, 0)
+  dh:SetAllPoints(frame.Health)
+  dh:SetTexture(STATUSBAR)
+  dh:SetBlendMode("ADD")
+  dh:SetVertexColor(0, 0, 0, 0)
   frame.DispelHighlight = dh
 end

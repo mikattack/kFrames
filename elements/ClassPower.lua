@@ -1,6 +1,8 @@
 
 local _, ns = ...
 
+local elements = ns.elements
+
 local playerClass = ns.util.playerClass
 local STATUSBAR   = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 local PADDING     = 1
@@ -8,7 +10,25 @@ local HEIGHT      = 18
 local MAX_POWER   = 6
 
 
-function ns.elements.ClassPower(frame, position)
+local function PostUpdateClassPower(element, power, maxPower, maxPowerChanged)
+  if (not maxPowerChanged) then return end
+
+  local height = element.height
+  local padding = element.padding
+
+  local width = (element.width - padding * (maxPower + 1)) / maxPower
+  padding = width + padding
+
+  for i = 1, maxPower do
+    element[i]:SetSize(width, height)
+    if (i > 1) then
+      element[i]:SetPoint("LEFT", element[i-1], "RIGHT", PADDING, 0)
+    end
+  end
+end
+
+
+function elements.ClassPower(frame, position)
   local frameWidth = ns.defaults.size.width + (PADDING * 2)
   local p1, parent, p2, x, y = ns.util.parsePosition(position)
 
@@ -17,11 +37,6 @@ function ns.elements.ClassPower(frame, position)
   cpower:SetPoint(p1, parent, p2, x, y)
   cpower:SetHeight(HEIGHT + (PADDING * 2))
   cpower:SetWidth(frameWidth)
-
-  -- Useful information for PostUpdate handler
-  cpower.height = HEIGHT
-  cpower.width = frameWidth
-  cpower.padding = PADDING
 
   -- Dark frame background
   cpower.background = cpower:CreateTexture(nil, "BACKGROUND")
@@ -32,39 +47,28 @@ function ns.elements.ClassPower(frame, position)
   local multiplier = 0.3
   for i = 1, MAX_POWER do
     -- Actual pip
-    local pip = cpower:CreateTexture("oUF_ClassPower_"..i, "BORDER")
-    pip:SetTexture(STATUSBAR)
+    local pip = CreateFrame("StatusBar", "oUF_ClassPower_"..i, cpower)
+    pip:SetStatusBarTexture(STATUSBAR)
     pip:SetHeight(HEIGHT)
+    pip:SetWidth(HEIGHT)  -- Overridden post update
     pip:SetPoint("LEFT", cpower, "LEFT", PADDING, 0)
 
     -- Pip's background
-    pip.bg = cpower:CreateTexture(nil, "BACKGROUND")
+    pip.bg = pip:CreateTexture(nil, "BACKGROUND")
     pip.bg:SetAllPoints(pip)
-    pip:SetTexture(STATUSBAR)
+    pip.bg:SetTexture(STATUSBAR)
+    pip.bg.multiplier = multiplier
 
     pips[i] = pip
   end
 
-  pips.PostUpdate = PostUpdateClassPowerIcons
+  -- Useful information for PostUpdate handler
+  pips.height = HEIGHT
+  pips.width = frameWidth
+  pips.padding = PADDING
 
-  self.ClassPower = cpower
-  self.ClassIcons = pips
-end
+  pips.PostUpdate = PostUpdateClassPower
 
-
-local PostUpdateClassPowerIcons = function(element, power, maxPower, maxPowerChanged)
-  if (not maxPowerChanged) then return end
-
-  local height = element.height
-  local padding = element.padding
-
-  local width = (element.width - (maxPower * padding - padding)) / maxPower
-  padding = width + padding
-
-  for i = 1, maxPower do
-    element[i]:SetSize(width, height)
-    if (i > 1)
-      element[i]:SetPoint("BOTTOMLEFT", element[i-1], "BOTTOMRIGHT", PADDING, 0)
-    end
-  end
+  frame.ClassPower = pips
+  frame.ClassPowerFrame = cpower
 end

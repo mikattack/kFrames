@@ -58,7 +58,7 @@ function frames.PlayerFrame(frame)
     attach = frame.klnComboPoints
   else
     elements.ClassPower(frame, cbpos)
-    attach = frame.ClassPower
+    attach = frame.ClassPowerFrame
   end
   elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", attach})
 
