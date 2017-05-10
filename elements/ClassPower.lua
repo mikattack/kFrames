@@ -47,6 +47,15 @@ local function PostUpdateClassPower(element, power, maxPower, maxPowerChanged)
 end
 
 
+-- Creates a display which shows a number of "pips" based on a class'
+-- resources. Supported classes include:
+-- 
+--   Rogue   - Combo Points
+--   Mage    - Arcane Charges
+--   Monk    - Chi Orbs
+--   Paladin - Holy Power
+--   Warlock - Soul Shards
+-- 
 function elements.ClassPower(frame, position)
   local frameWidth = ns.defaults.size.width + (PADDING * 2)
   local p1, parent, p2, x, y = ns.util.parsePosition(position)
@@ -93,6 +102,4 @@ function elements.ClassPower(frame, position)
 
   frame.ClassPower = pips
   frame.ClassPowerFrame = cpower
-
-  -- TODO: Resize ClassPowerFrame when ClassPower is hidden
 end
