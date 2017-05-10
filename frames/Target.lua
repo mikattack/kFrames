@@ -49,10 +49,10 @@ function frames.TargetFrame(frame)
   elements.TextIcon(frame, "AFKDND",  {"LEFT xxx RIGHT 4 0", frame.kCombat}, 18, frame.Health)
   elements.TextIcon(frame, "PvP",     {"LEFT xxx RIGHT 4 0", frame.kAFKDND}, 18, frame.Health)
 
-  elements.RaidMarkIcon(frame,        {"LEFT xxx RIGHT  0", name})
+  elements.RaidMarkIcon(frame,        {"LEFT xxx RIGHT 5 0", name})
 
-  elements.LFDRoleIcon(frame,         {"RIGHT xxx LEFT -5 0", frame.RaidIcon}, {20,20})
-  elements.ReadyCheckIcon(frame,      {"RIGHT xxx LEFT 5 0", frame.LFDRole}, {20, 20})
+  elements.LFDRoleIcon(frame,         {"LEFT xxx RIGHT 5 0", frame.RaidIcon}, {20,20})
+  elements.ReadyCheckIcon(frame,      {"LEFT xxx RIGHT 5 0", frame.LFDRole}, {20, 20})
   --[[
   elements.RaidLeaderIcon(frame,      {"LEFT xxx TOPLEFT 4 0", frame.Infobar})
   elements.RaidAssistIcon(frame,      {"LEFT xxx RIGHT 4 0", frame.Infobar})
