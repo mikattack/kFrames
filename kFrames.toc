@@ -1,44 +1,37 @@
-## Interface: 60200
+## Interface: 70200
 ## Title: |cFF7F2A90k|r|Frames
 ## Notes: Unit frames optimized by and for Kellen.
 ## Author: Kellen
-## X-Copyright: Copyright (c) 2015-2016 Kellen.  All rights reserved.
+## X-Copyright: Copyright (c) 2015-2017 Kellen.  All rights reserved.
 ## X-Website: https://github.com/mikattack/kFrames
 
 ## Dependencies: oUF
 
 environment.lua
 
-config\core.lua
-config\media.lua
-config\position.lua
+defaults\common.lua
+defaults\media.lua
 
 util.lua
 tags.lua
 
-lib\oUF_Auras.lua
-lib\oUF_ComboPoints.lua
-lib\oUF_DebuffHighlight.lua
-lib\oUF_SoulShards.lua
+lib\DebuffHighlight.lua
 
-elements\Auras.lua
+elements\Background.lua
 elements\Bars.lua
 elements\Castbar.lua
-elements\ComboPoints.lua
+elements\ClassPower.lua
 elements\Icons.lua
 elements\RuneBar.lua
-elements\SoulShards.lua
+elements\StaggerBar.lua
+elements\String.lua
+elements\TotemBar.lua
+elements\UnitFrame.lua
 
-frames\Factory.lua
 frames\Mirror.lua
 frames\Player.lua
 frames\Target.lua
 frames\TargetOfTarget.lua
 frames\Pet.lua
-
-layouts\deathknight.lua
-layouts\druid.lua
-layouts\rogue.lua
-layouts\warlock.lua
 
 initialize.lua

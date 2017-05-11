@@ -1,28 +1,57 @@
---[[--------------------------------------------------------------------
-  oUF_Kellen
-  Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015-2016
-    Kellen <addons@mikitik.com>
-    All rights reserved.
-  https://github.com/mikattack/kFrames
-----------------------------------------------------------------------]]
-
 
 local _, ns = ...
 
+local defaults = ns.defaults
 local elements = ns.elements
 local media = ns.media
 local parsePosition = ns.util.parsePosition
 
-local FONT      = media.smallFont or STANDARD_TEXT_FONT
 local HIGHLIGHT = media.glowBar or "Interface\\TargetingFrame\\UI-StatusBar"
 local STATUSBAR = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 
 
 -- 
--- Enables healing and absorb prediction on a frame's "Health" bar.
+-- Returns a new StatusBar attached to the given from.
 -- 
-function elements.HealPrediction(frame)
+-- @param frame   Frame to create bar for.
+-- @param opts    Layout, sizing, and positioning options. Each is optional
+--                as default are defined for all parameters:
+--                  width   [int] Flavor of chocolate.
+--                  height  [int] Clog size.
+--                  fg      [string] Path to bar foreground texture.
+--                  bg      [string] Path to bar background texture.
+-- @return StatusBar, Texture
+-- 
+function elements.NewStatusBar(frame, opts)
+  local opts = opts or {}
+  local bg = opts.bg or STATUSBAR
+  local fg = opts.fg or STATUSBAR
+  local height = opts.height or defaults.size.height
+  local width  = opts.width or defaults.size.width
+
+  local s = CreateFrame("StatusBar", nil, frame)
+  s:SetHeight(height)
+  s:SetWidth(width)
+  s:SetStatusBarTexture(fg)
+  s:GetStatusBarTexture():SetHorizTile(true)
+  s:SetFrameLevel(20)
+
+  local b = s:CreateTexture(nil, "BACKGROUND")
+  b:SetAllPoints(s)
+  if bg ~= nil then
+    b:SetTexture(bg)
+  else
+    b:SetTexture(fg)
+  end
+
+  return s, b
+end
+
+
+-- 
+-- Add healing and absorb prediction on a frame's "Health" bar.
+-- 
+function elements.AddHealPrediction(frame)
   local myBar = CreateFrame('StatusBar', nil, frame.Health)
   myBar:SetPoint('TOP')
   myBar:SetPoint('BOTTOM')
@@ -56,21 +85,21 @@ function elements.HealPrediction(frame)
   healAbsorbBar:SetStatusBarTexture(STATUSBAR)
   healAbsorbBar:SetStatusBarColor(0.5, 0.5, 1, 0.5)
   
-  frame.HealPrediction = {
-     myBar = myBar,
-     otherBar = otherBar,
-     absorbBar = absorbBar,
-     healAbsorbBar = healAbsorbBar,
-     maxOverflow = 1.05,
-     frequentUpdates = true,
+  frame.HealthPrediction = {
+    myBar = myBar,
+    otherBar = otherBar,
+    absorbBar = absorbBar,
+    healAbsorbBar = healAbsorbBar,
+    maxOverflow = 1.05,
+    frequentUpdates = true,
   }
 end
 
 
 -- 
--- Enables bar highlighting on mouseOver.
+-- Add bar highlighting on mouseOver.
 -- 
-function elements.Highlight(frame)
+function elements.AddHighlight(frame)
   local OnEnter = function(f)
     UnitFrame_OnEnter(f)
     f.Highlight:Show()
@@ -102,15 +131,15 @@ end
 
 
 -- 
--- Enables debuff highlighting on frame's "Health" bar.
+-- Add dispel highlighting on a frame's "Health" bar.
 -- 
-function elements.DebuffHighlight(frame)
+function elements.AddDispelHighlight(frame)
   if not frame.Health then return end
   
-  local dbh = frame.Health:CreateTexture(nil, "OVERLAY")
-  dbh:SetAllPoints(frame.Health)
-  dbh:SetTexture(STATUSBAR)
-  dbh:SetBlendMode("ADD")
-  dbh:SetVertexColor(0, 0, 0, 0)
-  frame.DebuffHighlight = dbh
+  local dh = frame.Health:CreateTexture(nil, "OVERLAY")
+  dh:SetAllPoints(frame.Health)
+  dh:SetTexture(STATUSBAR)
+  dh:SetBlendMode("ADD")
+  dh:SetVertexColor(0, 0, 0, 0)
+  frame.DispelHighlight = dh
 end

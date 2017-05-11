@@ -1,20 +1,15 @@
 --[[--------------------------------------------------------------------
-  oUF_Kellen
-  Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015-2016
-    Kellen <addons@mikitik.com>
-    All rights reserved.
-  https://github.com/mikattack/kFrames
+Initialize -  Set up all frames of the layout. Only loaded after
+              initializing everything else.
 ----------------------------------------------------------------------]]
 
 
 local _, ns = ...
 
-local config = ns.config
+local defaults = ns.defaults
 local elements = ns.elements
 local frames = ns.frames
-local layouts = ns.layouts
-local position = config.position
+local position = defaults.position
 
 local sprint = ns.util.print
 local parsePosition = ns.util.parsePosition
@@ -38,18 +33,6 @@ local supportedFrames = {
   --boss          = frames.BossFrame,
   --maintank      = frames.MainTankFrame,
 }
-
-
--- Redelare colors
---[[
-oUF.colors.runes = {
-  {0.87, 0.12, 0.23},
-  {0.40, 0.95, 0.20},
-  {0.14, 0.50, 1},
-  {.70, .21, 0.94},
-}
---]]
-oUF.colors.power.MANA = {0, 0.8, 1}
 
 
 -----------------------------------------------------------------------------
@@ -115,7 +98,7 @@ end
 
 
 oUF:RegisterStyle("kUnit", UnitStyle)
-oUF:RegisterStyle("kBoss", BossStyle)
+--oUF:RegisterStyle("kBoss", BossStyle)
 --oUF:RegisterStyle("kTank", TankStyle)
 
 
@@ -143,11 +126,6 @@ oUF:Factory(function(self)
     ns.generated[units[i]] = oUF:Spawn(units[i])
   end
 
-  -- Customize frame main frames based on class
-  if layouts[ns.util.playerClass] and layouts[ns.util.playerClass].postCreate then
-    layouts[ns.util.playerClass].postCreate(ns.frames)
-  end
-
 --[[
   -- Boss
   self:SetActiveStyle("kBoss")
@@ -168,8 +146,7 @@ oUF:Factory(function(self)
   -- Decorate MirrorTimers
   for i = 1, 3 do
     local barname = "MirrorTimer" .. i
-    local bar = _G[barname]
-    elements.DecorateMirrorFrame(bar)
+    elements.DecorateMirrorFrame(_G[barname])
   end
 end)
 
@@ -181,7 +158,7 @@ oUF:DisableBlizzard('party')
 -- When addon loads
 local function OnLoad(self, event, ...)
   -- Create a false Target frame to show when no target is selected
-  --frames.FalseTargetFrame(config.width, config.height)
+  --frames.FalseTargetFrame(defaults.width, defaults.height)
 
   -- Disable Blizzard raid controls
   CompactRaidFrameManager:UnregisterAllEvents()

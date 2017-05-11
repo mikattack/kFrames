@@ -1,94 +1,85 @@
---[[--------------------------------------------------------------------
-  oUF_Kellen
-  Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015-2016
-    Kellen <addons@mikitik.com>
-    All rights reserved.
-  https://github.com/mikattack/kFrames
-----------------------------------------------------------------------]]
-
 
 local _, ns = ...
 
 local playerClass = ns.util.playerClass
-local config    = ns.config
-local elements  = ns.elements
-local frames    = ns.frames
-local layouts   = ns.layouts
-local media     = ns.media
-local position  = ns.position
+
+local defaults   = ns.defaults
+local elements = ns.elements
+local frames   = ns.frames
+local media    = ns.media
 
 local LARGE_FONT = media.largeFont or STANDARD_TEXT_FONT
-local SMALL_FONT = media.smallFont or STANDARD_TEXT_FONT
 
 local FLATBAR = media.flatBar or [[Interface\TargetingFrame\UI-StatusBar]]
 
-local POWER_HEIGHT = 4
+local PADDING = defaults.padding
+local POWER_HEIGHT = 5
 
 
 function frames.PlayerFrame(frame)
-  local offset = 0 - (config.size.classBarWidth / 2) - 10
-  local ioffset = 0 - (config.size.castBarHeight / 2) + 8
+  elements.InitializeUnitFrame(frame)
 
-  frames.MajorFrame(frame)
+  -- Additional Power (eg. Druid mana while shapeshifted)
+  local altfg, altbg = elements.NewStatusBar(frame, {
+    height  = POWER_HEIGHT,
+    width   = math.floor(defaults.size.width * 0.5),
+    fg      = FLATBAR,
+    bg      = FLATBAR,
+  })
+  altfg:SetFrameLevel(50)
+  altfg.colorPower = true
+  altbg.multiplier = 0.5
 
-  -- Name
-  local name = elements.CreateString(frame, LARGE_FONT, 22)
-  name:SetPoint("BOTTOMLEFT", frame.Identifier, "TOPLEFT", 2, -8)
-  frame:Tag(name, "[kFrames:name]")
+  altfg.background = elements.NewBackground(altfg)
+  altfg.background:SetPoint("TOPLEFT", altfg, "TOPLEFT", -1, 1)
+  altfg.background:SetPoint("BOTTOMRIGHT", altfg, "BOTTOMRIGHT", 1, -1)
+  altfg.background:SetColorTexture(0, 0, 0, 1)
 
-  -- Icons
-  elements.CombatIcon(frame,          {"TOP xxx TOP 0 4", frame})
-  --elements.TextIcon(frame, "Combat",  {"TOPRIGHT xxx TOPRIGHT -4 -3", frame}, 18)
-  elements.TextIcon(frame, "Status",  {"TOPRIGHT xxx TOPRIGHT -2 "..ioffset, frame}, 18)
-  elements.TextIcon(frame, "AFKDND",  {"RIGHT xxx LEFT -4 0", frame.kStatus}, 18)
-  elements.TextIcon(frame, "PvP",     {"RIGHT xxx LEFT -4 0", frame.kAFKDND}, 18)
-
-  elements.RaidMarkIcon(frame,        {"LEFT xxx RIGHT 5 0", name})
-  elements.LFDRoleIcon(frame,         {"RIGHT xxx LEFT -5 0", frame.RaidIcon}, {20,20})
-  elements.ReadyCheckIcon(frame,      {"LEFT xxx RIGHT 5 0", frame.LFDRole}, {20,20})
-  elements.RaidLeaderIcon(frame,      {"RIGHT xxx TOPRIGHT -4 0", frame.Identifier})
-  elements.RaidAssistIcon(frame,      {"RIGHT xxx LEFT -4 0", frame.Identifier})
-  elements.RaidLootMasterIcon(frame,  {"RIGHT xxx LEFT -5 0", frame.Assistant})
-
-  -- Alternate Power (Druid mana)
-  local fg = CreateFrame("StatusBar", nil, frame)
-  fg:SetHeight(POWER_HEIGHT)
-  fg:SetWidth(math.floor(config.size.primaryCluster.width * 0.5))
-  fg:SetStatusBarTexture(FLATBAR)
-  fg:GetStatusBarTexture():SetHorizTile(true)
-  fg:SetFrameLevel(50)
-  fg.colorPower = true
-
-  local bg = fg:CreateTexture(nil, "BACKGROUND")
-  bg:SetAllPoints(fg)
-  bg:SetTexture(FLATBAR)
-  bg:SetColorTexture(.75, 0.2, 0.2, 1)
-
-  fg.background = fg:CreateTexture(nil, "BACKGROUND")
-  fg.background:SetPoint("TOPLEFT", fg, "TOPLEFT", -1, 1)
-  fg.background:SetPoint("BOTTOMRIGHT", fg, "BOTTOMRIGHT", 1, -1)
-  fg.background:SetColorTexture(0, 0, 0, 1)
-
-  frame.DruidMana = fg
-  frame.DruidMana.bg = bg
-  frame.DruidMana:SetPoint("CENTER", frame.Health, "BOTTOM", 0, 0)
+  frame.AdditionalPower = altfg
+  frame.AdditionalPower.bg = altbg
+  frame.AdditionalPower:SetPoint("CENTER", frame.Health, "BOTTOM", 0, 0)
 
   -- Niceties
-  elements.HealPrediction(frame)
-  elements.DebuffHighlight(frame)
-  elements.Highlight(frame)
+  elements.AddHealPrediction(frame)
+  elements.AddDispelHighlight(frame)
+  elements.AddHighlight(frame)
 
   -- Castbar
-  elements.Castbar(frame)
-  frame.Castbar:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -1, -1)
+  elements.NewCastbar(frame)
 
   -- Class-specific additions
-  if layouts[playerClass] and layouts[playerClass].onCreate then
-    layouts[playerClass].onCreate(frame)
+  local cbpos = {"BOTTOM xxx TOP 0 5", frame}
+  local attach = frame
+  if playerClass == "DEATHKNIGHT" then
+    elements.RuneBar(frame, cbpos)
+    attach = frame.Runes
+  elseif playerClass == "MONK" then
+    elements.StaggerBar(frame, cbpos)
+    elements.ClassPower(frame, cbpos)
+    attach = frame.StaggerFrame
+  elseif playerClass == "SHAMAN" then
+    elements.TotemBar(frame, cbpos)
+  else
+    elements.ClassPower(frame, cbpos)
+    attach = frame.ClassPowerFrame
   end
+  elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", attach})
+
+  -- Icons
+  elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT xxx BOTTOMLEFT 5 -6", frame.Health}, 18, frame.Health)
+
+  elements.TextIcon(frame, "Status",  {"BOTTOMLEFT xxx TOPLEFT 2 4", attach}, 18)
+  elements.TextIcon(frame, "AFKDND",  {"BOTTOMLEFT xxx BOTTOMRIGHT 4 0", frame.kStatus}, 18)
+  elements.TextIcon(frame, "PvP",     {"BOTTOMLEFT xxx BOTTOMRIGHT 4 0", frame.kAFKDND}, 18)
+
+  --elements.RaidMarkIcon(frame,        {"LEFT xxx RIGHT 5 0", name})
+  --elements.LFDRoleIcon(frame,         {"RIGHT xxx LEFT -5 0", frame.RaidIcon}, {20,20})
+  --elements.ReadyCheckIcon(frame,      {"LEFT xxx RIGHT 5 0", frame.LFDRole}, {20,20})
+
+  elements.RaidLeaderIcon(frame,      {"BOTTOMRIGHT xxx TOPRIGHT -2 4", attach})
+  elements.RaidAssistIcon(frame,      {"RIGHT xxx LEFT -3 0", frame.kLeader})
+  elements.RaidLootMasterIcon(frame,  {"RIGHT xxx LEFT -3 0", frame.kAssistant})
 
   -- Position frame(s)
-  frame:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOM", offset, 30)
-  frame.Identifier:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOM", offset, 0)
+  frame:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 10)
 end

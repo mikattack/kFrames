@@ -1,37 +1,37 @@
---[[--------------------------------------------------------------------
-  oUF_Kellen
-  Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015-2016
-    Kellen <addons@mikitik.com>
-    All rights reserved.
-  https://github.com/mikattack/kFrames
-----------------------------------------------------------------------]]
 
 local _, ns = ...
 
-local config = ns.config
+local defaults = ns.defaults
 local elements = ns.elements
 local media = ns.media
 local parsePosition = ns.util.parsePosition
 
 local FONT      = media.smallFont or STANDARD_TEXT_FONT
 local TEXTURE   = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local ICONSIZE  = config.size.castBarHeight
 
 
-function elements.Castbar(frame)
-  if not frame.Infobar then return end
+function elements.NewCastbar(frame, opts)
+  local opts = opts or {}
+  local height = opts.height or defaults.size.height
+  local width  = opts.width or defaults.size.width
+  local ICONSIZE = height
 
-  local width  = config.size.primaryCluster.width
-
-  local castbar = CreateFrame("StatusBar", "oUF_kFrameCastbar_"..frame.unit, frame)
-  castbar:SetStatusBarTexture(TEXTURE)
+  local castbar, cbg = elements.NewStatusBar(frame, {
+    height = height,
+    width  = width - ICONSIZE - 1,
+  })
   castbar:SetStatusBarColor(0.5, 0.5, 1, 1)
-  castbar:SetSize(width - ICONSIZE, ICONSIZE)
-  castbar:SetFrameLevel(100)
 
-  -- Position ought to be set by a layout
-  -- castbar:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
+  cbg:SetDrawLayer("BORDER")
+  cbg:SetVertexColor(0.5 * 0.2, 1 * 0.2, 1 * 0.2, 1)
+
+  -- Black Frame Background
+  castbar.backdrop = elements.NewBackground(castbar, {
+    height = height + 2,
+    width  = width + 2,
+  })
+  castbar.backdrop:SetDrawLayer("BACKGROUND")
+  castbar.backdrop:SetPoint("RIGHT", castbar, "RIGHT", 1, 0)
 
   -- Color
   castbar.CastingColor    = { 0.5,  0.5,  1 }
@@ -39,31 +39,15 @@ function elements.Castbar(frame)
   castbar.FailColor       = { 1.0,  0.5,  0 }
   castbar.ChannelingColor = { 0.5,  0.5,  1 }
 
-  -- Black Frame Background
-  --[[
-  castbar.background = castbar:CreateTexture(nil, "BACKGROUND")
-  castbar.background:SetPoint("TOPRIGHT", castbar, "TOPRIGHT", 1, 1)
-  castbar.background:SetPoint("BOTTOMRIGHT", castbar, "BOTTOMRIGHT", 0, -1)
-  castbar.background:SetWidth(width)
-  castbar.background:SetColorTexture(0, 0, 0, 1)
-  --]]
-
-  -- Statusbar Background
-  local cbg = castbar:CreateTexture(nil, "BACKGROUND")
-  cbg:SetTexture(TEXTURE)
-  cbg:SetVertexColor(0.5 * 0.2, 1 * 0.2, 1 * 0.2, 1)
-  cbg:SetAllPoints(castbar)
-
   -- Spark
   local spark = castbar:CreateTexture(nil, "OVERLAY")
-  spark:SetSize(10, ICONSIZE)
+  spark:SetSize(10, ICONSIZE * 1.5)
   spark:SetBlendMode("ADD")
 
   -- Timer
   local timer = castbar:CreateFontString(nil, "OVERLAY")
   timer:SetFont(FONT, 14, "THINOUTLINE")
   timer:SetPoint("RIGHT", castbar, -5, 0)
-
 
   -- Spell/Ability Name
   local text = castbar:CreateFontString(nil, "OVERLAY")
@@ -72,7 +56,7 @@ function elements.Castbar(frame)
 
   -- Icon
   local icon = castbar:CreateTexture(nil, "OVERLAY")
-  icon:SetSize(ICONSIZE - 1, ICONSIZE)
+  icon:SetSize(ICONSIZE, ICONSIZE)
   icon:SetPoint("RIGHT", castbar, "LEFT", -1, 0)
   icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
@@ -109,9 +93,22 @@ function elements.Castbar(frame)
 end
 
 
-function elements.repositionCastbar(frame, attachment, position)
-  local p1, _, p2, x, y = parsePosition(position)
-  frame:SetPoint(p1, attachment, p2, x + ICONSIZE, y)
+function elements.repositionCastbar(frame, position)
+  if frame.Castbar == nil then
+    ns.util.print("Failed to reposition castbar", unit)
+    return
+  end
+  local ICONSIZE = frame.Castbar.Icon:GetHeight()
+  local p1, attachment, p2, x, y = parsePosition(position)
+
+  -- Determine whether to account for icon size during positioning.
+  -- If positioning from the castbar's RIGHT, we only need to account
+  -- for the frame padding.
+  if p1:find("RIGHT") ~= nil then
+    frame.Castbar:SetPoint(p1, attachment, p2, x - 1, y)
+  else
+    frame.Castbar:SetPoint(p1, attachment, p2, x + ICONSIZE + 2, y)
+  end
 end
 
 

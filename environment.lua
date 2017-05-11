@@ -1,18 +1,12 @@
 --[[-------------------------------------------------------------------------
-  oUF_Kellen
-  Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015-2016
-    Kellen <addons@mikitik.com>
-    All rights reserved.
-  https://github.com/mikattack/kFrames
+Environment - Initialize addon-wide containers.
 ---------------------------------------------------------------------------]]
 
 local _, ns = ...
 
-ns.config   = {}
-ns.elements = {}
-ns.frames   = {}
-ns.layouts  = {}
-ns.media    = {}
-ns.tags     = {}
-ns.util     = {}
+ns.defaults = {}  -- Configuration fallbacks
+ns.elements = {}  -- Element factory functions
+ns.frames   = {}  -- Specific frame factories
+ns.media    = {}  -- Media path constants
+ns.tags     = {}  -- Custom oUF tags
+ns.util     = {}  -- Function grab bag

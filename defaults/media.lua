@@ -1,17 +1,12 @@
 --[[-------------------------------------------------------------------------
-  oUF_Kellen
-  Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015-2016
-    Kellen <addons@mikitik.com>
-    All rights reserved.
-  https://github.com/mikattack/kFrames
+Media - Path constants for media assets.
 ---------------------------------------------------------------------------]]
 
 local _, ns = ...
+
 ns.media = {
   largeFont   = [[Interface\Addons\kFrames\media\font\BigNoodleTitling.ttf]],
   smallFont   = [[Interface\Addons\kFrames\media\font\Roboto-BoldCondensed.ttf]],
-  pixelFont   = [[Interface\Addons\kFrames\media\font\Samson.ttf]],
 
   statusBar   = [[Interface\Addons\kFrames\media\statusbar\Resource.tga]],
   flatBar     = [[Interface\Addons\kFrames\media\statusbar\Flat.tga]],

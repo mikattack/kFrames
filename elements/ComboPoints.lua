@@ -1,25 +1,16 @@
---[[--------------------------------------------------------------------
-  oUF_Kellen
-  Kellen's PVE-oriented layout for oUF.
-  Copyright (c) 2015-2016
-    Kellen <addons@mikitik.com>
-    All rights reserved.
-  https://github.com/mikattack/kFrames
-----------------------------------------------------------------------]]
 
 local _, ns = ...
 
 local playerClass = ns.util.playerClass
 local STATUSBAR = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local MAX_RUNES = 6
-local PADDING = 2
+local PADDING = 1
 local HEIGHT = 18
 
 
 function ns.elements.ComboPoints(frame, position)
   if playerClass ~= "ROGUE" and playerClass ~= "DRUID" then return end
 
-  local frameWidth  = ns.config.size.classBarWidth
+  local frameWidth  = ns.defaults.size.width + (PADDING * 2)
   local pointWidth  = (frameWidth - PADDING * (MAX_COMBO_POINTS + 1)) / MAX_COMBO_POINTS
   local pointHeight = HEIGHT
   local p1, parent, p2, x, y = ns.util.parsePosition(position)
@@ -34,8 +25,8 @@ function ns.elements.ComboPoints(frame, position)
   cp.background:SetAllPoints(cp)
   cp.background:SetColorTexture(0, 0, 0, 0.5)
 
+  local multiplier = 0.3
   for i = 1, MAX_COMBO_POINTS do
-    local multiplier = 0.3
     local r, g, b = 0.3, 0.9, 0.3
     if i == 4 then
       r, g, b = 0.9, 0.9, 0
