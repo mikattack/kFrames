@@ -35,6 +35,7 @@ function ns.elements.RuneBar(frame, position)
     rune.bg = rune:CreateTexture(nil, "BACKGROUND")
     rune.bg:SetAllPoints(rune)
     rune.bg:SetTexture(STATUSBAR)
+    rune.bg.multiplier = 0.8
 
     if (i == 1) then
       rune:SetPoint('LEFT', runes, 'LEFT', PADDING, 0)
@@ -46,6 +47,5 @@ function ns.elements.RuneBar(frame, position)
   end
   
   runes.colorSpec = true
-  runes.multiplier = 0.3
   frame.Runes = runes
 end
