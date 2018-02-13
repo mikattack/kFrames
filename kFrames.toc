@@ -1,8 +1,8 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: |cFF7F2A90k|r|Frames
 ## Notes: Unit frames optimized by and for Kellen.
 ## Author: Kellen
-## X-Copyright: Copyright (c) 2015-2017 Kellen.  All rights reserved.
+## X-Copyright: Copyright (c) 2015-2018 Kellen.  All rights reserved.
 ## X-Website: https://github.com/mikattack/kFrames
 
 ## Dependencies: oUF
