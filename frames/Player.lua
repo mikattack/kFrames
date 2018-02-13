@@ -59,6 +59,7 @@ function frames.PlayerFrame(frame)
     attach = frame.StaggerFrame
   elseif playerClass == "SHAMAN" then
     elements.TotemBar(frame, cbpos)
+    attach = frame.TotemFrame
   else
     elements.ClassPower(frame, cbpos)
     attach = frame.ClassPowerFrame
