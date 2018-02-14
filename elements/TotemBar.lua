@@ -23,6 +23,7 @@ local totem_lookup = {
   ["Liquid Magma Totem"]      = 3,
   ["Skyfury Totem"]           = 3,
   ["Spirit Link Totem"]       = 4,
+  ["Spirit Wolf"]             = 5,
   ["Totem Mastery"]           = 5,
   ["Voodoo Totem"]            = 5,
   ["Windfury Totem"]          = 1,
