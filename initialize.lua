@@ -27,7 +27,7 @@ ns.generated = {}
 local supportedFrames = {
   player        = frames.PlayerFrame,
   target        = frames.TargetFrame,
-  targettarget  = frames.TargetOfTargetFrame,
+  --targettarget  = frames.TargetOfTargetFrame,
   pet           = frames.PetFrame,
   --raid          = frames.RaiderFrame,  -- Someday maybe
   --boss          = frames.BossFrame,
@@ -121,7 +121,7 @@ oUF:Factory(function(self)
 
   -- Units
   self:SetActiveStyle("kUnit")
-  local units = {"player", "target", "targettarget", "pet"}
+  local units = {"player", "target", "pet"}
   for i = 1, #units do
     ns.generated[units[i]] = oUF:Spawn(units[i])
   end

@@ -65,5 +65,5 @@ function ns.elements.StaggerBar(frame, position)
   -- Register stagger background frame visibility toggle
   frame:RegisterEvent('PLAYER_ENTERING_WORLD', UpdateStaggerBarFrame)
   frame:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED', UpdateStaggerBarFrame, true)
-  frame:RegisterEvent('UPDATE_VEHICLE_ACTION_BAR', UpdateStaggerBarFrame)
+  --frame:RegisterEvent('UPDATE_VEHICLE_ACTION_BAR', UpdateStaggerBarFrame)
 end

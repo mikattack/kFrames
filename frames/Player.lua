@@ -48,7 +48,7 @@ function frames.PlayerFrame(frame)
   elements.NewCastbar(frame)
 
   -- Class-specific additions
-  local cbpos = {"BOTTOM xxx TOP 0 5", frame}
+  local cbpos = {"TOPLEFT xxx BOTTOMLEFT 0 -7", frame}
   local attach = frame
   if playerClass == "DEATHKNIGHT" then
     elements.RuneBar(frame, cbpos)
@@ -64,7 +64,7 @@ function frames.PlayerFrame(frame)
     elements.ClassPower(frame, cbpos)
     attach = frame.ClassPowerFrame
   end
-  elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", attach})
+  elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", frame})
 
   -- Icons
   elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT xxx BOTTOMLEFT 5 -6", frame.Health}, 18, frame.Health)
@@ -79,8 +79,9 @@ function frames.PlayerFrame(frame)
 
   elements.RaidLeaderIcon(frame,      {"BOTTOMRIGHT xxx TOPRIGHT -2 4", attach})
   elements.RaidAssistIcon(frame,      {"RIGHT xxx LEFT -3 0", frame.kLeader})
-  elements.RaidLootMasterIcon(frame,  {"RIGHT xxx LEFT -3 0", frame.kAssistant})
+  --elements.RaidLootMasterIcon(frame,  {"RIGHT xxx LEFT -3 0", frame.kAssistant})
 
   -- Position frame(s)
-  frame:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 10)
+  local offset = 0 - defaults.size.width - 5
+  frame:SetPoint("BOTTOM", "UIParent", "BOTTOM", offset, defaults.size.height)
 end

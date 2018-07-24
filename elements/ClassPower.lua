@@ -6,7 +6,7 @@ local elements = ns.elements
 local playerClass = ns.util.playerClass
 local STATUSBAR   = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 local PADDING     = 1
-local HEIGHT      = 18
+local HEIGHT      = 14
 local MAX_POWER   = 6
 
 
@@ -36,7 +36,7 @@ local function PostUpdateClassPower(element, power, maxPower, maxPowerChanged)
   local padding = element.padding
 
   local width = (element.width - padding * (maxPower + 1)) / maxPower
-  padding = width + padding
+  --padding = width + padding
 
   for i = 1, maxPower do
     element[i]:SetSize(width, height)
@@ -57,7 +57,7 @@ end
 --   Warlock - Soul Shards
 -- 
 function elements.ClassPower(frame, position)
-  local frameWidth = ns.defaults.size.width + (PADDING * 2)
+  local frameWidth = ns.defaults.size.width * 0.75 + (PADDING * 2)
   local p1, parent, p2, x, y = ns.util.parsePosition(position)
 
   -- Container of the entire ClassPower display
@@ -71,6 +71,8 @@ function elements.ClassPower(frame, position)
   cpower.background:SetAllPoints(cpower)
   cpower.background:SetColorTexture(0, 0, 0, 0.5)
 
+  pipWidth = (frameWidth - PADDING * (MAX_POWER + 1)) / MAX_POWER
+
   local pips = {}
   local multiplier = 0.3
   for i = 1, MAX_POWER do
@@ -78,8 +80,16 @@ function elements.ClassPower(frame, position)
     local pip = CreateFrame("StatusBar", "oUF_ClassPower_"..i, cpower)
     pip:SetStatusBarTexture(STATUSBAR)
     pip:SetHeight(HEIGHT)
-    pip:SetWidth(HEIGHT)  -- Overridden post update
-    pip:SetPoint("LEFT", cpower, "LEFT", PADDING, 0)
+    pip:SetWidth(pipWidth)
+    if i == 1 then
+      pip:SetPoint("LEFT", cpower, "LEFT", PADDING, 0)
+    else
+      pip:SetPoint("LEFT", pips[i-1], "RIGHT", PADDING, 0)
+    end
+
+    -- Size and positioning may be overridden during PostUpdate.
+    -- We need them correct first however if the character starts
+    -- with the maximum number of pips (like Ascension Monk).
 
     -- Pip's background
     pip.bg = pip:CreateTexture(nil, "BACKGROUND")

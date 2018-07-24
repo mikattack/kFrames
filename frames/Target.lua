@@ -15,23 +15,19 @@ local POWER_HEIGHT = 4
 
 
 function frames.TargetFrame(frame)
-  local height = defaults.altsize.height
-  local width = defaults.size.width * 0.75
+  local height = defaults.size.height
+  local width = defaults.size.width
 
-  elements.InitializeUnitFrame(frame, {
-    fontsize  = 30,
-    height    = height,
-    width     = width,
-  })
+  elements.InitializeUnitFrame(frame)
 
   -- Name
   local name = elements.NewString(frame, { font=LARGE_FONT, size=22 })
-  name:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 2)
+  name:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -2)
   frame:Tag(name, "|cFFFFF200[level]|r [kFrames:name]")
 
   -- Reposition the health readout
   frame.HealthText:ClearAllPoints()
-  frame.HealthText:SetPoint("TOPRIGHT", frame.Health, "TOPRIGHT", -2, 0)
+  frame.HealthText:SetPoint("TOPLEFT", frame.Health, "TOPLEFT", 2, 0)
   
   -- Icons
   elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT xxx BOTTOMLEFT 5 -6", frame.Health}, 18, frame.Health)
@@ -57,8 +53,10 @@ function frames.TargetFrame(frame)
 
   -- Castbar
   elements.NewCastbar(frame, { width=width, height=height })
-  elements.repositionCastbar(frame, {"TOPRIGHT xxx BOTTOMRIGHT 0 -8", frame})
+  elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", frame})
 
   -- Position frame(s)
-  frame:SetPoint("RIGHT", UIParent, "BOTTOM", -155, 175)
+  --frame:SetPoint("RIGHT", UIParent, "BOTTOM", -155, 175)
+  local offset = defaults.size.width + 5
+  frame:SetPoint("BOTTOM", "UIParent", "BOTTOM", offset, defaults.size.height)
 end
