@@ -15,7 +15,7 @@ defaults\media.lua
 util.lua
 tags.lua
 
-lib\DebuffHighlight.lua
+lib\Dispel.lua
 
 elements\Background.lua
 elements\Bars.lua
