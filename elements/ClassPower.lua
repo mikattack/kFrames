@@ -38,10 +38,25 @@ local function PostUpdateClassPower(element, power, maxPower, maxPowerChanged)
   local width = (element.width - padding * (maxPower + 1)) / maxPower
   --padding = width + padding
 
+  -- Update pip width
   for i = 1, maxPower do
     element[i]:SetSize(width, height)
     if (i > 1) then
       element[i]:SetPoint("LEFT", element[i-1], "RIGHT", PADDING, 0)
+    end
+  end
+
+  -- Update empty pip width and visibility
+  local pframe = element[1]:GetParent()
+  for i = 1, MAX_POWER do
+    pframe.emptypips[i]:SetSize(width, height)
+    if i <= maxPower and (i > 1) then
+      -- Resize empty pips
+      pframe.emptypips[i]:Show()
+      pframe.emptypips[i]:SetPoint("LEFT", pframe.emptypips[i-1], "RIGHT", PADDING, 0)
+    else
+      -- Hide extra empty pips
+      pframe.emptypips[i]:Hide()
     end
   end
 end
@@ -66,15 +81,17 @@ function elements.ClassPower(frame, position)
   cpower:SetHeight(HEIGHT + (PADDING * 2))
   cpower:SetWidth(frameWidth)
 
+  cpower.emptypips = {}
+
   -- Dark frame background
   cpower.background = cpower:CreateTexture(nil, "BACKGROUND")
   cpower.background:SetAllPoints(cpower)
-  cpower.background:SetColorTexture(0, 0, 0, 0.5)
+  cpower.background:SetColorTexture(0, 0, 0, 0.6)
 
   pipWidth = (frameWidth - PADDING * (MAX_POWER + 1)) / MAX_POWER
 
   local pips = {}
-  local multiplier = 0.3
+  local multiplier = 0.4
   for i = 1, MAX_POWER do
     -- Actual pip
     local pip = CreateFrame("StatusBar", "oUF_ClassPower_"..i, cpower)
@@ -91,12 +108,26 @@ function elements.ClassPower(frame, position)
     -- We need them correct first however if the character starts
     -- with the maximum number of pips (like Ascension Monk).
 
-    -- Pip's background
+    -- Pip's background (which appears if foreground pip is filling)
     pip.bg = pip:CreateTexture(nil, "BACKGROUND")
     pip.bg:SetAllPoints(pip)
     pip.bg:SetTexture(STATUSBAR)
     pip.bg.multiplier = multiplier
 
+    -- Show a blank pip when regular one is absent
+    local ep = cpower:CreateTexture(nil, "BACKGROUND")
+    ep:SetTexture(STATUSBAR)
+    ep:SetVertexColor(0.6, 0.6, 0.6, 1)
+    ep:SetHeight(HEIGHT)
+    ep:SetWidth(pipWidth)
+    if i == 1 then
+      ep:SetPoint("LEFT", cpower, "LEFT", PADDING, 0)
+    else
+      ep:SetPoint("LEFT", cpower.emptypips[i-1], "RIGHT", PADDING, 0)
+    end
+    cpower.emptypips[i] = ep
+
+    -- Add pip to frame
     pips[i] = pip
   end
 
