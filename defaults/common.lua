@@ -21,8 +21,9 @@ defaults.padding = 1
 defaults.powerheight = 5
 
 -- Re-colors
-oUF.colors.power.MANA     = {0, 0.8, 1}
-oUF.colors.power.INSANITY = {1, 0.2, 1}
+oUF.colors.power.MANA           = {0, 0.8, 1}
+oUF.colors.power.INSANITY       = {1, 0.2, 1}
+oUF.colors.power.ARCANE_CHARGES = {1, 0.2, 1}
 --[[
 oUF.colors.runes = {
   {0.87, 0.12, 0.23},
