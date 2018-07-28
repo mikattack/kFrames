@@ -30,16 +30,15 @@ function frames.TargetFrame(frame)
   frame.HealthText:SetPoint("TOPLEFT", frame.Health, "TOPLEFT", 2, 0)
   
   -- Icons
-  elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT xxx BOTTOMLEFT 5 -6", frame.Health}, 18, frame.Health)
-
-  --elements.TextIcon(frame, "Status",  {"TOPLEFT xxx TOPLEFT 2 "..ioffset, frame}, 18)
-  elements.TextIcon(frame, "AFKDND",  {"LEFT xxx RIGHT 4 0", frame.kCombat}, 18, frame.Health)
+  --elements.TextIcon(frame, "Combat",  {"LEFT xxx LEFT 40 14", frame.Health}, 18, frame.Health)
+  --elements.TextIcon(frame, "Status",  {"LEFT xxx RIGHT 4 0 ", frame.kCombat}, 18, frame.Health)
+  elements.TextIcon(frame, "AFKDND",  {"BOTTOMLEFT xxx BOTTOMLEFT 55 -6", frame.Health}, 18, frame.Health)
   elements.TextIcon(frame, "PvP",     {"LEFT xxx RIGHT 4 0", frame.kAFKDND}, 18, frame.Health)
 
-  elements.RaidMarkIcon(frame,        {"LEFT xxx RIGHT 5 0", name})
+  elements.RaidMarkIcon(frame,        {"RIGHT xxx LEFT 5 0", name})
 
-  elements.LFDRoleIcon(frame,         {"LEFT xxx RIGHT 5 0", frame.RaidIcon}, {20,20})
-  elements.ReadyCheckIcon(frame,      {"LEFT xxx RIGHT 5 0", frame.LFDRole}, {20, 20})
+  elements.LFDRoleIcon(frame,         {"RIGHT xxx LEFT 5 0", frame.RaidIcon}, {20,20})
+  elements.ReadyCheckIcon(frame,      {"RIGHT xxx LEFT 5 0", frame.LFDRole}, {20, 20})
   --[[
   elements.RaidLeaderIcon(frame,      {"LEFT xxx TOPLEFT 4 0", frame.Infobar})
   elements.RaidAssistIcon(frame,      {"LEFT xxx RIGHT 4 0", frame.Infobar})

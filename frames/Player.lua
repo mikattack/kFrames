@@ -68,10 +68,9 @@ function frames.PlayerFrame(frame)
 
   -- Icons
   elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT xxx BOTTOMLEFT 5 -6", frame.Health}, 18, frame.Health)
-
-  elements.TextIcon(frame, "Status",  {"BOTTOMLEFT xxx TOPLEFT 2 4", attach}, 18)
-  elements.TextIcon(frame, "AFKDND",  {"BOTTOMLEFT xxx BOTTOMRIGHT 4 0", frame.kStatus}, 18)
-  elements.TextIcon(frame, "PvP",     {"BOTTOMLEFT xxx BOTTOMRIGHT 4 0", frame.kAFKDND}, 18)
+  elements.TextIcon(frame, "Status",  {"BOTTOMLEFT xxx BOTTOMRIGHT 4 0", frame.kCombat}, 18, frame.Health)
+  elements.TextIcon(frame, "AFKDND",  {"BOTTOMLEFT xxx BOTTOMRIGHT 4 0", frame.kStatus}, 18, frame.Health)
+  elements.TextIcon(frame, "PvP",     {"BOTTOMLEFT xxx BOTTOMRIGHT 4 0", frame.kAFKDND}, 18, frame.Health)
 
   --elements.RaidMarkIcon(frame,        {"LEFT xxx RIGHT 5 0", name})
   --elements.LFDRoleIcon(frame,         {"RIGHT xxx LEFT -5 0", frame.RaidIcon}, {20,20})

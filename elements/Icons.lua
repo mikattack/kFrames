@@ -65,7 +65,7 @@ function elements.TextIcon(frame, name, position, ...)
   icon = elements.NewString(parent, { font=FONT, size=size })
   icon:SetDrawLayer("OVERLAY")
   icon:SetPoint(p1, attach, p2, x, y)
-  --icon:SetParent(parent)
+  icon:SetParent(parent)
 
   -- Use either a raw string or an oUF tag
   if texticons[name]:find("\]") ~= nil then
