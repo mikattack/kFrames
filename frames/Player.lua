@@ -46,6 +46,11 @@ function frames.PlayerFrame(frame)
 
   -- Castbar
   elements.NewCastbar(frame)
+  elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", frame})
+
+  -- Auras
+  frame.AuraBars = elements.AuraBar(frame)
+  frame.AuraBars:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, frame.Castbar:GetHeight() + 5)
 
   -- Class-specific additions
   local cbpos = {"TOPLEFT xxx BOTTOMLEFT 0 -7", frame}
@@ -64,7 +69,6 @@ function frames.PlayerFrame(frame)
     elements.ClassPower(frame, cbpos)
     attach = frame.ClassPowerFrame
   end
-  elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", frame})
 
   -- Icons
   elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT xxx BOTTOMLEFT 5 -6", frame.Health}, 18, frame.Health)

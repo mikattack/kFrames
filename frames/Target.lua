@@ -54,6 +54,10 @@ function frames.TargetFrame(frame)
   elements.NewCastbar(frame, { width=width, height=height })
   elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", frame})
 
+  -- Auras
+  frame.AuraBars = elements.AuraBar(frame)
+  frame.AuraBars:SetPoint("BOTTOM", frame, "TOP", 0, frame.Castbar:GetHeight() + 5)
+
   -- Position frame(s)
   --frame:SetPoint("RIGHT", UIParent, "BOTTOM", -155, 175)
   local offset = defaults.size.width + 5

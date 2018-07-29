@@ -9,14 +9,17 @@
 
 environment.lua
 
+defaults\auras.lua
 defaults\common.lua
 defaults\media.lua
 
 util.lua
 tags.lua
 
+lib\AuraBars.lua
 lib\Dispel.lua
 
+elements\Auras.lua
 elements\Background.lua
 elements\Bars.lua
 elements\Castbar.lua
