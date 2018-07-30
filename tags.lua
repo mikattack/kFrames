@@ -1,18 +1,17 @@
---[[-------------------------------------------------------------------------
-Tags - Custom oUF tags.
----------------------------------------------------------------------------]]
+-----------------------------------------------------------------------------
+-- Tags - Custom oUF tags.
+-----------------------------------------------------------------------------
 
 
-local _, ns = ...
+local _, addon = ...
+
 local tags = oUF.Tags
-local config = ns.config
-local GetTime = GetTime
-local si = ns.util.si
 
+local GetTime = GetTime
 local format = string.format
 local len = string.len
 local sub = string.sub
-local si = ns.util.si
+local si = addon.util.si
 
 local DEFAULT_MAX_NAME_LENGTH = 30
 
@@ -23,8 +22,8 @@ local DEFAULT_MAX_NAME_LENGTH = 30
 
 
 -- Auto-shortened Unit Name
-tags.Events["kFrames:name"] = "UNIT_NAME_UPDATE"
-tags.Methods["kFrames:name"] = function(u, r)
+tags.Events["klnFrames:name"] = "UNIT_NAME_UPDATE"
+tags.Methods["klnFrames:name"] = function(u, r)
   local n = UnitName(r or u)
   if len(n) >= DEFAULT_MAX_NAME_LENGTH then
     n = format('%s...', sub(n, 1, DEFAULT_MAX_NAME_LENGTH))
@@ -34,17 +33,17 @@ end
 
 
 -- AFK/DnD
-tags.Events["kFrames:afkdnd"] = 'PLAYER_FLAGS_CHANGED'
-tags.Methods["kFrames:afkdnd"] = function(unit) 
+tags.Events["klnFrames:afkdnd"] = 'PLAYER_FLAGS_CHANGED'
+tags.Methods["klnFrames:afkdnd"] = function(unit) 
   return UnitIsAFK(unit) and "|cffCFCFCFafk|r" or UnitIsDND(unit) and "|cffCFCFCFdnd|r" or ""
 end
 
 
 -- Combat
-tags.Events["kFrames:combat"] = "PLAYER_REGEN_DISABLED PLAYER_REGEN_ENABLED"
+tags.Events["klnFrames:combat"] = "PLAYER_REGEN_DISABLED PLAYER_REGEN_ENABLED"
 oUF.Tags.SharedEvents["PLAYER_REGEN_DISABLED"] = true
 oUF.Tags.SharedEvents["PLAYER_REGEN_ENABLED"] = true
-tags.Methods["kFrames:combat"] = function (unit)
+tags.Methods["klnFrames:combat"] = function (unit)
   if unit == "player" and UnitAffectingCombat("player") then
     return "Combat"
   else
@@ -54,8 +53,8 @@ end
 
 
 -- Ready check
-tags.Events["kFrames:readycheck"] = "READY_CHECK READY_CHECK_CONFIRM READY_CHECK_FINISHED"
-tags.Methods["kFrames:readycheck"] = function (unit)
+tags.Events["klnFrames:readycheck"] = "READY_CHECK READY_CHECK_CONFIRM READY_CHECK_FINISHED"
+tags.Methods["klnFrames:readycheck"] = function (unit)
   local status = GetReadyCheckStatus(unit)
   if UnitExists(unit) and status then
     if status == 'ready' then
