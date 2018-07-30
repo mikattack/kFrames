@@ -157,6 +157,12 @@ local function CreateAuraBar(oUF, anchor)
 	statusBar.spellname:SetPoint'LEFT'
 	statusBar.spellname:SetPoint('RIGHT', statusBar.spelltime, 'LEFT')
 
+	-- spark
+	statusBar.spark = statusBar:CreateTexture(nil, 'OVERLAY')
+  statusBar.spark:SetSize(10, statusBar:GetHeight() * 1.5)
+  statusBar.spark:SetBlendMode('ADD')
+  statusBar.spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
+
 	if auraBarParent.PostCreateBar then
 		auraBarParent.PostCreateBar(statusBar)
 	end
@@ -183,6 +189,10 @@ local function UpdateBars(auraBars)
 			local timeleft = bar.aura.expirationTime - timenow
 			bar:SetValue(timeleft)
 			bar.spelltime:SetText(FormatTime(timeleft))
+
+			local offset = (timeleft / bar.aura.duration) * bar:GetWidth()
+			bar.spark:SetPoint('CENTER', bar, 'LEFT', offset, 0)
+			
 		end
 	end
 end
@@ -253,6 +263,7 @@ local function Update(self, event, unit)
 		if bar.aura.noTime then
 			bar:SetMinMaxValues(0, 1)
 			bar:SetValue(1)
+			bar.spark:Hide()
 		else
 			if self.AuraBars.scaleTime then
 				local maxvalue = math.min(self.AuraBars.scaleTime, bar.aura.duration)
@@ -265,6 +276,7 @@ local function Update(self, event, unit)
 				bar:SetMinMaxValues(0, bar.aura.duration)
 			end
 			bar:SetValue(bar.aura.expirationTime - GetTime())
+			bar.spark:Show()
 		end
 
 		bar.icon:SetTexture(bar.aura.icon)
