@@ -416,9 +416,6 @@ addon.auras.whitelist = {
   -- Warlocks
   "Dark Bargain",
   "Unending Resolve",
-  "Corruption",
-  "Agony",
-  "Unstable Affliction",
   
   -- Paladins
   "Divine Shield",
@@ -562,6 +559,41 @@ addon.auras.healer = {
 }
 
 
+-----------------------------------------------------------
+-- Class-specific auras cast by the player.
+-- 
+-- Example: Warlock curses could appear here. Only those
+--          debuffs cast by the player would be visible.
+--          Whitelisting the debuffs would cause curses
+--          from ALL Warlocks to appear (multiples).
+-- 
+-- These appear on players and targets.
+-----------------------------------------------------------
+
+addon.auras.class = {
+  preist = {
+    "Weakened Soul",
+  },
+  deathknight = { },
+  demonhunter = { },
+  druid = { },
+  hunter = { },
+  mage = { },
+  monk = { },
+  paladin = { },
+  rogue = { },
+  shaman = {
+    "Earth Shield",
+  },
+  warlock = {
+    "Corruption",
+    "Agony",
+    "Unstable Affliction",
+  },
+  warrior = { },
+}
+
+
 -- Now translate each table into an unordered table. This allows
 -- for efficient lookups later. We do this conversion so the
 -- tables above can be written as simple lists.
@@ -571,4 +603,13 @@ for _, table in pairs({"raid","whitelist","blacklist","healer"}) do
     tmp[aura] = true
   end
   addon.auras[table] = tmp
+end
+
+-- Also translate for class-specific auras.
+for class, table in pairs(addon.auras.class) do
+  local tmp = {}
+  for _, aura in pairs(table) do
+    tmp[aura] = true
+  end
+  addon.auras.class[class] = tmp
 end

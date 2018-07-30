@@ -4,6 +4,8 @@ local defaults = addon.defaults
 local elements = addon.elements
 local media    = addon.media
 
+local playerClass = addon.util.playerClass:lower()
+
 local BORDER    = media.flatBar or "Interface\\TargetingFrame\\UI-StatusBar"
 local BAR       = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 local FONT      = media.smallFont
@@ -21,11 +23,14 @@ local function AuraFilter(name, _, _, _, duration, _, caster)
   local selfCast = (caster and caster == "player")
   
   -- Allow/disallow auras on various lists
+  -- addon.util.print("%s: %s (self cast: %s)", playerClass, name, tostring(selfCast))
   if addon.auras.whitelist[name] then
     allow = true
   elseif addon.auras.raid[name] then
     allow = true
-  elseif addon.auras.healer[name] and selfCast then
+  elseif selfCast and addon.auras.healer[name] then
+    allow = true
+  elseif selfCast and addon.auras.class[playerClass][name] then
     allow = true
   elseif addon.auras.blacklist[name] then
     allow = false
