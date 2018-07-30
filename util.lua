@@ -1,14 +1,14 @@
---[[--------------------------------------------------------------------
-Util - Function grab bag.
-----------------------------------------------------------------------]]
+-----------------------------------------------------------------------------
+-- Util - Function grab bag.
+-----------------------------------------------------------------------------
 
 
-local _, ns = ...
-local _, playerClass = UnitClass("player")
+local _, addon = ...
 local format = string.format
+local util = addon.util
 
-local util = ns.util
-util.playerClass = playerClass
+
+-----------------------------------------------------------------------------
 
 
 -- 
@@ -20,19 +20,29 @@ end
 
 
 -- 
--- Internal player role identification.
+-- Player information.
 -- 
-if playerClass == "HUNTER" or playerClass== "MAGE" or playerClass == "ROGUE" or playerClass == "WARLOCK" then
-  function util.getPlayerRole()
-    return "DAMAGER"
-  end
-else
-  function util.getPlayerRole()
-    local spec = GetSpecialization() or 0
-    local _, _, _, _, _, role = GetSpecializationInfo(spec)
-    return role or "DAMAGER"
-  end
-end
+-- Includes (all normalized to lowercase):
+-- 
+--    class - Player class
+--    role  - Player role ("tank", "healer", "damager", "none")
+--    spec  - Player specialization (ex. "balance", "protection", "brewmaster")
+-- 
+util.player = { class=UnitClass("player"):lower() }
+
+-- Automatically update "util.player" table information when
+-- the player's specialization or role changes.
+local roleupdate = CreateFrame("frame",nil)
+roleupdate:RegisterEvent("LFG_ROLE_UPDATE")
+roleupdate:RegisterEvent("PLAYER_ROLES_ASSIGNED")
+roleupdate:RegisterEvent("ROLE_CHANGED_INFORM")
+roleupdate:RegisterEvent("PVP_ROLE_UPDATE")
+roleupdate:SetScript("OnEvent", function(self, event, arg)
+  local spec = GetSpecialization() or 0
+  local _, spec, _, _, _, role = GetSpecializationInfo(spec)
+  util.player.role = role:lower()
+  util.player.spec = spec:lower()
+end)
 
 
 -- 
@@ -68,17 +78,63 @@ end
 
 
 -- 
+-- Format large numbers with comma's for readability.
+-- 
+function util.comma_value(amount)
+  local formatted = amount
+  while true do  
+    formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
+    if (k==0) then
+      break
+    end
+  end
+  return formatted
+end
+
+
+-- 
 -- Convert textual position into individual values.
 -- 
-function util.parsePosition(p)
-  local p1, parent, p2, x, y
+-- The anchor position of a UI object is difficult to pass around unless
+-- you know the string name the object is referenced by. Without planning
+-- and diligence, this is often not the case when creating UI objects.
+-- 
+-- This function allow you to pass around position information in a single
+-- variable. You can pass just the positional information as string,
+-- or you may pass it as a table, with the position and an anchor object
+-- reference.
+-- 
+-- When passing a string, the following format is accepted:
+-- 
+--    "LEFT 10 5 RIGHT"
+--     ---- -- - -----
+--      p1  x  y  p2
+--
+-- This yields the following values (in order):
+--    p1 - Anchor point of the object you are positioning.
+--    a  - String or table of the object you are aligning against.
+--         By default, this is always "UIParent".
+--    p2 - Anchor point of the object you are aligning against.
+--    x  - Horizontal offset.
+--    y  - Vertical offset.
+-- 
+-- You may instead pass the position as an ordered table with two elements:
+-- 
+--    {"LEFT 10 5 RIGHT", my_frame}
+-- 
+-- This will yield the same output, except the returned anchor value ("a")
+-- will be a reference to `my_frame`.
+-- 
+function util.parse_position(p)
+  local p1, p2, x, y, parent
+  anchor = "UIParent"
   if type(p) == "table" then
-    parent = p[2]
-    p1, _, p2, x, y = string.split(" ", p[1])
+    anchor = p[2]
+    p1, p2, x, y = string.split(" ", p[1])
   else
-    p1, parent, p2, x, y = string.split(" ", p)
+    p1, p2, x, y = string.split(" ", p)
   end
-  return p1, parent, p2, tonumber(x), tonumber(y)
+  return p1, anchor, p2, tonumber(x), tonumber(y)
 end
 
 
