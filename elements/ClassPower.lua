@@ -1,13 +1,13 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local elements = ns.elements
+local elements = addon.elements
+local player   = addon.util.player
 
-local playerClass = ns.util.playerClass
-local STATUSBAR   = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local PADDING     = 1
-local HEIGHT      = 14
-local MAX_POWER   = 6
+local STATUSBAR = addon.media.texture.status or "Interface\\TargetingFrame\\UI-StatusBar"
+local PADDING   = 1
+local HEIGHT    = 14
+local MAX_POWER = 6
 
 
 -- Repositions and hides the ClassPower backdrop if the bar doesn't exist

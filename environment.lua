@@ -1,12 +1,12 @@
---[[-------------------------------------------------------------------------
-Environment - Initialize addon-wide containers.
----------------------------------------------------------------------------]]
+-----------------------------------------------------------------------------
+-- Environment - Initialize addon-wide containers.
+-----------------------------------------------------------------------------
 
-local _, ns = ...
+local _, addon = ...
 
-ns.defaults = {}  -- Configuration fallbacks
-ns.elements = {}  -- Element factory functions
-ns.frames   = {}  -- Specific frame factories
-ns.media    = {}  -- Media path constants
-ns.tags     = {}  -- Custom oUF tags
-ns.util     = {}  -- Function grab bag
+addon.defaults = {}  -- Configuration defaults
+addon.elements = {}  -- Element factory functions
+addon.frames   = {}  -- Specific unit frame factories
+addon.media    = {}  -- Embedded media
+addon.tags     = {}  -- Custom oUF tags
+addon.util     = {}  -- Function grab bag

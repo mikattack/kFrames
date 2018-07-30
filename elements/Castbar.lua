@@ -4,13 +4,16 @@ local _, ns = ...
 local defaults = ns.defaults
 local elements = ns.elements
 local media = ns.media
-local parsePosition = ns.util.parsePosition
+local parsePosition = ns.util.parse_position
 
 local FONT      = media.smallFont or STANDARD_TEXT_FONT
 local TEXTURE   = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 
 
-function elements.NewCastbar(frame, opts)
+elements.Castbar = {}
+elements.Castbar.__index = Castbar
+
+function elements.Castbar:Create(frame, opts)
   local opts = opts or {}
   local height = opts.height or defaults.size.height
   local width  = opts.width or defaults.size.width
@@ -21,6 +24,9 @@ function elements.NewCastbar(frame, opts)
     width  = width - ICONSIZE - 1,
   })
   castbar:SetStatusBarColor(0.5, 0.5, 1, 1)
+
+  -- Make "Castbar" handle function lookups
+  setmetatable(castbar, Castbar)
 
   cbg:SetDrawLayer("BORDER")
   cbg:SetVertexColor(0.5 * 0.2, 1 * 0.2, 1 * 0.2, 1)
@@ -70,17 +76,16 @@ function elements.NewCastbar(frame, opts)
   safezone:SetTexture(TEXTURE)
   safezone:SetVertexColor(1, 0, 0, 0.7)
 
-  -- Registration
-  frame.Castbar = castbar
-  frame.Castbar.bg = cbg
-  frame.Castbar.Spark = spark
-  frame.Castbar.Time = timer
-  frame.Castbar.Text = text
-  frame.Castbar.Icon = icon
+  -- Options/registration
+  castbar.bg = cbg
+  castbar.Spark = spark
+  castbar.Time = timer
+  castbar.Text = text
+  castbar.Icon = icon
   if frame.unit == "player" then
-    frame.Castbar.SafeZone = safezone
+    castbar.SafeZone = safezone
   else
-    frame.Castbar.Shield = shield
+    castbar.Shield = shield
   end
 
   -- Events
@@ -90,24 +95,22 @@ function elements.NewCastbar(frame, opts)
   castbar.PostChannelStop     = PostChannelStop
   castbar.PostCastFailed      = PostCastFailed
   castbar.PostCastInterrupted = PostCastFailed
+
+  return castbar
 end
 
 
-function elements.repositionCastbar(frame, position)
-  if frame.Castbar == nil then
-    ns.util.print("Failed to reposition castbar", unit)
-    return
-  end
-  local ICONSIZE = frame.Castbar.Icon:GetHeight()
-  local p1, attachment, p2, x, y = parsePosition(position)
+function elements.Castbar:Reposition(frame, position)
+  local ICONSIZE = self.Icon:GetHeight()
+  local p1, p2, x, y = parse_position(position)
 
   -- Determine whether to account for icon size during positioning.
   -- If positioning from the castbar's RIGHT, we only need to account
   -- for the frame padding.
   if p1:find("RIGHT") ~= nil then
-    frame.Castbar:SetPoint(p1, attachment, p2, x - 1, y)
+    frame.Castbar:SetPoint(p1, frame, p2, x - 1, y)
   else
-    frame.Castbar:SetPoint(p1, attachment, p2, x + ICONSIZE + 2, y)
+    frame.Castbar:SetPoint(p1, frame, p2, x + ICONSIZE + 2, y)
   end
 end
 

@@ -1,17 +1,17 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local defaults  = ns.defaults
-local elements  = ns.elements
-local frames    = ns.frames
+local defaults = addon.defaults
+local elements = addon.elements
+local frames   = addon.frames
 
 local PADDING = defaults.padding
-local FONT    = ns.media.smallFont or STANDARD_TEXT_FONT
+local FONT    = addon.media.font.small or STANDARD_TEXT_FONT
 
 
 function frames.PetFrame(frame)
-  local height = defaults.altsize.height
-  local width  = defaults.altsize.width
+  local height = defaults.frames.minor.height
+  local width  = defaults.frames.minor.width
 
   elements.InitializeUnitFrame(frame, {
     fontsize = 34,

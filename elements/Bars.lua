@@ -1,13 +1,12 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local defaults = ns.defaults
-local elements = ns.elements
-local media = ns.media
-local parsePosition = ns.util.parsePosition
+local defaults = addon.defaults
+local elements = addon.elements
+local media    = addon.media
 
-local HIGHLIGHT = media.glowBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local STATUSBAR = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local HIGHLIGHT = media.glow or "Interface\\TargetingFrame\\UI-StatusBar"
+local STATUSBAR = media.status or "Interface\\TargetingFrame\\UI-StatusBar"
 
 
 -- 
@@ -51,7 +50,7 @@ end
 -- 
 -- Add healing and absorb prediction on a frame's "Health" bar.
 -- 
-function elements.AddHealPrediction(frame)
+function elements.HealPrediction(frame)
   local myBar = CreateFrame('StatusBar', nil, frame.Health)
   myBar:SetPoint('TOP')
   myBar:SetPoint('BOTTOM')
@@ -85,7 +84,7 @@ function elements.AddHealPrediction(frame)
   healAbsorbBar:SetStatusBarTexture(STATUSBAR)
   healAbsorbBar:SetStatusBarColor(0.5, 0.5, 1, 0.5)
   
-  frame.HealthPrediction = {
+  return {
     myBar = myBar,
     otherBar = otherBar,
     absorbBar = absorbBar,
@@ -97,24 +96,17 @@ end
 
 
 -- 
--- Add bar highlighting on mouseOver.
+-- Add mouse-over highlighting to the given frame.
 -- 
 function elements.AddHighlight(frame)
   local OnEnter = function(f)
     UnitFrame_OnEnter(f)
     f.Highlight:Show()
-    if f.mystyle == "raid" then
-      GameTooltip:Hide()
-      f.LFDRole:SetAlpha(1)
-    end
   end
 
   local OnLeave = function(f)
     UnitFrame_OnLeave(f)
     f.Highlight:Hide()
-    if f.mystyle == "raid" then
-      f.LFDRole:SetAlpha(0)
-    end
   end
 
   frame:SetScript("OnEnter", OnEnter)
@@ -133,7 +125,7 @@ end
 -- 
 -- Add dispel highlighting on a frame's "Health" bar.
 -- 
-function elements.AddDispelHighlight(frame)
+function elements.DispelHighlight(frame)
   if not frame.Health then return end
   
   local dh = frame.Health:CreateTexture(nil, "OVERLAY")
@@ -141,5 +133,5 @@ function elements.AddDispelHighlight(frame)
   dh:SetTexture(STATUSBAR)
   dh:SetBlendMode("ADD")
   dh:SetVertexColor(0, 0, 0, 0)
-  frame.DispelHighlight = dh
+  return dh
 end

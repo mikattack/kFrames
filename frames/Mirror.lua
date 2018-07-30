@@ -1,12 +1,12 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local defaults   = ns.defaults
-local elements = ns.elements
-local media    = ns.media
+local defaults = addon.defaults
+local elements = addon.elements
+local media    = addon.media
 
-local FONT     = media.smallFont or STANDARD_TEXT_FONT
-local TEXTURE  = media.statusBar or [[Interface\TargetingFrame\UI-StatusBar]]
+local FONT     = media.font.small or STANDARD_TEXT_FONT
+local TEXTURE  = media.texture.status or [[Interface\TargetingFrame\UI-StatusBar]]
 
 
 --
@@ -23,8 +23,8 @@ function elements.DecorateMirrorFrame(frame)
   end
 
   frame:SetParent(UIParent)
-  frame:SetWidth(defaults.altsize.width)
-  frame:SetHeight(defaults.altsize.height)
+  frame:SetWidth(defaults.frames.minor.width)
+  frame:SetHeight(defaults.frames.minor.height)
 
   frame.bar = frame:GetChildren()
   frame.bg, frame.text, frame.border = frame:GetRegions()
