@@ -17,13 +17,15 @@ local DEBUFF_COLOR = {0.8, 0.0, 0.2, 1.0}
 local function AuraFilter(name, _, _, _, duration, _, caster)
   -- Default: Filter out ALL auras (blacklisted)
   local allow = false
+
+  local selfCast = (caster and caster == "player")
   
   -- Allow/disallow auras on various lists
   if addon.auras.whitelist[name] then
     allow = true
   elseif addon.auras.raid[name] then
     allow = true
-  elseif addon.auras.healer[name] and caster and caster == "player" then
+  elseif addon.auras.healer[name] and selfCast then
     allow = true
   elseif addon.auras.blacklist[name] then
     allow = false
@@ -65,6 +67,7 @@ function elements.AuraBar(frame, opts)
   --f.auraBarColor = .4,.4,.5
   f.filter = AuraFilter
   f.PostCreateBar = function(bar)
+    -- Add black outlines
     SetBackground(bar)
 
     bar.icon.bg = bar.icon.bg or CreateFrame("frame", nil, bar)
@@ -73,9 +76,12 @@ function elements.AuraBar(frame, opts)
     bar.icon:SetDrawLayer('OVERLAY')
     SetBackground(bar.icon.bg)
     
+    -- Prettify fonts
     bar.spellname:SetPoint("LEFT", bar, "LEFT", 4, 0)
-    bar.spellname:SetFont(FONT, 14)
+    bar.spellname:SetFont(FONT, 13, "OUTLINE")
+
     bar.spelltime:SetPoint("RIGHT", bar, "RIGHT", -4, 0)
+    bar.spelltime:SetFont(FONT, 13, "OUTLINE")
 
     -- TO DO: Custom colors?
   end
