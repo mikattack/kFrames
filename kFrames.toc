@@ -1,5 +1,5 @@
-## Interface: 70300
-## Title: |cFF7F2A90k|r|Frames
+## Interface: 80000
+## Title: |cFF7F2A90kln|r|Frames
 ## Notes: Unit frames optimized by and for Kellen.
 ## Author: Kellen
 ## X-Copyright: Copyright (c) 2015-2018 Kellen.  All rights reserved.
@@ -10,7 +10,7 @@
 environment.lua
 
 defaults\auras.lua
-defaults\common.lua
+defaults\frames.lua
 defaults\media.lua
 
 util.lua
