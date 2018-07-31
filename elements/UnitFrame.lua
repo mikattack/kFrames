@@ -28,8 +28,8 @@ local POWER_HEIGHT = defaults.power_height
 function elements.InitializeUnitFrame(frame, opts)
   local opts = opts or {}
   local fontsize = opts.fontsize or 44
-  local height = opts.height or defaults.size.height
-  local width  = opts.width or defaults.size.width
+  local height = opts.height or defaults.frames.major.health_height
+  local width  = opts.width or defaults.frames.major.width
 
   -- Size the frame
   frame:SetWidth(width + (PADDING * 2))
