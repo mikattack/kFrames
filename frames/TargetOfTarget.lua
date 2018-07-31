@@ -1,16 +1,16 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local defaults  = ns.defaults
-local elements  = ns.elements
-local frames    = ns.frames
+local defaults  = addon.defaults
+local elements  = addon.elements
+local frames    = addon.frames
 
 local PADDING = defaults.padding
 
 
 function frames.TargetOfTargetFrame(frame)
-  local height = defaults.altsize.height
-  local width  = defaults.size.width * 0.75
+  local height = defaults.frames.minor.health_height
+  local width  = defaults.frames.minor.width * 0.75
 
   elements.InitializeUnitFrame(frame, {
     fontsize  = 30,
@@ -32,8 +32,8 @@ function frames.TargetOfTargetFrame(frame)
   frame:Tag(name, "[kFrames:name]")
 
   -- Niceties
-  elements.AddHealPrediction(frame)
-  elements.AddDispelHighlight(frame)
+  frame.HealthPrediction = elements.HealPrediction(frame)
+  frame.DispelHighlight  = elements.DispelHighlight(frame)
   elements.AddHighlight(frame)
 
   -- Position

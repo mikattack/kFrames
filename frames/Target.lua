@@ -1,27 +1,19 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local playerClass = ns.util.playerClass
-local defaults  = ns.defaults
-local elements  = ns.elements
-local frames    = ns.frames
-local media     = ns.media
+local defaults = addon.defaults
+local elements = addon.elements
+local frames   = addon.frames
+local media    = addon.media
 
-local LARGE_FONT = media.largeFont or STANDARD_TEXT_FONT
-
-local FLATBAR = media.flatBar or [[Interface\TargetingFrame\UI-StatusBar]]
-
-local POWER_HEIGHT = 4
+local FONT = media.font.large or STANDARD_TEXT_FONT
 
 
 function frames.TargetFrame(frame)
-  local height = defaults.size.height
-  local width = defaults.size.width
-
   elements.InitializeUnitFrame(frame)
 
   -- Name
-  local name = elements.NewString(frame, { font=LARGE_FONT, size=22 })
+  local name = elements.NewString(frame, { font=FONT, size=22 })
   name:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -2)
   frame:Tag(name, "|cFFFFF200[level]|r [kFrames:name]")
 
@@ -32,34 +24,26 @@ function frames.TargetFrame(frame)
   -- Icons
   --elements.TextIcon(frame, "Combat",  {"LEFT xxx LEFT 40 14", frame.Health}, 18, frame.Health)
   --elements.TextIcon(frame, "Status",  {"LEFT xxx RIGHT 4 0 ", frame.kCombat}, 18, frame.Health)
-  elements.TextIcon(frame, "AFKDND",  {"BOTTOMLEFT xxx BOTTOMLEFT 55 -6", frame.Health}, 18, frame.Health)
-  elements.TextIcon(frame, "PvP",     {"LEFT xxx RIGHT 4 0", frame.kAFKDND}, 18, frame.Health)
-
-  elements.RaidMarkIcon(frame,        {"RIGHT xxx LEFT 5 0", name})
-
-  elements.LFDRoleIcon(frame,         {"RIGHT xxx LEFT 5 0", frame.RaidIcon}, {20,20})
-  elements.ReadyCheckIcon(frame,      {"RIGHT xxx LEFT 5 0", frame.LFDRole}, {20, 20})
-  --[[
-  elements.RaidLeaderIcon(frame,      {"LEFT xxx TOPLEFT 4 0", frame.Infobar})
-  elements.RaidAssistIcon(frame,      {"LEFT xxx RIGHT 4 0", frame.Infobar})
-  elements.RaidLootMasterIcon(frame,  {"LEFT xxx RIGHT 5 0", frame.Assistant})
-  --]]
+  elements.TextIcon(frame, "AFKDND", {"BOTTOMLEFT 55 -6 BOTTOMLEFT", frame.Health}, 18, frame.Health)
+  elements.TextIcon(frame, "PvP",    {"LEFT 4 0 RIGHT", frame.kAFKDND}, 18, frame.Health)
+  elements.RaidMarkIcon(frame,       {"RIGHT 5 0 LEFT", name})
 
   -- Niceties
-  elements.AddHealPrediction(frame)
-  elements.AddDispelHighlight(frame)
+  frame.HealthPrediction = elements.HealPrediction(frame)
+  frame.DispelHighlight  = elements.DispelHighlight(frame)
   elements.AddHighlight(frame)
 
   -- Castbar
-  elements.NewCastbar(frame, { width=width, height=height })
-  elements.repositionCastbar(frame, {"BOTTOMLEFT xxx TOPLEFT 0 5", frame})
+  --elements.NewCastbar(frame, { width=width, height=height })
+  frame.Castbar = elements.Castbar:Create(frame)
+  frame.Castbar:Reposition(frame, "BOTTOMLEFT 0 5 TOPLEFT")
 
   -- Auras
   frame.AuraBars = elements.AuraBar(frame)
   frame.AuraBars:SetPoint("BOTTOM", frame, "TOP", 0, frame.Castbar:GetHeight() + 5)
 
-  -- Position frame(s)
-  --frame:SetPoint("RIGHT", UIParent, "BOTTOM", -155, 175)
-  local offset = defaults.size.width + 5
-  frame:SetPoint("BOTTOM", "UIParent", "BOTTOM", offset, defaults.size.height)
+  -- Position frame cluster in the bottom right of the center screen
+  local offset = defaults.frames.major.width + 5
+  local height = defaults.frames.major.health_height
+  frame:SetPoint("BOTTOM", "UIParent", "BOTTOM", offset, height)
 end

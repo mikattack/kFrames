@@ -8,11 +8,8 @@ local elements = addon.elements
 local frames   = addon.frames
 local media    = addon.media
 
-local LARGE_FONT = media.font.large or STANDARD_TEXT_FONT
-local SMALL_FONT = media.font.small or STANDARD_TEXT_FONT
 local TEXTURE = media.flatBar or [[Interface\TargetingFrame\UI-StatusBar]]
 
-local PADDING = defaults.padding
 local POWER_HEIGHT = defaults.power_height
 
 

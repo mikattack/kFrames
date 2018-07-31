@@ -10,7 +10,7 @@ local FONT    = addon.media.font.small or STANDARD_TEXT_FONT
 
 
 function frames.PetFrame(frame)
-  local height = defaults.frames.minor.height
+  local height = defaults.frames.minor.health_height
   local width  = defaults.frames.minor.width
 
   elements.InitializeUnitFrame(frame, {
