@@ -1,55 +1,50 @@
 --[[
+	Element: AuraBars
 
-	oUF Element: .AuraBars
+	Creates a collection of timing bars to represent auras (buffs/debuffs).
 
-	Options regarding visual layout:
-	 -	<element>.auraBarHeight
-			Sets the height of the statusbars and icons.
-	 -	<element>.auraBarWidth
-			Sets the width of the statusbars (excluding icon). Will use the
-			framewidth of <element> by default.
-	 -	<element>.auraBarTexture
-			Sets the statusbar texture.
-	 -	<element>.fgalpha
-			Foreground alpha.
-	 -	<element>.bgalpha
-			Background alpha.
-	 -	<element>.spellTimeObject, <element>.spellNameObject
-			Objects passed by CreateFontObject(). These will ignore the
-			following options:
-			<element>.spellTimeFont, <element>.spellTimeSize
-			<element>.spellNameFont, <element>.spellNameSize
-	 -	<element>.spellTimeFont, <element>.spellTimeSize,
-		<element>.spellNameFont, <element>.spellNameSize
-			Options to control the texts on the statusbars.
-	 -	<element>.gap
-			Will add space between the statusbars and icons by amount of .gap
-			in pixels.
-	 -	<element>.spacing
-			Will add space between statusbars by amount of .spacing in pixels.
+	Visual layout:
+		auraBarHeight 		- Sets the height of the statusbars and icons.
+	  auraBarWidth      - Sets the width of the statusbars (excluding icon).
+	  										Will use the framewidth of the element by default.
+	  auraBarTexture    - Sets the statusbar texture.
+	  fgalpha 					- Foreground alpha.
+	  bgalpha 					- Background alpha.
+	 	spellTimeObject
+	 	spellNameObject   - Objects passed by CreateFontObject().
+	 											These will ignore the following options:
+													spellTimeFont
+													spellNameFont
+													spellTimeSize
+													spellNameSize
+	  spellTimeFont
+	  spellTimeSize
+	  spellNameFont
+	  spellNameSize 		- Options to control the texts on the statusbars.
+	 	gap 							- Will add space between the statusbars and icons
+	 											by the amount of given gap in pixels.
+	  spacing						- Will add space between statusbars by amount of
+	  										spacing in pixels.
 
-	Options regarding functionality:
-	 -	<element>.down
-			Will let the aurabars grow downwards.
-	 -	<element>.filter(name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable)
-			Use this to filter out specific casts.
-	 -	<element>.sort
-			Will enable sorting if set to true or 1 (or whatever). See
-			functions for info on how to override the sort function.
-	 -	<element>.scaleTime
-			Will add time-scaling (bar widths according to the total duration
-			of the aura assigned to it). Will use the minimum of
-			<element>.scaleTime and the total aura duration to determine the
-			width in percent.
+	Functionality:
+	 	down							- Will let the aurabars grow downwards.
+	  filter						- Use this to filter out specific casts.
+	  sort							- Will enable sorting if set to true or 1 (or whatever).
+	  										See functions for info on how to override the sort
+	  										function.
+	 	scaleTime 				- Will add time-scaling (bar widths according to the
+	 											total duration of the aura assigned to it).
+	 											Will use the minimum of scaleTime and the total
+												aura duration to determine the
+												width in percent.
 
-	Functions that can be overridden from within a layout:
-	 -	<element>.PostCreateBar(bar)
-			To do stuff to a bar once it has been created, such as set a
-			backdrop, etc, use this function. Use bar:GetParent() to get the
-			<element> object.
-	 -	<element>.sort(a, b)
-			Custom compare function to sort aura's before the bars are being
-			updated. Is being called every UNIT_AURA for the <element>'s unit.
+	Overrides:
+	 	PostCreateBar(bar) 	- To do stuff to a bar once it has been created,
+	 												such as set a backdrop, etc, use this function.
+	 												Use bar:GetParent() to get the object.
+	 	sort(a, b)					- Custom compare function to sort aura's before
+	 												the bars are being updated. Is being called
+	 												every UNIT_AURA for the <element>'s unit.
 --]]
 
 local _, ns = ...
