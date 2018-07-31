@@ -3,7 +3,7 @@
 ## Notes: Unit frames optimized by and for Kellen.
 ## Author: Kellen
 ## X-Copyright: Copyright (c) 2015-2018 Kellen.  All rights reserved.
-## X-Website: https://github.com/mikattack/kFrames
+## X-Website: https://github.com/mikattack/klnFrames
 
 ## Dependencies: oUF
 
@@ -28,7 +28,6 @@ elements\Icons.lua
 elements\RuneBar.lua
 elements\StaggerBar.lua
 elements\String.lua
-elements\TotemBar.lua
 elements\UnitFrame.lua
 
 frames\Mirror.lua
@@ -36,5 +35,6 @@ frames\Player.lua
 frames\Target.lua
 frames\TargetOfTarget.lua
 frames\Pet.lua
+frames\Boss.lua
 
 initialize.lua
