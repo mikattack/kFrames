@@ -52,26 +52,36 @@ function frames.PlayerFrame(frame)
   frame.AuraBars = elements.AuraBar(frame)
   frame.AuraBars:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, frame.Castbar:GetHeight() + 5)
 
-  -- Class-specific additions
+  -- Class-specific resources
   local p1,a,p2,x,y = add.util.parse_position("TOPLEFT 0 -7 BOTTOMLEFT")
-  if player.class == "deathknight" then
-    elements.RuneBar(frame, cbpos)
-  elseif player.class == "monk" then
-    elements.StaggerBar(frame, cbpos)
-    elements.ClassPower(frame, cbpos)
-  else
-    elements.ClassPower(frame, cbpos)
+  hasClassPower = false
+  for _, class in pairs({"rogue","mage","monk","paladin","warlock"}) do
+    if player.class == class then hasClassPower = true break end
   end
+  if hasClassPower then
+    frame.ClassPowerBar = elements.ClassPower(frame)
+    frame.ClassPower = frame.ClassPowerBar.pips
+    frame.ClassPowerBar:SetPower(p1, frame, p2, x, y)
+  end
+  if player.class == "deathknight" then
+    frame.RuneBar = elements.RuneBar(frame)
+    frame.RuneBar:SetPoint(p1, frame, p2, x, y)
+  elseif player.class == "monk" then
+    frame.StaggerBar = elements.StaggerBar(frame)
+    frame.StaggerBar:SetPoint(p1, frame, p2, x, y)
+  
+  -- We don't make a Totem display here because Blizzard changes them
+  -- too much to make a display worth anything. Better to track the
+  -- buffs/debuffs via auras.
 
   -- Icons
   elements.TextIcon(frame, "Combat",  {"BOTTOMLEFT 5 -6 BOTTOMLEFT", frame.Health}, 18, frame.Health)
   elements.TextIcon(frame, "Status",  {"BOTTOMLEFT 4 0 BOTTOMRIGHT", frame.kCombat}, 18, frame.Health)
   elements.TextIcon(frame, "AFKDND",  {"BOTTOMLEFT 4 0 BOTTOMRIGHT", frame.kStatus}, 18, frame.Health)
   elements.TextIcon(frame, "PvP",     {"BOTTOMLEFT 4 0 BOTTOMRIGHT", frame.kAFKDND}, 18, frame.Health)
-
   --elements.RaidMarkIcon(frame,        {"LEFT xxx RIGHT 5 0", name})
 
-  -- Position frame cluster
+  -- Position frame cluster in the bottom left of the center screen
   local offset = 0 - defaults.frames.major.width - 5
   local height = defaults.frames.major.health_height
   frame:SetPoint("BOTTOM", "UIParent", "BOTTOM", offset, height)

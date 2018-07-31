@@ -4,16 +4,12 @@ local defaults = addon.defaults
 local elements = addon.elements
 local media    = addon.media
 
-local playerClass = addon.util.playerClass:lower()
+local player = addon.util.player
 
-local BORDER    = media.flatBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local BAR       = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local FONT      = media.smallFont
-local ICON_SIZE = 40
-local MAX_ICONS = 7
+local BAR  = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local FONT = media.smallFont
 
-local BUFF_COLOR   = {0.2, 0.0, 0.8, 1.0}
-local DEBUFF_COLOR = {0.8, 0.0, 0.2, 1.0}
+local BAR_HEIGHT = 20
 
 
 local function AuraFilter(name, _, _, _, duration, _, caster)
@@ -30,7 +26,7 @@ local function AuraFilter(name, _, _, _, duration, _, caster)
     allow = true
   elseif selfCast and addon.auras.healer[name] then
     allow = true
-  elseif selfCast and addon.auras.class[playerClass][name] then
+  elseif selfCast and addon.auras.class[player.class][name] then
     allow = true
   elseif addon.auras.blacklist[name] then
     allow = false
@@ -42,7 +38,6 @@ local function AuraFilter(name, _, _, _, duration, _, caster)
   end
   
   return allow
-  --]]
 end
 
 
@@ -60,7 +55,7 @@ local function SetBackground(frame, color)
 end
 
 
-function elements.AuraBar(frame, opts)
+function elements.AuraBar(frame)
   f = CreateFrame("Frame", nil, frame)
   f:SetSize(frame:GetWidth(),1)
   
@@ -68,13 +63,14 @@ function elements.AuraBar(frame, opts)
   f.auraBarTexture = BAR
   f.spacing = 1
   f.gap = 1
-  f.auraBarHeight = 20
+  f.auraBarHeight = BAR_HEIGHT
   --f.auraBarColor = .4,.4,.5
   f.filter = AuraFilter
   f.PostCreateBar = function(bar)
-    -- Add black outlines
+    -- Add black outlines to bar
     SetBackground(bar)
 
+    -- Add black outlines to icon
     bar.icon.bg = bar.icon.bg or CreateFrame("frame", nil, bar)
     bar.icon.bg:SetAllPoints(bar.icon)
     bar.icon.bg:SetFrameLevel(0)

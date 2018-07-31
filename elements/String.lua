@@ -1,8 +1,8 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local elements = ns.elements
-local media = ns.media
+local elements = addon.elements
+local media = addon.media
 
 local DEFAULT_FONT_FAMILY   = media.largeFont
 local DEFAULT_FONT_SIZE     = 18
@@ -16,11 +16,11 @@ local DEFAULT_OUTLINE_STYLE = "OUTLINE"
 -- @param font      Path of the font file.
 -- @param size      Font size.
 -- @param outline   [optional] Outline style (default: OUTLINE).
--- @param opts    Layout, sizing, and positioning options. Each is optional
---                as default are defined for all parameters:
---                  font    [string] Path of a font file.
---                  size    [int] Font size.
---                  outline [string] Outline style identifier.
+-- @param opts      Layout, sizing, and positioning options. Each is optional
+--                  as default are defined for all parameters:
+--                    font    [string] Path of a font file.
+--                    size    [int] Font size.
+--                    outline [string] Outline style identifier.
 -- @return FontString
 -- 
 function elements.NewString(frame, opts)

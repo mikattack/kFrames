@@ -1,14 +1,13 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local elements = ns.elements
+local elements = addon.elements
 
-local playerClass = ns.util.playerClass
-local STATUSBAR   = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local PADDING     = 1
-local HEIGHT      = 18
-local MAX_TOTEMS  = 5
-local MULTIPLIER  = 0.3
+local STATUSBAR  = addon.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local PADDING    = 1
+local HEIGHT     = 18
+local MAX_TOTEMS = 5
+local MULTIPLIER = 0.3
 
 local totem_lookup = {
   ["Counterstrike Totem"]     = 1,

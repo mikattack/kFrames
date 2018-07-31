@@ -1,10 +1,11 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local defaults = ns.defaults
-local elements = ns.elements
-local media = ns.media
-local parsePosition = ns.util.parse_position
+local defaults = addon.defaults
+local elements = addon.elements
+local media    = addon.media
+
+local parse_position = addon.util.parse_position
 
 local FONT      = media.smallFont or STANDARD_TEXT_FONT
 local TEXTURE   = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
@@ -12,6 +13,7 @@ local TEXTURE   = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 
 elements.Castbar = {}
 elements.Castbar.__index = Castbar
+
 
 function elements.Castbar:Create(frame, opts)
   local opts = opts or {}

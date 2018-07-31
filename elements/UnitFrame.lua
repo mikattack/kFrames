@@ -1,11 +1,9 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local playerClass = ns.util.playerClass
-
-local defaults   = ns.defaults
-local elements = ns.elements
-local media    = ns.media
+local defaults = addon.defaults
+local elements = addon.elements
+local media    = addon.media
 
 local LARGE_FONT = media.largeFont or STANDARD_TEXT_FONT
 local SMALL_FONT = media.smallFont or STANDARD_TEXT_FONT
@@ -13,7 +11,7 @@ local SMALL_FONT = media.smallFont or STANDARD_TEXT_FONT
 local FLATBAR = media.flatBar or [[Interface\TargetingFrame\UI-StatusBar]]
 
 local PADDING = defaults.padding
-local POWER_HEIGHT = defaults.powerheight
+local POWER_HEIGHT = defaults.power_height
 
 
 -- 

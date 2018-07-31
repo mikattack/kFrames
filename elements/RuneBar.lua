@@ -1,24 +1,22 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local playerClass = ns.util.playerClass
-local STATUSBAR = ns.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local player    = addon.util.player
+local STATUSBAR = addon.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
 local MAX_RUNES = 6
-local PADDING = 1
-local HEIGHT = 18
-local r, g, b = 106/255, 184/255, 247/255
+local PADDING   = 1
+local HEIGHT    = 18
+local r, g, b   = 106/255, 184/255, 247/255
 
 
-function ns.elements.RuneBar(frame, position)
-  if playerClass ~= "DEATHKNIGHT" then return end
+function addon.elements.RuneBar(frame)
+  if player.class ~= "deathknight" then return end
 
   local frameWidth  = ns.defaults.size.width + (PADDING * 2)
   local runeWidth  = (frameWidth - PADDING * (MAX_RUNES + 1)) / MAX_RUNES
   local runeHeight = HEIGHT
-  local p1, parent, p2, x, y = ns.util.parsePosition(position)
 
   local runes = CreateFrame("Frame", nil, frame)
-  runes:SetPoint(p1, parent, p2, x, y)
   runes:SetHeight(runeHeight)
   runes:SetWidth(frameWidth)
 
@@ -47,5 +45,5 @@ function ns.elements.RuneBar(frame, position)
   
   runes.colorSpec = true
   runes.multiplier = 0.3
-  frame.Runes = runes
+  return runes
 end

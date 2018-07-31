@@ -10,21 +10,16 @@ local HEIGHT    = 14
 local MAX_POWER = 6
 
 
--- Repositions and hides the ClassPower backdrop if the bar doesn't exist
--- for the current spec. This ensures there isn't a transparent black box
--- isn't just floating there and the Castbar is correctly positioned.
+-- Hides the ClassPower backdrop if the bar doesn't exist for the
+-- current spec. This ensures there isn't a black box just floating there.
 local function PreUpdateClassPower(event)
-  local p1, parent, p2, x, y = ns.util.parsePosition(event.position)
   if event.isEnabled then
     event.backdrop:SetHeight(event.height + (event.padding * 2))
-    event.backdrop:SetPoint(p1, parent, p2, x, y)
     event.backdrop:SetAlpha(1)
   else
     event.backdrop:SetHeight(1)
-    event.backdrop:SetPoint(p1, parent, p2, x, 0)
     event.backdrop:SetAlpha(0)
   end
-  event.backdrop.background:SetAllPoints(event.backdrop)
 end
 
 
@@ -36,7 +31,6 @@ local function PostUpdateClassPower(element, power, maxPower, maxPowerChanged)
   local padding = element.padding
 
   local width = (element.width - padding * (maxPower + 1)) / maxPower
-  --padding = width + padding
 
   -- Update pip width
   for i = 1, maxPower do
@@ -71,17 +65,13 @@ end
 --   Paladin - Holy Power
 --   Warlock - Soul Shards
 -- 
-function elements.ClassPower(frame, position)
-  local frameWidth = ns.defaults.size.width * 0.75 + (PADDING * 2)
-  local p1, parent, p2, x, y = ns.util.parsePosition(position)
+function elements.ClassPower(frame)
+  local frameWidth = addon.defaults.size.width * 0.75 + (PADDING * 2)
 
   -- Container of the entire ClassPower display
   local cpower = CreateFrame("Frame", "classpower", frame)
-  cpower:SetPoint(p1, parent, p2, x, y)
   cpower:SetHeight(HEIGHT + (PADDING * 2))
   cpower:SetWidth(frameWidth)
-
-  cpower.emptypips = {}
 
   -- Dark frame background
   cpower.background = cpower:CreateTexture(nil, "BACKGROUND")
@@ -91,6 +81,7 @@ function elements.ClassPower(frame, position)
   pipWidth = (frameWidth - PADDING * (MAX_POWER + 1)) / MAX_POWER
 
   local pips = {}
+  local empty_pips = {}
   local multiplier = 0.4
   for i = 1, MAX_POWER do
     -- Actual pip
@@ -106,7 +97,7 @@ function elements.ClassPower(frame, position)
 
     -- Size and positioning may be overridden during PostUpdate.
     -- We need them correct first however if the character starts
-    -- with the maximum number of pips (like Ascension Monk).
+    -- with the maximum number of pips (like an Ascension Monk).
 
     -- Pip's background (which appears if foreground pip is filling)
     pip.bg = pip:CreateTexture(nil, "BACKGROUND")
@@ -125,10 +116,10 @@ function elements.ClassPower(frame, position)
     else
       ep:SetPoint("LEFT", cpower.emptypips[i-1], "RIGHT", PADDING, 0)
     end
-    cpower.emptypips[i] = ep
 
-    -- Add pip to frame
+    -- Add pip
     pips[i] = pip
+    empty_pips[i] = ep
   end
 
   -- Useful information for PostUpdate handler
@@ -136,11 +127,11 @@ function elements.ClassPower(frame, position)
   pips.width = frameWidth
   pips.padding = PADDING
   pips.backdrop = cpower
-  pips.position = position
 
   pips.PreUpdate  = PreUpdateClassPower
   pips.PostUpdate = PostUpdateClassPower
 
-  frame.ClassPower = pips
-  frame.ClassPowerFrame = cpower
+  cpower.pips = pips  -- Set this as a frame's ClassPower element
+  cpower.empty_pips = empty_pips
+  return cpower
 end

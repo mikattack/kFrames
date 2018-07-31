@@ -1,19 +1,17 @@
 
-local _, ns = ...
+local _, addon = ...
 
-local elements = ns.elements
-local media = ns.media
-local parsePosition = ns.util.parsePosition
+local elements = addon.elements
+local media = addon.media
+local parse_position = addon.util.parse_position
 
-local FONT      = media.largeFont or STANDARD_TEXT_FONT
-local HIGHLIGHT = media.glowBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local STATUSBAR = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local FONT = media.largeFont or STANDARD_TEXT_FONT
 
 
 ------------------------------------------------------------------------
 --  Icons
 --  
---  Icons come in graphical and textual flavors.  They're very simple
+--  Icons come in graphical and textual flavors. They're very simple
 --  and are just appended to a frame.
 ------------------------------------------------------------------------
 
@@ -36,7 +34,7 @@ local texticons = {
 -- Most icons are just named "texture" frames that oUF will stick an icon
 -- into.  We just need to create the texture, size, and position it.
 local function textureIcon(frame, name, size, position)
-  local p1, parent, p2, x, y = parsePosition(position)
+  local p1, parent, p2, x, y = parse_position(position)
   local width, height = unpack(size)
   icon = frame:CreateTexture(nil, "OVERLAY")
   icon:SetSize(width, height)
@@ -54,11 +52,11 @@ end
 --  Combat, PvP, Status, AFKDND
 function elements.TextIcon(frame, name, position, ...)
   if texticons[name] == nil then
-    ns.util.print("Failed to create text icon [%s]", name)
+    addon.util.print("Failed to create text icon [%s]", name)
     return
   end
 
-  local p1, attach, p2, x, y = parsePosition(position)
+  local p1, attach, p2, x, y = parse_position(position)
   local size = select(1, ...) or 12
   local parent = select(2, ...) or frame
 
