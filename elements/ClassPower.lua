@@ -43,14 +43,14 @@ local function PostUpdateClassPower(element, power, maxPower, maxPowerChanged)
   -- Update empty pip width and visibility
   local pframe = element[1]:GetParent()
   for i = 1, MAX_POWER do
-    pframe.emptypips[i]:SetSize(width, height)
+    pframe.empty_pips[i]:SetSize(width, height)
     if i <= maxPower and (i > 1) then
       -- Resize empty pips
-      pframe.emptypips[i]:Show()
-      pframe.emptypips[i]:SetPoint("LEFT", pframe.emptypips[i-1], "RIGHT", PADDING, 0)
+      pframe.empty_pips[i]:Show()
+      pframe.empty_pips[i]:SetPoint("LEFT", pframe.empty_pips[i-1], "RIGHT", PADDING, 0)
     else
       -- Hide extra empty pips
-      pframe.emptypips[i]:Hide()
+      pframe.empty_pips[i]:Hide()
     end
   end
 end
@@ -66,7 +66,8 @@ end
 --   Warlock - Soul Shards
 -- 
 function elements.ClassPower(frame)
-  local frameWidth = addon.defaults.size.width * 0.75 + (PADDING * 2)
+  local defaultWidth = addon.defaults.frames.major.width
+  local frameWidth = defaultWidth * 0.80 + (PADDING * 2)
 
   -- Container of the entire ClassPower display
   local cpower = CreateFrame("Frame", "classpower", frame)
@@ -114,7 +115,7 @@ function elements.ClassPower(frame)
     if i == 1 then
       ep:SetPoint("LEFT", cpower, "LEFT", PADDING, 0)
     else
-      ep:SetPoint("LEFT", cpower.emptypips[i-1], "RIGHT", PADDING, 0)
+      ep:SetPoint("LEFT", empty_pips[i-1], "RIGHT", PADDING, 0)
     end
 
     -- Add pip

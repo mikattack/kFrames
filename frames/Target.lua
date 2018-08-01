@@ -15,7 +15,7 @@ function frames.TargetFrame(frame)
   -- Name
   local name = elements.NewString(frame, { font=FONT, size=22 })
   name:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -2)
-  frame:Tag(name, "|cFFFFF200[level]|r [kFrames:name]")
+  frame:Tag(name, "|cFFFFF200[level]|r [klnFrames:name]")
 
   -- Reposition the health readout
   frame.HealthText:ClearAllPoints()
@@ -34,9 +34,9 @@ function frames.TargetFrame(frame)
   elements.AddHighlight(frame)
 
   -- Castbar
-  --elements.NewCastbar(frame, { width=width, height=height })
-  frame.Castbar = elements.Castbar:Create(frame)
-  frame.Castbar:Reposition(frame, "BOTTOMLEFT 0 5 TOPLEFT")
+  local castbar = elements.Castbar(frame)
+  frame.Castbar = castbar.bar
+  castbar:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 5)
 
   -- Auras
   frame.AuraBars = elements.AuraBar(frame)

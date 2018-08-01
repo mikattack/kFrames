@@ -130,9 +130,9 @@ function util.parse_position(p)
   anchor = "UIParent"
   if type(p) == "table" then
     anchor = p[2]
-    p1, p2, x, y = string.split(" ", p[1])
+    p1, x, y, p2 = string.split(" ", p[1])
   else
-    p1, p2, x, y = string.split(" ", p)
+    p1, x, y, p2 = string.split(" ", p)
   end
   return p1, anchor, p2, tonumber(x), tonumber(y)
 end

@@ -112,7 +112,7 @@ end)
 -- 
 -- Perform additional setup when player first enters world.
 -- 
-local function OnLoad(self, event, ...),
+local function OnLoad(self, event, ...)
   -- Disable Blizzard raid controls
   CompactRaidFrameManager:UnregisterAllEvents()
   CompactRaidFrameManager:Hide()

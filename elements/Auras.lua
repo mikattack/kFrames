@@ -6,8 +6,8 @@ local media    = addon.media
 
 local player = addon.util.player
 
-local BAR  = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
-local FONT = media.smallFont
+local BAR  = media.texture.status or "Interface\\TargetingFrame\\UI-StatusBar"
+local FONT = media.font.small
 
 local BAR_HEIGHT = 20
 

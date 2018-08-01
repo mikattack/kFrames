@@ -2,7 +2,6 @@
 local _, addon = ...
 
 local elements = addon.elements
-local media = addon.media
 
 local DEFAULT_COLOR = {0, 0, 0, 1}
 local DEFAULT_SIZE  = 50

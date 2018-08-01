@@ -5,7 +5,7 @@ local elements = addon.elements
 local media = addon.media
 local parse_position = addon.util.parse_position
 
-local FONT = media.largeFont or STANDARD_TEXT_FONT
+local FONT = media.font.large or STANDARD_TEXT_FONT
 
 
 ------------------------------------------------------------------------
@@ -22,12 +22,12 @@ local texticons = {
   Assistant         = "Assist",
   MasterLooter      = "LootMaster",
   ResurrectionIcon  = "Res",
-  ReadyCheck        = "[kFrames:readycheck]",
-  Combat            = "[kFrames:combat]",
+  ReadyCheck        = "[klnFrames:readycheck]",
+  Combat            = "[klnFrames:combat]",
   PvP               = "[pvp]",
   Status            = "[status]",
-  AFKDND            = "[kFrames:afkdnd]",
-  Role              = "[kFrames:role]",
+  AFKDND            = "[klnFrames:afkdnd]",
+  Role              = "[klnFrames:role]",
 }
 
 

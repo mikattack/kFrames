@@ -19,7 +19,7 @@ function frames.PlayerFrame(frame)
   -- Additional Power (eg. Druid mana while shapeshifted)
   local altfg, altbg = elements.NewStatusBar(frame, {
     height  = POWER_HEIGHT,
-    width   = math.floor(defaults.size.width * 0.5),
+    width   = math.floor(defaults.frames.major.width * 0.5),
     fg      = TEXTURE,
     bg      = TEXTURE,
   })
@@ -42,30 +42,28 @@ function frames.PlayerFrame(frame)
   elements.AddHighlight(frame)
 
   -- Castbar
-  frame.Castbar = elements.Castbar:Create(frame)
-  frame.Castbar:Reposition(frame, "BOTTOMLEFT 0 5 TOPLEFT")
+  local castbar = elements.Castbar(frame)
+  castbar:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 5)
+  frame.Castbar = castbar.bar
 
   -- Auras
   frame.AuraBars = elements.AuraBar(frame)
   frame.AuraBars:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, frame.Castbar:GetHeight() + 5)
 
   -- Class-specific resources
-  local p1,a,p2,x,y = add.util.parse_position("TOPLEFT 0 -7 BOTTOMLEFT")
-  hasClassPower = false
-  for _, class in pairs({"rogue","mage","monk","paladin","warlock"}) do
-    if player.class == class then hasClassPower = true break end
-  end
-  if hasClassPower then
-    frame.ClassPowerBar = elements.ClassPower(frame)
-    frame.ClassPower = frame.ClassPowerBar.pips
-    frame.ClassPowerBar:SetPower(p1, frame, p2, x, y)
-  end
-  if player.class == "deathknight" then
-    frame.RuneBar = elements.RuneBar(frame)
-    frame.RuneBar:SetPoint(p1, frame, p2, x, y)
+  local p1,a,p2,x,y = addon.util.parse_position("TOPLEFT 0 -7 BOTTOMLEFT")
+  frame.ClassPowerBar = elements.ClassPower(frame)
+  frame.ClassPower = frame.ClassPowerBar.pips
+  frame.ClassPowerBar:SetPoint(p1, frame, p2, x, y)
+
+  if player.class == "death knight" then
+    elements.RuneBar(frame)
+    frame.Runes:SetPoint(p1, frame, p2, x, y)
   elseif player.class == "monk" then
-    frame.StaggerBar = elements.StaggerBar(frame)
-    frame.StaggerBar:SetPoint(p1, frame, p2, x, y)
+    local stagger = elements.StaggerBar(frame)
+    stagger:SetPoint(p1, frame, p2, x, y)
+    frame.Stagger = stagger.bar
+  end
   
   -- We don't make a Totem display here because Blizzard changes them
   -- too much to make a display worth anything. Better to track the

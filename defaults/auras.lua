@@ -575,11 +575,11 @@ addon.auras.healer = {
 -----------------------------------------------------------
 
 addon.auras.class = {
-  preist = {
+  priest = {
     "Weakened Soul",
   },
-  deathknight = { },
-  demonhunter = { },
+  ["death knight"] = { },
+  ["demon hunter"] = { },
   druid = { },
   hunter = { },
   mage = { },

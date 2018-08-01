@@ -3,7 +3,7 @@ local _, addon = ...
 
 local elements = addon.elements
 
-local STATUSBAR  = addon.media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local STATUSBAR  = addon.media.texture.status or "Interface\\TargetingFrame\\UI-StatusBar"
 local PADDING    = 1
 local HEIGHT     = 18
 local MAX_TOTEMS = 5

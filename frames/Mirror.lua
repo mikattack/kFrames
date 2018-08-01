@@ -22,9 +22,12 @@ function elements.DecorateMirrorFrame(frame)
     end
   end
 
+  local height = defaults.frames.minor.health_height +
+                 defaults.power_height
+
   frame:SetParent(UIParent)
   frame:SetWidth(defaults.frames.minor.width)
-  frame:SetHeight(defaults.frames.minor.height)
+  frame:SetHeight(height)
 
   frame.bar = frame:GetChildren()
   frame.bg, frame.text, frame.border = frame:GetRegions()

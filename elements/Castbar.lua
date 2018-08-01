@@ -7,28 +7,26 @@ local media    = addon.media
 
 local parse_position = addon.util.parse_position
 
-local FONT      = media.smallFont or STANDARD_TEXT_FONT
-local TEXTURE   = media.statusBar or "Interface\\TargetingFrame\\UI-StatusBar"
+local FONT    = media.font.small or STANDARD_TEXT_FONT
+local TEXTURE = media.texture.status or "Interface\\TargetingFrame\\UI-StatusBar"
 
 
-elements.Castbar = {}
-elements.Castbar.__index = Castbar
-
-
-function elements.Castbar:Create(frame, opts)
+function elements.Castbar(frame, opts)
   local opts = opts or {}
-  local height = opts.height or defaults.size.height
-  local width  = opts.width or defaults.size.width
+  local height = opts.height or defaults.frames.major.health_height
+  local width  = opts.width or defaults.frames.major.width
   local ICONSIZE = height
+
+  local container = CreateFrame("frame", nil, UIParent)
+  container:SetSize(width + 1, height)
 
   local castbar, cbg = elements.NewStatusBar(frame, {
     height = height,
     width  = width - ICONSIZE - 1,
   })
   castbar:SetStatusBarColor(0.5, 0.5, 1, 1)
-
-  -- Make "Castbar" handle function lookups
-  setmetatable(castbar, Castbar)
+  castbar:SetPoint("RIGHT", container, "RIGHT", 0, 0)
+  castbar:SetParent(container)
 
   cbg:SetDrawLayer("BORDER")
   cbg:SetVertexColor(0.5 * 0.2, 1 * 0.2, 1 * 0.2, 1)
@@ -98,10 +96,12 @@ function elements.Castbar:Create(frame, opts)
   castbar.PostCastFailed      = PostCastFailed
   castbar.PostCastInterrupted = PostCastFailed
 
-  return castbar
+  container.bar = castbar
+  return container
 end
 
 
+--[[
 function elements.Castbar:Reposition(frame, position)
   local ICONSIZE = self.Icon:GetHeight()
   local p1, p2, x, y = parse_position(position)
@@ -115,6 +115,7 @@ function elements.Castbar:Reposition(frame, position)
     frame.Castbar:SetPoint(p1, frame, p2, x + ICONSIZE + 2, y)
   end
 end
+--]]
 
 
 local function PostCastStart(self, unit, name, rank, text)

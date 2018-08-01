@@ -4,7 +4,7 @@ local _, addon = ...
 local elements = addon.elements
 local media = addon.media
 
-local DEFAULT_FONT_FAMILY   = media.largeFont
+local DEFAULT_FONT_FAMILY   = media.font.large
 local DEFAULT_FONT_SIZE     = 18
 local DEFAULT_OUTLINE_STYLE = "OUTLINE"
 

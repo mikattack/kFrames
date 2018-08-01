@@ -5,8 +5,8 @@ local defaults = addon.defaults
 local elements = addon.elements
 local media    = addon.media
 
-local HIGHLIGHT = media.glow or "Interface\\TargetingFrame\\UI-StatusBar"
-local STATUSBAR = media.status or "Interface\\TargetingFrame\\UI-StatusBar"
+local HIGHLIGHT = media.texture.glow or "Interface\\TargetingFrame\\UI-StatusBar"
+local STATUSBAR = media.texture.status or "Interface\\TargetingFrame\\UI-StatusBar"
 
 
 -- 
@@ -25,8 +25,8 @@ function elements.NewStatusBar(frame, opts)
   local opts = opts or {}
   local bg = opts.bg or STATUSBAR
   local fg = opts.fg or STATUSBAR
-  local height = opts.height or defaults.size.height
-  local width  = opts.width or defaults.size.width
+  local height = opts.height or defaults.frames.major.health_height
+  local width  = opts.width or defaults.frames.major.width
 
   local s = CreateFrame("StatusBar", nil, frame)
   s:SetHeight(height)

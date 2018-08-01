@@ -5,10 +5,8 @@ local defaults = addon.defaults
 local elements = addon.elements
 local media    = addon.media
 
-local LARGE_FONT = media.largeFont or STANDARD_TEXT_FONT
-local SMALL_FONT = media.smallFont or STANDARD_TEXT_FONT
-
-local FLATBAR = media.flatBar or [[Interface\TargetingFrame\UI-StatusBar]]
+local FONT    = media.font.large or STANDARD_TEXT_FONT
+local TEXTURE = media.texture.flat or [[Interface\TargetingFrame\UI-StatusBar]]
 
 local PADDING = defaults.padding
 local POWER_HEIGHT = defaults.power_height
@@ -48,15 +46,15 @@ function elements.InitializeUnitFrame(frame, opts)
   local pfg, pbg = elements.NewStatusBar(frame, {
     height  = POWER_HEIGHT,
     width   = width,
-    fg      = FLATBAR,
-    bg      = FLATBAR,
+    fg      = TEXTURE,
+    bg      = TEXTURE,
   })
   frame.Power = pfg
   frame.Power.bg = pbg
   frame.Power:SetPoint("BOTTOMLEFT", frame.Health, "TOPLEFT", 0, 1)
 
   -- Text readouts
-  frame.HealthText = elements.NewString(frame.Health, { font=LARGE_FONT, size=fontsize })
+  frame.HealthText = elements.NewString(frame.Health, { font=FONT, size=fontsize })
   frame.HealthText:SetPoint("TOPRIGHT", frame.Health, "TOPRIGHT", -2, 0)
   frame.HealthText:SetDrawLayer("OVERLAY")
   frame.HealthText.frequentUpdates = true

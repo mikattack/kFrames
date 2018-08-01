@@ -15,13 +15,13 @@ defaults.frames = {
   major = {
     health_height = 30,
     width  = 300,
-  }
+  },
 
   -- Minor unit frame sizing (all other frames)
   minor = {
     health_height = 20,
     width  = 275,
-  }
+  },
 }
 
 -- Power bar re-colors

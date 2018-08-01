@@ -22,13 +22,12 @@ function frames.BossFrame(frame)
   -- Name
   local name = elements.NewString(frame.Health, { font=FONT, size=22 })
   name:SetPoint("LEFT", frame.Health, "LEFT", 5, -6)
-  frame:Tag(name, "[kFrames:name]")
+  frame:Tag(name, "[klnFrames:name]")
 
   -- Reposition health text
   frame.HealthText:ClearAllPoints()
   frame.HealthText:SetPoint("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", -2, -10)
 
   -- Niceties
-  elements.AddDispelHighlight(frame)
   elements.AddHighlight(frame)
 end
