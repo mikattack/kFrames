@@ -36,7 +36,7 @@ function frames.TargetFrame(frame)
   -- Castbar
   local castbar = elements.Castbar(frame)
   frame.Castbar = castbar.bar
-  castbar:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 5)
+  castbar:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 1, 5)
 
   -- Auras
   frame.AuraBars = elements.AuraBar(frame)

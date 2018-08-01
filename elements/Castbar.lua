@@ -18,7 +18,7 @@ function elements.Castbar(frame, opts)
   local ICONSIZE = height
 
   local container = CreateFrame("frame", nil, UIParent)
-  container:SetSize(width + 1, height)
+  container:SetSize(width, height)
 
   local castbar, cbg = elements.NewStatusBar(frame, {
     height = height,
