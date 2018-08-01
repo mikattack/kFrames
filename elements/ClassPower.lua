@@ -44,13 +44,36 @@ local function PostUpdateClassPower(element, power, maxPower, maxPowerChanged)
   local pframe = element[1]:GetParent()
   for i = 1, MAX_POWER do
     pframe.empty_pips[i]:SetSize(width, height)
-    if i <= maxPower and (i > 1) then
+    if i <= maxPower and i > 1 then
       -- Resize empty pips
       pframe.empty_pips[i]:Show()
       pframe.empty_pips[i]:SetPoint("LEFT", pframe.empty_pips[i-1], "RIGHT", PADDING, 0)
-    else
+    elseif i > 1 then
       -- Hide extra empty pips
       pframe.empty_pips[i]:Hide()
+    end
+  end
+end
+
+
+-- Updates pip/empty pip colors
+local function UpdateColor(element, powerType)
+  local color = element.__owner.colors.power[powerType]
+  local r, g, b = color[1], color[2], color[3]
+  local p = element.__owner.ClassPowerBar
+  for i = 1, #element do
+    local bar = element[i]
+    bar:SetStatusBarColor(r, g, b)
+
+    local bg = bar.bg
+    local mu = 0.5
+    if(bg) then
+      mu = bg.multiplier or 0.5
+      bg:SetVertexColor(r * mu, g * mu, b * mu)
+    end
+
+    if p.empty_pips and p.empty_pips[i] then
+      p.empty_pips[i]:SetVertexColor(r * mu, g * mu, b * mu)
     end
   end
 end
@@ -131,6 +154,7 @@ function elements.ClassPower(frame)
 
   pips.PreUpdate  = PreUpdateClassPower
   pips.PostUpdate = PostUpdateClassPower
+  pips.UpdateColor = UpdateColor
 
   cpower.pips = pips  -- Set this as a frame's ClassPower element
   cpower.empty_pips = empty_pips
