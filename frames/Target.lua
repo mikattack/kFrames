@@ -25,7 +25,7 @@ function frames.TargetFrame(frame)
   --elements.TextIcon(frame, "Combat",  {"LEFT xxx LEFT 40 14", frame.Health}, 18, frame.Health)
   --elements.TextIcon(frame, "Status",  {"LEFT xxx RIGHT 4 0 ", frame.kCombat}, 18, frame.Health)
   elements.TextIcon(frame, "AFKDND", {"BOTTOMLEFT 55 -6 BOTTOMLEFT", frame.Health}, 18, frame.Health)
-  elements.TextIcon(frame, "PvP",    {"LEFT 4 0 RIGHT", frame.kAFKDND}, 18, frame.Health)
+  elements.TextIcon(frame, "PvP",    {"BOTTOMLEFT 4 0 BOTTOMRIGHT", frame.kAFKDND}, 18, frame.Health)
   elements.RaidMarkIcon(frame,       {"RIGHT 5 0 LEFT", name})
 
   -- Niceties
