@@ -6,13 +6,12 @@ local TEXTURE   = addon.media.texture.status or "Interface\\TargetingFrame\\UI-S
 local MAX_RUNES = 6
 local PADDING   = 1
 local HEIGHT    = 18
-local r, g, b   = 106/255, 184/255, 247/255
 
 
 function addon.elements.RuneBar(frame)
   if player.class ~= "death knight" then return end
 
-  local defaultWidth = addon.defaults.frames.major.width * 0.80
+  local defaultWidth = addon.defaults.frames.major.width * 0.8
   local frameWidth = defaultWidth + (PADDING * 2)
   local runeWidth  = (frameWidth - PADDING * (MAX_RUNES + 1)) / MAX_RUNES
   local runeHeight = HEIGHT
@@ -21,30 +20,30 @@ function addon.elements.RuneBar(frame)
   runes:SetHeight(runeHeight)
   runes:SetWidth(frameWidth)
 
-  runes.background = runes:CreateTexture(nil, "BACKGROUND")
+  runes.background = runes:CreateTexture(nil, "BACKGROUND", nil, 1)
   runes.background:SetAllPoints(runes)
-  runes.background:SetColorTexture(0, 0, 0, 0.5)
+  runes.background:SetColorTexture(0, 0, 0, 1)
 
+  local multiplier = 0.4
   for i = 1, MAX_RUNES do
     local rune = CreateFrame("StatusBar", nil, frame)
     rune:SetWidth(runeWidth)
     rune:SetHeight(runeHeight - PADDING * 2)
     rune:SetStatusBarTexture(TEXTURE)
-
-    rune.bg = rune:CreateTexture(nil, "BACKGROUND")
-    rune.bg:SetAllPoints(rune)
-    rune.bg:SetTexture(TEXTURE)
-
     if (i == 1) then
       rune:SetPoint('LEFT', runes, 'LEFT', PADDING, 0)
     else
-      rune:SetPoint('TOPLEFT', runes[i-1], 'TOPRIGHT', PADDING, 0)
+      rune:SetPoint('LEFT', runes[i-1], 'RIGHT', PADDING, 0)
     end
+
+    rune.bg = rune:CreateTexture(nil, "BACKGROUND", nil, 4)
+    rune.bg:SetAllPoints()
+    rune.bg:SetTexture(TEXTURE)
+    rune.bg.multiplier = multiplier
 
     runes[i] = rune
   end
   
   runes.colorSpec = true
-  runes.multiplier = 0.3
-  frame.Runes = runes
+  return runes
 end
