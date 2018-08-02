@@ -52,12 +52,11 @@ function frames.PlayerFrame(frame)
 
   -- Class-specific resources
   local p1,a,p2,x,y = addon.util.parse_position("TOPLEFT 0 -7 BOTTOMLEFT")
-  frame.ClassPowerBar = elements.ClassPower(frame)
-  frame.ClassPower = frame.ClassPowerBar.pips
-  frame.ClassPowerBar:SetPoint(p1, frame, p2, x, y)
+  frame.ClassPower = elements.ClassPower(frame)
+  frame.ClassPower:SetPoint(p1, frame, p2, x, y)
 
   if player.class == "death knight" then
-    elements.RuneBar(frame)
+    frame.Runes = elements.RuneBar(frame)
     frame.Runes:SetPoint(p1, frame, p2, x, y)
   elseif player.class == "monk" then
     local stagger = elements.StaggerBar(frame)
