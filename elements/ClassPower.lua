@@ -14,11 +14,13 @@ local MAX_POWER = 6
 -- current spec. This ensures there isn't a black box just floating there.
 local function PreUpdateClassPower(event)
   if event.isEnabled then
-    event.backdrop:SetHeight(event.height + (event.padding * 2))
-    event.backdrop:SetAlpha(1)
+    event:Show()
+    --event.backdrop:SetHeight(event.height + (event.padding * 2))
+    --event.backdrop:SetAlpha(1)
   else
-    event.backdrop:SetHeight(1)
-    event.backdrop:SetAlpha(0)
+    event:Hide()
+    --event.backdrop:SetHeight(1)
+    --event.backdrop:SetAlpha(0)
   end
 end
 
@@ -27,10 +29,10 @@ end
 local function PostUpdateClassPower(element, power, maxPower, maxPowerChanged)
   if (not maxPowerChanged) then return end
 
-  local height = element.height
-  local padding = element.padding
+  local height = element.info.height
+  local padding = element.info.padding
 
-  local width = (element.width - padding * (maxPower + 1)) / maxPower
+  local width = (element.info.width - padding * (maxPower + 1)) / maxPower
 
   -- Update pip width
   for i = 1, maxPower do
@@ -41,16 +43,15 @@ local function PostUpdateClassPower(element, power, maxPower, maxPowerChanged)
   end
 
   -- Update empty pip width and visibility
-  local pframe = element[1]:GetParent()
   for i = 1, MAX_POWER do
-    pframe.empty_pips[i]:SetSize(width, height)
+    element.empty[i]:SetSize(width, height)
     if i <= maxPower and i > 1 then
       -- Resize empty pips
-      pframe.empty_pips[i]:Show()
-      pframe.empty_pips[i]:SetPoint("LEFT", pframe.empty_pips[i-1], "RIGHT", PADDING, 0)
+      element.empty[i]:Show()
+      element.empty[i]:SetPoint("LEFT", element.empty[i-1], "RIGHT", PADDING, 0)
     elseif i > 1 then
       -- Hide extra empty pips
-      pframe.empty_pips[i]:Hide()
+      element.empty[i]:Hide()
     end
   end
 end
@@ -60,7 +61,6 @@ end
 local function UpdateColor(element, powerType)
   local color = element.__owner.colors.power[powerType]
   local r, g, b = color[1], color[2], color[3]
-  local p = element.__owner.ClassPowerBar
   for i = 1, #element do
     local bar = element[i]
     bar:SetStatusBarColor(r, g, b)
@@ -72,8 +72,8 @@ local function UpdateColor(element, powerType)
       bg:SetVertexColor(r * mu, g * mu, b * mu)
     end
 
-    if p.empty_pips and p.empty_pips[i] then
-      p.empty_pips[i]:SetVertexColor(r * mu, g * mu, b * mu)
+    if element.empty and element.empty[i] then
+      element.empty[i]:SetVertexColor(r * mu, g * mu, b * mu)
     end
   end
 end
@@ -82,6 +82,7 @@ end
 -- Creates a display which shows a number of "pips" based on a class'
 -- resources. Supported classes include:
 -- 
+--   All     - Combo Points
 --   Rogue   - Combo Points
 --   Mage    - Arcane Charges
 --   Monk    - Chi Orbs
@@ -90,22 +91,32 @@ end
 -- 
 function elements.ClassPower(frame)
   local defaultWidth = addon.defaults.frames.major.width
-  local frameWidth = defaultWidth * 0.80 + (PADDING * 2)
+  local frameWidth = defaultWidth * 0.8 + (PADDING * 2)
 
-  -- Container of the entire ClassPower display
+  -- Note about layering:
+  --  This element (and several others) layer multiple textures
+  --  on the same drawing level (ex: BACKGROUND). The order in
+  --  which those elements are rendered is unspecified. This
+  --  results in strange or "broken" behaviors. Fixing it only
+  --  requires that textures be on a different draw layer
+  --  (BACKGROUND, ARTWORK, etc) or have a differing "sublayer"
+  --  specified (forth argument of CreateTexture).
+
+  -- The root element is a Frame that has an ordered collection
+  -- of pips. It will be "table-like" in that looping over it
+  -- will yield the pips, as expected by oUF
   local cpower = CreateFrame("Frame", "classpower", frame)
   cpower:SetHeight(HEIGHT + (PADDING * 2))
   cpower:SetWidth(frameWidth)
 
   -- Dark frame background
-  cpower.background = cpower:CreateTexture(nil, "BACKGROUND")
-  cpower.background:SetAllPoints(cpower)
-  cpower.background:SetColorTexture(0, 0, 0, 0.6)
+  cpower.bg = cpower:CreateTexture(nil, "BACKGROUND", nil, 1)
+  cpower.bg:SetAllPoints(cpower)
+  cpower.bg:SetColorTexture(0, 0, 0, 1)
 
   pipWidth = (frameWidth - PADDING * (MAX_POWER + 1)) / MAX_POWER
 
-  local pips = {}
-  local empty_pips = {}
+  cpower.empty = {}
   local multiplier = 0.4
   for i = 1, MAX_POWER do
     -- Actual pip
@@ -116,7 +127,7 @@ function elements.ClassPower(frame)
     if i == 1 then
       pip:SetPoint("LEFT", cpower, "LEFT", PADDING, 0)
     else
-      pip:SetPoint("LEFT", pips[i-1], "RIGHT", PADDING, 0)
+      pip:SetPoint("LEFT", cpower[i-1], "RIGHT", PADDING, 0)
     end
 
     -- Size and positioning may be overridden during PostUpdate.
@@ -124,13 +135,15 @@ function elements.ClassPower(frame)
     -- with the maximum number of pips (like an Ascension Monk).
 
     -- Pip's background (which appears if foreground pip is filling)
-    pip.bg = pip:CreateTexture(nil, "BACKGROUND")
-    pip.bg:SetAllPoints(pip)
+    pip.bg = pip:CreateTexture(nil, "BACKGROUND", nil, 4)
+    pip.bg:SetAllPoints()
     pip.bg:SetTexture(STATUSBAR)
     pip.bg.multiplier = multiplier
 
-    -- Show a blank pip when regular one is absent
-    local ep = cpower:CreateTexture(nil, "BACKGROUND")
+    -- Show a blank pip when regular one is absent. Unlike
+    -- Death Knight runes, when a pip isn't filled, it simply
+    -- isn't shown.
+    local ep = cpower:CreateTexture(nil, "BACKGROUND", nil, 2)
     ep:SetTexture(STATUSBAR)
     ep:SetVertexColor(0.6, 0.6, 0.6, 1)
     ep:SetHeight(HEIGHT)
@@ -138,25 +151,23 @@ function elements.ClassPower(frame)
     if i == 1 then
       ep:SetPoint("LEFT", cpower, "LEFT", PADDING, 0)
     else
-      ep:SetPoint("LEFT", empty_pips[i-1], "RIGHT", PADDING, 0)
+      ep:SetPoint("LEFT", cpower.empty[i-1], "RIGHT", PADDING, 0)
     end
 
     -- Add pip
-    pips[i] = pip
-    empty_pips[i] = ep
+    cpower[i] = pip
+    cpower.empty[i] = ep
   end
 
   -- Useful information for PostUpdate handler
-  pips.height = HEIGHT
-  pips.width = frameWidth
-  pips.padding = PADDING
-  pips.backdrop = cpower
+  cpower.info = {}
+  cpower.info.height = HEIGHT
+  cpower.info.width = frameWidth
+  cpower.info.padding = PADDING
 
-  pips.PreUpdate  = PreUpdateClassPower
-  pips.PostUpdate = PostUpdateClassPower
-  pips.UpdateColor = UpdateColor
+  cpower.PreUpdate  = PreUpdateClassPower
+  cpower.PostUpdate = PostUpdateClassPower
+  cpower.UpdateColor = UpdateColor
 
-  cpower.pips = pips  -- Set this as a frame's ClassPower element
-  cpower.empty_pips = empty_pips
   return cpower
 end
