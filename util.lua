@@ -40,7 +40,7 @@ roleupdate:RegisterEvent("PVP_ROLE_UPDATE")
 roleupdate:SetScript("OnEvent", function(self, event, arg)
   local spec = GetSpecialization() or 0
   local _, spec, _, _, _, role = GetSpecializationInfo(spec)
-  util.player.role = role:lower()
+  util.player.role = role
   util.player.spec = spec:lower()
 end)
 
