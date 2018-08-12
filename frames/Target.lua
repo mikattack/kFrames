@@ -40,7 +40,7 @@ function frames.TargetFrame(frame)
 
   -- Auras
   frame.AuraBars = elements.AuraBar(frame)
-  frame.AuraBars:SetPoint("BOTTOM", frame, "TOP", 0, frame.Castbar:GetHeight() + 5)
+  frame.AuraBars:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, frame.Castbar:GetHeight() + 8)
 
   -- Position frame cluster in the bottom right of the center screen
   local offset = defaults.frames.major.width + 5
