@@ -43,8 +43,8 @@ function frames.PlayerFrame(frame)
 
   -- Castbar
   local castbar = elements.Castbar(frame)
-  castbar:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 1, 5)
   frame.Castbar = castbar.bar
+  castbar:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 1, 5)
 
   -- Auras
   frame.AuraBars = elements.AuraBar(frame)
