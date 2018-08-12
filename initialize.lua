@@ -88,7 +88,7 @@ oUF:Factory(function(self)
 
   -- Boss frames
   local boss_anchor = CreateFrame("frame", "klnFrames Boss Anchor", UIParent)
-  boss_anchor:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 15, -110)
+  boss_anchor:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 5, -70)
   boss_anchor.bosses = {}
   for i = 1, 5 do
     local b = oUF:Spawn("boss"..i, "oUF_Boss"..i)
