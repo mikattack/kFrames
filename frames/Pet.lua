@@ -33,5 +33,5 @@ function frames.PetFrame(frame)
   elements.AddHighlight(frame)
 
   -- Position
-  frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 15, -75)
+  frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 5, -50)
 end
